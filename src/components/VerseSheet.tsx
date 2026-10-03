@@ -89,6 +89,12 @@ export function VerseSheet({ verseRef }: { verseRef: VerseRef }) {
         </button>
       </div>
 
+      {ed.deepFor(chapterOf(verseRef)).items.length + ed.deepFor(chapterOf(verseRef)).stories.length > 0 && (
+        <button type="button" className="btn-card mt-2 w-full" onClick={() => open({ kind: 'deep', chapter: chapterOf(verseRef), verse: parseRef(verseRef).from })} data-testid="open-deep">
+          Deep Made Simple <span className="supp ml-1 text-[12px] italic text-[var(--ink-faint)]">· supplementary</span>
+        </button>
+      )}
+
       {links.length > 0 && (
         <section className="mt-6">
           <p className="label-caps text-[10px] text-[var(--ink-faint)]">Connections at this verse</p>

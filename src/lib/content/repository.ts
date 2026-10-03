@@ -22,6 +22,8 @@ import type {
   ChapterRef,
   ContextArtifact,
   CrossReference,
+  DeepItem,
+  DeepStory,
   Editorial,
   EvidenceLevel,
   Genealogy,
@@ -90,6 +92,15 @@ interface StudyBook {
   chronology: Record<string, number>;
 }
 type WithV<T> = T & { v?: number[] };
+export interface DeepIndex {
+  name: string;
+  tagline: string;
+  label: string;
+  note: string;
+  levels: Record<string, string>;
+  books: Record<string, string[]>;
+  stories: string[];
+}
 
 export interface BookEvent {
   id: string;
@@ -132,6 +143,8 @@ export class Library {
   occurrences = { places: new Map<string, VerseRef[]>(), people: new Map<string, VerseRef[]>(), phrases: new Map<string, VerseRef[]>() };
   events = new Map<string, BookEvent[]>();
   segmentsByRef = new Map<VerseRef, { journey: string; segment: string }[]>();
+  /** Deep Made Simple — supplementary layer for the covered chapters (study/deep/). */
+  deep = { index: null as DeepIndex | null, items: new Map<ChapterRef, DeepItem[]>(), stories: [] as DeepStory[], storiesByChapter: new Map<ChapterRef, string[]>() };
   ready = false;
   registries = { places: false, people: false, timeline: false, map: false };
   errors: string[] = [];
@@ -189,14 +202,19 @@ export class Library {
   init(): Promise<void> {
     if (this.initP) return this.initP;
     this.initP = (async () => {
-      const [journeys, threads, phrases, gens, scale, chron] = await Promise.all([
+      const [journeys, threads, phrases, gens, scale, chron, deepIndex, deepStories] = await Promise.all([
         fetchJson<{ certaintyLegend: Record<string, string>; distanceNote: string; journeys: Journey[] }>('study/journeys.json'),
         fetchJson<{ threads: WithV<Thread>[] }>('study/threads.json'),
         fetchJson<{ phrases: WithV<Phrase>[] }>('study/phrases.json'),
         fetchJson<{ genealogies: Genealogy[] }>('study/genealogies.json'),
         fetchJson<Scale & { sets: { id: string; items: Measurements['items'] }[] }>('study/scale.json'),
         fetchJson<{ model: string; chapters: Record<string, number> }>('study/chronology.json'),
+        // Deep Made Simple is optional: the Bible reads without it.
+        fetchJson<DeepIndex>('study/deep/index.json').catch(() => null),
+        fetchJson<{ stories: DeepStory[] }>('study/deep/stories.json').catch(() => ({ stories: [] })),
       ]);
+      this.deep.index = deepIndex;
+      this.deep.stories = visibleByStatus(deepStories.stories);
       this.journeys = visibleByStatus(journeys.journeys);
       this.certaintyLegend = journeys.certaintyLegend;
       this.distanceNote = journeys.distanceNote;
@@ -280,6 +298,7 @@ export class Library {
         ]);
         this.study.set(book, study);
         this.applyBook(book, study);
+        void this.ensureDeep(book);
         this.bump();
       })();
       p.catch((e) => {
@@ -343,6 +362,26 @@ export class Library {
       const ref = refOfOrdinal(n);
       if (parseRef(ref).book === book && !this.entities.has(ref)) this.entities.set(ref, { places: [], people: [], phrases: ids });
     }
+  }
+
+  /** Load the Deep Made Simple layer for a book, when the index says it covers that book. */
+  async ensureDeep(book: string): Promise<void> {
+    await this.init().catch(() => {});
+    if (!this.deep.index?.books[book] || this.deep.items.has(`${book}.${this.deep.index.books[book][0]}`)) return;
+    const f = await fetchJson<{ chapters: Record<string, { items: DeepItem[]; stories: string[] }> }>(`study/deep/${book}.json`).catch(() => null);
+    if (!f) return;
+    const shown = new Set(this.deep.stories.map((s) => s.id));
+    for (const [ch, d] of Object.entries(f.chapters)) {
+      this.deep.items.set(`${book}.${ch}`, visibleByStatus(d.items));
+      this.deep.storiesByChapter.set(`${book}.${ch}`, d.stories.filter((id) => shown.has(id)));
+    }
+    this.bump();
+  }
+
+  /** Deep Made Simple for a chapter: research and links, and the stories that pass through it. */
+  deepFor(chapter: ChapterRef): { items: DeepItem[]; stories: DeepStory[] } {
+    const ids = this.deep.storiesByChapter.get(chapter) ?? [];
+    return { items: this.deep.items.get(chapter) ?? [], stories: this.deep.stories.filter((s) => ids.includes(s.id)) };
   }
 
   private setPlace(p: Place) {

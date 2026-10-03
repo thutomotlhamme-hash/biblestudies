@@ -26,6 +26,7 @@ An authorised licensed translation is added by writing a `TranslationAdapter` an
 | Rivers, lakes, route lines | Drawn for this edition | — | Approximate; labelled |
 | Curated connections, places, people, journeys, genealogy (Matthew 1), timeline anchors, measurements, inserts | Written for this edition from the KJV text (Phases 1–2) | Project | Every claim quotes its verse and is tested |
 | Machine-found connections, threads | Content pipeline over the KJV text | Project | Level rules in the README; draft until reviewed |
+| Deep Made Simple (research, stories, links) | Built by `scripts/pipeline/deep.py` only from the layers above (OpenBible.info, Theographic, STEPBible, the connections) and the KJV text; stories written for this edition (`content/meta/deep-stories.json`) | As the layers it draws on (people-derived notes inherit **CC BY-SA 4.0**; place notes CC BY 4.0; word notes CC BY 4.0 with STEPBible’s attribution) | Stored in `study/deep/`, labelled *Supplementary — not Scripture*; each item names its source; quotations are exact KJV slices; draft until reviewed |
 | Fonts | EB Garamond, Cormorant Garamond, Atkinson Hyperlegible | SIL Open Font License | |
 
 ## Editorial status

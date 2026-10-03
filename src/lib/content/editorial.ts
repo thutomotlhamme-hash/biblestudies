@@ -40,3 +40,18 @@ export const LEVEL_NOTE: Record<number, string> = {
   3: 'The passage names a person, place or event of the other passage.',
   4: 'The two passages share a run of words. Scripture does not say that one quotes the other.',
 };
+
+/** Deep Made Simple research scale (links keep LEVEL_LABEL, the connection scale). */
+export const DEEP_LEVEL_LABEL: Record<number, string> = {
+  1: 'Stated in the verse',
+  2: 'Read from the original-language text',
+  3: 'Identified by a dataset',
+  4: 'Possible — not settled',
+};
+
+export const DEEP_LEVEL_NOTE: Record<number, string> = {
+  1: 'The cited verse says this in its own words.',
+  2: 'Read from the Hebrew or Greek word data for the cited verse (STEPBible).',
+  3: 'A scholarly dataset’s identification (OpenBible.info, Theographic); it awaits review.',
+  4: 'A proposal with modest support, or a matter that is not settled.',
+};

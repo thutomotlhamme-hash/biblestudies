@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
-import { LEVEL_LABEL, STATUS_ORDER } from '@/lib/content/editorial';
+import { DEEP_LEVEL_LABEL, LEVEL_LABEL, STATUS_ORDER } from '@/lib/content/editorial';
 import { allBooks, formatRef } from '@/lib/content/refs';
 import { getLibrary } from '@/lib/content/repository';
 import { TRANSLATIONS } from '@/lib/content/translation';
@@ -103,6 +103,10 @@ export function EditorialDesk() {
     ed.timeline.forEach((t) => r.push({ type: 'Timeline', id: t.id, title: t.label, level: t.certainty, status: t.editorial.status, author: t.editorial.author, source: t.source, method: t.origin === 'curated' ? 'curated' : 'text-match', notes: t.note, refs: t.refs.map(formatRef).join('; ') }));
     ed.genealogies.forEach((g) => r.push({ type: 'Genealogy', id: g.id, title: g.title, level: g.evidenceLevel, status: g.editorial.status, author: g.editorial.author, source: g.source, method: 'curated', notes: g.note, refs: `${g.edges.length} links` }));
     ed.scale?.sets.forEach((s) => r.push({ type: 'Scale', id: s.id, title: s.title, level: 'A', status: ed.scale!.editorial.status, author: ed.scale!.editorial.author, source: ed.scale!.source, method: 'curated', notes: `${s.items.length} measurements`, refs: formatRef(s.anchor) }));
+    // Deep Made Simple: research, links and stories, each with its claims' verses
+    for (const items of ed.deep.items.values())
+      items.forEach((d) => r.push({ type: 'Deep', id: d.id, title: `${d.kind === 'link' ? 'Link' : `Research · ${d.topic}`}: ${d.title}`, level: `${d.level} · ${d.scale === 'deep' ? DEEP_LEVEL_LABEL[d.level] : LEVEL_LABEL[d.level]}`, status: d.editorial.status, author: d.editorial.author, source: d.source, method: d.method === 'text-match' ? 'text-match' : 'curated', notes: d.claims.map((c) => c.text + (c.quote ? ` “${c.quote.text}”` : '')).join(' '), refs: [...new Set(d.claims.flatMap((c) => c.refs))].map(formatRef).join('; ') }));
+    ed.deep.stories.forEach((s) => r.push({ type: 'Deep', id: s.id, title: `Story: ${s.title}`, level: `${s.level} · ${DEEP_LEVEL_LABEL[s.level]}`, status: s.editorial.status, author: s.editorial.author, source: s.source, method: 'curated', notes: s.steps.map((x) => `${formatRef(x.ref)} “${x.phrase}”${x.why ? ` (${x.why.text})` : ''}`).join(' → '), refs: `${s.steps.length} passages` }));
     ed.inserts.forEach((i) => r.push({ type: 'Insert', id: i.id, title: i.title, level: i.evidenceLevel, status: i.editorial.status, author: i.editorial.author, source: i.sources ?? '—', method: 'curated', refs: formatRef(i.anchorVerse) }));
     return r;
     // eslint-disable-next-line react-hooks/exhaustive-deps

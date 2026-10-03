@@ -415,3 +415,57 @@ export interface ReadingHistoryEntry {
   verse: number;
   at: number;
 }
+
+// ---- Deep Made Simple (supplementary — not Scripture) ---------------------------------------
+
+/** Deep scale for research: 1 stated in the verse · 2 original-language text · 3 dataset identification · 4 possible. */
+export type DeepLevel = 1 | 2 | 3 | 4;
+
+/** One plain-language statement. It cites its verse(s); a quotation is an exact slice of the KJV. */
+export interface DeepClaim {
+  text: string;
+  refs: VerseRef[];
+  level: DeepLevel;
+  quote?: { ref: VerseRef; text: string };
+}
+
+export interface DeepItem {
+  id: string;
+  kind: 'research' | 'link';
+  topic: 'place' | 'person' | 'word' | 'connection';
+  chapter: ChapterRef;
+  /** The verse the item belongs beside. */
+  anchor: VerseRef;
+  title: string;
+  subtitle: string;
+  /** Which 1–4 scale `level` is on: the Deep research scale or the connection scale. */
+  scale: 'deep' | 'connection';
+  level: DeepLevel;
+  claims: DeepClaim[];
+  object?: { kind: 'place' | 'person' | 'vellum'; id: string } | { kind: 'words'; ref: VerseRef };
+  method?: 'curated' | 'text-match';
+  source: string;
+  editorial: Editorial;
+}
+
+export interface DeepStoryStep {
+  ref: VerseRef;
+  /** Exact words of the KJV verse (highlighted when the KJV is being read). */
+  phrase: string;
+  note?: string;
+  link: 'start' | 'same-chapter' | 'word' | 'connection';
+  why?: { text: string; refs: VerseRef[]; level: DeepLevel; word?: string; connection?: string };
+}
+
+export interface DeepStory {
+  id: string;
+  kind: 'story';
+  title: string;
+  summary: string;
+  chapters: ChapterRef[];
+  scale: 'deep';
+  level: DeepLevel;
+  steps: DeepStoryStep[];
+  source: string;
+  editorial: Editorial;
+}

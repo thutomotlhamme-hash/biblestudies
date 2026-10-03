@@ -14,6 +14,7 @@ import { Atlas } from './Atlas';
 import { AudioBar } from './AudioBar';
 import { BibleCover } from './BibleCover';
 import { CompareSheet } from './CompareSheet';
+import { DeepSheet } from './DeepSheet';
 import { Contents } from './Contents';
 import { ContextInsert } from './ContextInsert';
 import { PersonSheet, PhraseSheet, PlaceSheet } from './Evidence';
@@ -365,6 +366,7 @@ export function AppShell() {
           {overlay?.kind === 'words' && <WordStudy key={'w' + overlay.ref} verseRef={overlay.ref} />}
           {overlay?.kind === 'mine' && <MyBible key="mine" tab={overlay.tab} />}
           {overlay?.kind === 'family' && <FamilyPanel key="family" />}
+          {overlay?.kind === 'deep' && <DeepSheet key={'deep' + overlay.chapter + (overlay.verse ?? '')} chapterRef={overlay.chapter} verse={overlay.verse} tab={overlay.tab} story={overlay.story} />}
         </AnimatePresence>
 
         {phase === 'cover' && (

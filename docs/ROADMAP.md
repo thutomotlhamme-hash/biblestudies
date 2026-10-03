@@ -29,6 +29,13 @@ CI that blocks deployment on any Scripture change.
 - Sync and the shared editorial ledger run on Supabase (hb_ tables); the artifact preview cannot reach it — the deployed site can.
 - The atlas base is Natural Earth 1:50m; very close zooms (Jerusalem’s streets) would need a finer map.
 
+## Deep Made Simple — first set (draft)
+
+Research, stories and links for Genesis 1–12 and Matthew 1–2, in `study/deep/`, reviewed on the
+editorial desk as the *Deep* type (Supabase migration `0002`). Everything is draft. Not yet covered:
+customs and background beyond places, people and words (there is no source for them in the data yet),
+and chapters beyond the first set.
+
 ## Next
 
 Editorial review of the draft layers (starting with levels 1–2 and curated places) · an authorised

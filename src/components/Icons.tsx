@@ -82,6 +82,12 @@ export const GlyphDiscovery = (p: SVGProps<SVGSVGElement>) => (
     <circle cx="10.2" cy="9.6" r="1.25" fill="currentColor" />
   </svg>
 );
+/** Deep Made Simple: layers beneath the surface. */
+export const GlyphDeep = (p: SVGProps<SVGSVGElement>) => (
+  <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden {...p}>
+    <path d="M2 4h10M3.5 7.2h7M5 10.4h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+  </svg>
+);
 export const GlyphCompass = (p: SVGProps<SVGSVGElement>) => (
   <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden {...p}>
     <circle cx="9" cy="9" r="7.4" fill="none" stroke="currentColor" strokeWidth="0.9" />

@@ -1,0 +1,58 @@
+{
+  "about": "Deep Made Simple — stories. Supplementary, not Scripture. A story introduces passages and links them in order; it never retells them. Each step names a verse and an exact phrase from the KJV (checked by scripts/pipeline/deep.py and tests/unit/deep.test.ts); the app shows the whole verse from the reader's active translation. Each link says why one step follows the last: later in the same chapter, a word that stands in both verses, or an existing connection with its evidence level. Notes are short signposts, not Scripture. Authored as AI drafts; a named human reviewer must review every story before it is published.",
+  "stories": [
+    {
+      "id": "story-abram-to-bethlehem",
+      "title": "From Abram to Bethlehem",
+      "summary": "A walk through passages from Genesis 12, the book of Ruth and Matthew 1–2, each linked to the one before it by the wording of the text.",
+      "chapters": ["Gen.12", "Matt.1", "Matt.2"],
+      "steps": [
+        { "ref": "Gen.12.1", "phrase": "Get thee out of thy country", "note": "Genesis 12 begins with these words to Abram.", "link": { "kind": "start" } },
+        { "ref": "Gen.12.10", "phrase": "there was a famine in the land", "link": { "kind": "same-chapter" } },
+        { "ref": "Ruth.1.1", "phrase": "there was a famine in the land", "note": "The book of Ruth opens with the same words.", "link": { "kind": "connection", "id": "x-ruth-famine" } },
+        { "ref": "Ruth.1.4", "phrase": "the name of the other Ruth", "link": { "kind": "same-chapter" } },
+        { "ref": "Ruth.4.13", "phrase": "So Boaz took Ruth", "link": { "kind": "word", "word": "Ruth" } },
+        { "ref": "Ruth.4.17", "phrase": "he is the father of Jesse, the father of David", "link": { "kind": "same-chapter" } },
+        { "ref": "Matt.1.5", "phrase": "Booz begat Obed of Ruth; and Obed begat Jesse", "note": "Matthew’s genealogy names Ruth.", "link": { "kind": "word", "word": "Jesse" } },
+        { "ref": "Matt.1.6", "phrase": "Jesse begat David the king", "link": { "kind": "same-chapter" } },
+        { "ref": "Matt.1.16", "phrase": "of whom was born Jesus, who is called Christ", "link": { "kind": "same-chapter" } },
+        { "ref": "Matt.2.1", "phrase": "Jesus was born in Bethlehem of Judaea", "link": { "kind": "word", "word": "Jesus" } },
+        { "ref": "Matt.2.6", "phrase": "And thou Bethlehem, in the land of Juda", "link": { "kind": "word", "word": "Bethlehem" } },
+        { "ref": "Mic.5.2", "phrase": "But thou, Beth-lehem Ephratah", "link": { "kind": "connection", "id": "x-micah5" } }
+      ]
+    },
+    {
+      "id": "story-spoken-by-the-prophet",
+      "title": "Matthew 1–2: “by the prophet”",
+      "summary": "The places in Matthew 1–2 where the text says a word was spoken or written by a prophet, each followed by the passage it is linked to.",
+      "chapters": ["Matt.1", "Matt.2"],
+      "steps": [
+        { "ref": "Matt.1.22", "phrase": "that it might be fulfilled which was spoken of the Lord by the prophet", "link": { "kind": "start" } },
+        { "ref": "Isa.7.14", "phrase": "Behold, a virgin shall conceive, and bear a son", "link": { "kind": "connection", "id": "x-matt1-isaiah" } },
+        { "ref": "Matt.2.5", "phrase": "thus it is written by the prophet", "link": { "kind": "word", "word": "prophet", "with": "Matt.1.22" } },
+        { "ref": "Mic.5.2", "phrase": "out of thee shall he come forth unto me that is to be ruler in Israel", "link": { "kind": "connection", "id": "x-micah5" } },
+        { "ref": "Matt.2.15", "phrase": "that it might be fulfilled which was spoken of the Lord by the prophet", "link": { "kind": "word", "word": "prophet", "with": "Matt.2.5" } },
+        { "ref": "Hos.11.1", "phrase": "called my son out of Egypt", "link": { "kind": "connection", "id": "x-hosea11" } },
+        { "ref": "Matt.2.17", "phrase": "Then was fulfilled that which was spoken by Jeremy the prophet", "link": { "kind": "word", "word": "prophet", "with": "Matt.2.15" } },
+        { "ref": "Jer.31.15", "phrase": "A voice was heard in Ramah", "link": { "kind": "connection", "id": "x-jer31" } },
+        { "ref": "Matt.2.23", "phrase": "that it might be fulfilled which was spoken by the prophets", "note": "Here the text says “the prophets” and names no passage; this edition does not assign one.", "link": { "kind": "word", "word": "spoken", "with": "Matt.2.17" } }
+      ]
+    },
+    {
+      "id": "story-beginning-to-haran",
+      "title": "From the beginning to Haran",
+      "summary": "A line through Genesis 1–12, following the words the chapters share: created, generations, and the names in the lists.",
+      "chapters": ["Gen.1", "Gen.5", "Gen.11", "Gen.12"],
+      "steps": [
+        { "ref": "Gen.1.1", "phrase": "In the beginning God created the heaven and the earth.", "link": { "kind": "start" } },
+        { "ref": "Gen.1.27", "phrase": "So God created man in his own image", "link": { "kind": "same-chapter" } },
+        { "ref": "Gen.5.1", "phrase": "This is the book of the generations of Adam", "link": { "kind": "word", "word": "created" } },
+        { "ref": "Gen.5.32", "phrase": "Noah begat Shem, Ham, and Japheth", "link": { "kind": "same-chapter" } },
+        { "ref": "Gen.11.10", "phrase": "These are the generations of Shem", "link": { "kind": "word", "word": "Shem" } },
+        { "ref": "Gen.11.26", "phrase": "begat Abram, Nahor, and Haran", "link": { "kind": "same-chapter" } },
+        { "ref": "Gen.11.31", "phrase": "they came unto Haran, and dwelt there", "link": { "kind": "word", "word": "Abram" } },
+        { "ref": "Gen.12.4", "phrase": "So Abram departed", "link": { "kind": "word", "word": "Haran" } }
+      ]
+    }
+  ]
+}

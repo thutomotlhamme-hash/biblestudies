@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const env = Object.fromEntries(readFileSync('.env.production', 'utf8').split('\n').filter((l) => l.includes('=') && !l.startsWith('#')).map((l) => l.split(/=(.*)/s).slice(0, 2)));
 const URL_ = process.env.NEXT_PUBLIC_SUPABASE_URL ?? env.NEXT_PUBLIC_SUPABASE_URL;
 const KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const TYPE = { connection: 'Connection', place: 'Place', person: 'Person', journey: 'Journey', timeline: 'Timeline', thread: 'Thread', genealogy: 'Genealogy', scale: 'Scale', insert: 'Insert', phrase: 'Phrase' };
+const TYPE = { connection: 'Connection', place: 'Place', person: 'Person', journey: 'Journey', timeline: 'Timeline', thread: 'Thread', genealogy: 'Genealogy', scale: 'Scale', insert: 'Insert', phrase: 'Phrase', deep: 'Deep' };
 
 const auth = await fetch(`${URL_}/auth/v1/token?grant_type=password`, {
   method: 'POST',

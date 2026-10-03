@@ -4,12 +4,12 @@ import { canonicalIndex, chapterOf, formatRef, parseRef } from '@/lib/content/re
 import { connectionsForChapter, type Edition } from '@/lib/content/repository';
 import type { Chapter } from '@/lib/content/types';
 import type { ReaderState } from '@/lib/state/reader-state';
-import { GlyphConnection, GlyphDiscovery, GlyphMemory, GlyphThread } from './Icons';
+import { GlyphConnection, GlyphDeep, GlyphDiscovery, GlyphMemory, GlyphThread } from './Icons';
 import { useReader, type Overlay } from './ReaderContext';
 
 export type MarginItem = {
   key: string;
-  kind: 'connection' | 'reverse' | 'phrase' | 'memory' | 'thread';
+  kind: 'connection' | 'reverse' | 'phrase' | 'memory' | 'thread' | 'deep';
   verse: number;
   label: string;
   aria: string;
@@ -138,7 +138,18 @@ export function buildMarginItems(ed: Edition, chapter: Chapter, state: ReaderSta
       items.push({ key: `t:${r}`, kind: 'thread', verse: parseRef(r).from, label: `Thread · ${t.name}`, testId: `margin-thread-${t.id}`, overlay: { kind: 'thread', id: t.id, ref: r }, aria: `Thread: ${t.name}. Follow this word through Scripture.` });
     }
   }
-  const order = { connection: 0, reverse: 1, memory: 2, phrase: 3, thread: 4 };
+  // Deep Made Simple: one quiet mark per verse where research or a story belongs (not in Family Mode,
+  // whose margin shows explicit quotations and fulfilments only). Links already have their own marks.
+  if (!set.family) {
+    const deep = ed.deepFor(chapter.ref);
+    const at = new Map<number, string[]>();
+    for (const it of deep.items) if (it.kind === 'research') at.set(parseRef(it.anchor).from, [...(at.get(parseRef(it.anchor).from) ?? []), it.title]);
+    for (const st of deep.stories) for (const s of st.steps) if (chapterOf(s.ref) === chapter.ref) at.set(parseRef(s.ref).from, [...(at.get(parseRef(s.ref).from) ?? []), st.title]);
+    for (const [v, titles] of at) {
+      items.push({ key: `d:${v}`, kind: 'deep', verse: v, label: `Deep · ${titles[0]}${titles.length > 1 ? ` +${titles.length - 1}` : ''}`, testId: `margin-deep-${v}`, overlay: { kind: 'deep', chapter: chapter.ref, verse: v }, aria: `Deep Made Simple, supplementary: ${titles.join(', ')}. Opens research and stories for this verse.` });
+    }
+  }
+  const order = { connection: 0, reverse: 1, memory: 2, phrase: 3, thread: 4, deep: 5 };
   return items.sort((a, b) => a.verse - b.verse || order[a.kind] - order[b.kind]);
 }
 
@@ -188,7 +199,7 @@ export function MarginRail({ items, textRef, measureKey, wide }: Props) {
       {items.map((it) => {
         const top = tops[it.key];
         if (top === undefined) return null;
-        const Glyph = it.kind === 'connection' || it.kind === 'reverse' ? GlyphConnection : it.kind === 'thread' ? GlyphThread : it.kind === 'memory' ? GlyphMemory : GlyphDiscovery;
+        const Glyph = it.kind === 'connection' || it.kind === 'reverse' ? GlyphConnection : it.kind === 'thread' ? GlyphThread : it.kind === 'memory' ? GlyphMemory : it.kind === 'deep' ? GlyphDeep : GlyphDiscovery;
         const bronze = it.kind === 'connection' || it.kind === 'reverse';
         return (
           <button

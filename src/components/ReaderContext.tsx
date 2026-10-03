@@ -21,6 +21,7 @@ export type Overlay =
   | { kind: 'words'; ref: VerseRef }
   | { kind: 'mine'; tab?: 'highlights' | 'notes' | 'favourites' | 'saved' }
   | { kind: 'family' }
+  | { kind: 'deep'; chapter: ChapterRef; verse?: number; tab?: 'research' | 'stories' | 'links'; story?: string }
   | null;
 
 export interface AudioCtl {
