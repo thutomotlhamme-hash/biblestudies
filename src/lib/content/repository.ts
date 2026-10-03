@@ -42,13 +42,17 @@ import type {
   VerseRef,
 } from './types';
 
-/** Split a chapter into pages of roughly equal reading length (layout only, never Scripture). */
-export function paginate(verses: Verse[], breaks?: number[]): Page[] {
+/**
+ * Split a chapter into pages of roughly equal reading length (layout only, never Scripture).
+ * `fit` is a page's capacity in characters measured on this screen (wide screens): no page may
+ * then hold more than it, so the text is read on the page instead of scrolled within it.
+ */
+export function paginate(verses: Verse[], breaks?: number[], fit?: number): Page[] {
   if (!verses.length) return [{ index: 0, from: 1, to: 1 }];
-  if (breaks) return breaks.map((from, i) => ({ index: i, from, to: (breaks[i + 1] ?? verses.length + 1) - 1 }));
-  const TARGET = 1150; // characters per page, tuned for a phone-sized page at the default size
+  if (breaks && !fit) return breaks.map((from, i) => ({ index: i, from, to: (breaks[i + 1] ?? verses.length + 1) - 1 }));
+  const TARGET = fit ?? 1150; // characters per page, tuned for a phone-sized page at the default size
   const total = verses.reduce((n, v) => n + v.text.length, 0);
-  const count = Math.max(1, Math.round(total / TARGET));
+  const count = Math.max(1, fit ? Math.ceil(total / TARGET) : Math.round(total / TARGET));
   const per = total / count;
   const pages: Page[] = [];
   let acc = 0;
@@ -145,6 +149,8 @@ export class Library {
   segmentsByRef = new Map<VerseRef, { journey: string; segment: string }[]>();
   /** Deep Made Simple — supplementary layer for the covered chapters (study/deep/). */
   deep = { index: null as DeepIndex | null, items: new Map<ChapterRef, DeepItem[]>(), stories: [] as DeepStory[], storiesByChapter: new Map<ChapterRef, string[]>() };
+  /** Page capacity measured on a wide screen (characters); null keeps the phone pagination. */
+  pageFit: number | null = null;
   ready = false;
   registries = { places: false, people: false, timeline: false, map: false };
   errors: string[] = [];
@@ -281,6 +287,15 @@ export class Library {
     this.bump();
   }
 
+  /** Re-paginate every loaded chapter for a measured page capacity (layout only). */
+  setPageFit(fit: number | null) {
+    const next = fit === null ? null : Math.max(350, Math.round(fit));
+    if (next === this.pageFit || (next && this.pageFit && Math.abs(next - this.pageFit) / this.pageFit < 0.03)) return;
+    this.pageFit = next;
+    for (const c of this.chapters) if (c.loaded) c.pages = paginate(c.verses, c.pageBreaks, next ?? undefined);
+    this.bump();
+  }
+
   isBookLoaded(book: string) {
     return this.translation.hasBook(book) && this.kjv.hasBook(book) && this.study.has(book);
   }
@@ -328,7 +343,7 @@ export class Library {
     for (let i = 1; i <= b.chapterCount!; i++) {
       const c = this.chapterByRef.get(`${book}.${i}`)!;
       c.verses = this.translation.chapterVerses(book, i);
-      c.pages = paginate(c.verses, c.pageBreaks && this.translation.translation.id === 'kjv' ? c.pageBreaks : c.pageBreaks);
+      c.pages = paginate(c.verses, c.pageBreaks, this.pageFit ?? undefined);
       c.loaded = true;
     }
     for (const [id, [name, kind, certainty, lon, lat]] of Object.entries(s.places)) {

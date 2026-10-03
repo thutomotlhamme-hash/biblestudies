@@ -79,6 +79,44 @@ export function AppShell() {
     return () => window.clearTimeout(t);
   }, [ed, phase]);
 
+  // Laptops and desktops: fit each page to the page actually on screen, so a page is read whole
+  // rather than scrolled. Start generous whenever the screen or type changes, then shrink to fit
+  // what is measured. Phones keep their tuned pagination.
+  const fitKey = `${wide}-${vw}-${phase}-${state.settings.fontStep}-${state.settings.lineStep}-${state.settings.legible}-${state.settings.layout}-${spread}-${state.settings.family}`;
+  const [vh, setVh] = useState(0);
+  useEffect(() => {
+    const on = () => setVh(window.innerHeight);
+    on();
+    window.addEventListener('resize', on);
+    return () => window.removeEventListener('resize', on);
+  }, []);
+  useEffect(() => {
+    if (!hydrated) return;
+    ed.setPageFit(wide && phase === 'reading' ? 2400 : null);
+  }, [ed, hydrated, fitKey, vh, wide, phase]);
+  useEffect(() => {
+    if (!wide || phase !== 'reading' || !chapter.loaded || ed.pageFit === null) return;
+    let raf = 0;
+    const t = window.setTimeout(() => {
+      raf = requestAnimationFrame(() => {
+        let ratio = 1;
+        let chars = 0;
+        for (const el of document.querySelectorAll<HTMLElement>('[data-testid="page-scroller"], [data-testid="page-scroller-right"]')) {
+          const r = el.scrollHeight / Math.max(1, el.clientHeight);
+          if (r > ratio) {
+            ratio = r;
+            chars = [...el.querySelectorAll('.verse[data-verse]')].reduce((n, v) => n + (v.textContent?.length ?? 0), 0);
+          }
+        }
+        if (ratio > 1.02 && chars > 0) ed.setPageFit(Math.min(ed.pageFit ?? chars, chars) * (0.97 / ratio));
+      });
+    }, 450);
+    return () => {
+      window.clearTimeout(t);
+      cancelAnimationFrame(raf);
+    };
+  }, [ed, wide, phase, version, chapter.ref, chapter.loaded, state.position.page, fitKey, vh]);
+
   // When a chapter's text arrives, place the reader on the page holding their verse.
   useEffect(() => {
     if (!chapter.loaded) return;
