@@ -15,6 +15,7 @@
     "content:author": "python3 scripts/authoring/places_people.py && python3 scripts/authoring/journey.py",
     "content:build": "python3 scripts/pipeline/scripture.py && python3 scripts/pipeline/study.py && python3 scripts/pipeline/original.py && node scripts/pipeline/build-atlas.mjs && npm run content:deep",
     "content:deep": "python3 scripts/pipeline/deep.py",
+    "deep:sync": "node scripts/pipeline/deep-sync.mjs && npm run content:deep",
     "content:all": "npm run content:author && npm run content:build"
   },
   "license": "ISC",

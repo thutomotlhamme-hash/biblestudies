@@ -432,7 +432,7 @@ export interface DeepClaim {
 export interface DeepItem {
   id: string;
   kind: 'research' | 'link';
-  topic: 'place' | 'person' | 'word' | 'connection';
+  topic: 'place' | 'person' | 'word' | 'connection' | 'video';
   chapter: ChapterRef;
   /** The verse the item belongs beside. */
   anchor: VerseRef;
@@ -442,7 +442,7 @@ export interface DeepItem {
   scale: 'deep' | 'connection';
   level: DeepLevel;
   claims: DeepClaim[];
-  object?: { kind: 'place' | 'person' | 'vellum'; id: string } | { kind: 'words'; ref: VerseRef };
+  object?: { kind: 'place' | 'person' | 'vellum'; id: string } | { kind: 'words'; ref: VerseRef } | { kind: 'video'; id: string; start: number };
   method?: 'curated' | 'text-match';
   source: string;
   editorial: Editorial;

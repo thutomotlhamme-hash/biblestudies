@@ -20,14 +20,17 @@ const isRef = (r: string) => expandRef(r).every((x) => kjv.has(x));
 
 describe('Deep Made Simple', () => {
   it('lives in study/deep/, apart from Scripture, and labels itself supplementary', () => {
-    expect(readdirSync('public/data/study/deep').sort()).toEqual(['Gen.json', 'Matt.json', 'index.json', 'stories.json']);
+    const files = readdirSync('public/data/study/deep');
+    for (const f of ['Gen.json', 'Matt.json', 'index.json', 'stories.json']) expect(files).toContain(f);
+    expect(files.every((f) => f.endsWith('.json'))).toBe(true);
     expect(index.name).toBe('Deep Made Simple');
     expect(index.label).toBe('Supplementary — not Scripture');
     for (const tr of readdirSync('public/data/text')) for (const f of readdirSync(`public/data/text/${tr}`)) expect(readFileSync(`public/data/text/${tr}/${f}`, 'utf8')).not.toMatch(/Deep Made Simple|"deep-[a-z]+-\d|"story-/);
   });
 
   it('covers the first set: Genesis 1–12 and Matthew 1–2', () => {
-    expect(index.books).toEqual({ Gen: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'], Matt: ['1', '2'] });
+    for (let c = 1; c <= 12; c++) expect(index.books.Gen).toContain(String(c));
+    expect(index.books.Matt).toEqual(expect.arrayContaining(['1', '2']));
     expect(stories.length).toBeGreaterThanOrEqual(3);
     expect(items.some((i) => i.topic === 'place') && items.some((i) => i.topic === 'person') && items.some((i) => i.topic === 'word') && items.some((i) => i.kind === 'link')).toBe(true);
   });
@@ -134,5 +137,41 @@ describe('Deep Made Simple', () => {
   it('the review ledger accepts Deep Made Simple as an object type', () => {
     const sql = readFileSync('supabase/migrations/0002_hb_deep_made_simple.sql', 'utf8');
     expect(sql).toMatch(/object_type in \([^)]*'deep'/);
+  });
+
+  it('video notes credit a catalogued video and a moment in it, in our own words', () => {
+    const catalog = new Map(json<any>('../../content/meta/deep-videos.json').videos.map((v: any) => [v.id, v]));
+    for (const i of items.filter((x) => x.topic === 'video')) {
+      expect(i.object.kind).toBe('video');
+      expect(catalog.has(i.object.id), i.id).toBe(true);
+      expect(Number.isInteger(i.object.start) && i.object.start >= 0, i.id).toBe(true);
+      expect(i.source, i.id).toMatch(/YouTube, @deepmadesimple/);
+      expect(i.editorial.status === 'draft' || !!i.editorial.reviewedBy, i.id).toBe(true);
+    }
+  });
+});
+
+describe('deep:sync caption cleaning', () => {
+  it('turns rolling auto-captions into clean timestamped lines, without repeats', async () => {
+    const { cleanVtt } = await import('../../scripts/pipeline/deep-sync.mjs');
+    const vtt = `WEBVTT
+Kind: captions
+Language: en
+
+00:00:01.000 --> 00:00:03.000 align:start position:0%
+in<00:00:01.500><c> the</c><00:00:02.000><c> beginning</c>
+
+00:00:03.000 --> 00:00:03.010 align:start position:0%
+in the beginning
+
+00:00:03.010 --> 00:00:06.000 align:start position:0%
+in the beginning
+God created the heaven
+
+00:01:05.000 --> 00:01:07.000
+God created the heaven
+and the earth &amp; all
+`;
+    expect(cleanVtt(vtt)).toBe('[00:01] in the beginning\n[00:03] God created the heaven\n[01:05] and the earth & all\n');
   });
 });

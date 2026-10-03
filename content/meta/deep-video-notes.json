@@ -1,0 +1,4 @@
+{
+  "about": "Deep Made Simple — notes from the @deepmadesimple videos. Supplementary, not Scripture. Each note is written in our own words from the captions (private research input in content/sources/deep/, fetched by npm run deep:sync), never a transcript and never a retelling of Scripture. Each note names its video and the second it refers to (readers see that moment in YouTube's own embedded player), cites the verses it is about, and carries a level: 1 the cited verse states it · 2 read from the original-language text · 3 identified by a dataset · 4 a teacher's view, not settled. Every note enters as a draft and needs a named human reviewer.",
+  "notes": []
+}

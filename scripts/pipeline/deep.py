@@ -30,6 +30,8 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 S = f'{OUT}/study'
 D = f'{S}/deep'
 STORIES = os.path.join(ROOT, 'content', 'meta', 'deep-stories.json')
+VIDEO_NOTES = os.path.join(ROOT, 'content', 'meta', 'deep-video-notes.json')
+VIDEOS = os.path.join(ROOT, 'content', 'meta', 'deep-videos.json')
 REVIEWS = os.path.join(ROOT, 'content', 'editorial', 'reviews.json')
 
 # The first reviewed set.
@@ -345,6 +347,44 @@ def stories(text, conn_by_id):
     return out, problems
 
 
+# ---------------------------------------------------------------- video notes
+def video_items(text):
+    """Notes from the @deepmadesimple videos, written in our own words (content/meta/deep-video-notes.json).
+    Each must name a catalogued video and a second within it, cite real verses, keep any quotation an
+    exact slice of the KJV, and never put other words in double quotation marks."""
+    if not os.path.exists(VIDEO_NOTES):
+        return {}, []
+    notes = json.load(open(VIDEO_NOTES))['notes']
+    vids = {v['id']: v for v in json.load(open(VIDEOS))['videos']} if os.path.exists(VIDEOS) else {}
+    out, problems = defaultdict(list), []
+    for n in notes:
+        v = vids.get(n['video'])
+        refs = n.get('refs', [])
+        bad = [r for r in refs if r not in text]
+        if not v:
+            problems.append(f'{n["id"]}: video {n["video"]} is not in the catalog (run npm run deep:sync)')
+        if not refs or bad:
+            problems.append(f'{n["id"]}: needs real verse references {bad or ""}')
+            continue
+        if n.get('level') not in (1, 2, 3, 4):
+            problems.append(f'{n["id"]}: level must be 1–4')
+        q = n.get('quote')
+        if q and (q['ref'] not in text or q['text'] not in text[q['ref']]):
+            problems.append(f'{n["id"]}: quotation is not exact KJV text of {q["ref"]}')
+        if re.search(r'[“”"]', n['text']):
+            problems.append(f'{n["id"]}: words in double quotation marks must be an exact quotation (use the quote field)')
+        t = int(n['t'])
+        b, c, _ = parse(refs[0])
+        out[(b, c)].append({
+            'id': n['id'], 'kind': 'research', 'topic': 'video', 'chapter': f'{b}.{c}', 'anchor': refs[0],
+            'title': n['title'], 'subtitle': f'From the video · {t // 60}:{t % 60:02d}', 'scale': 'deep', 'level': n.get('level', 4),
+            'claims': [claim(n['text'], refs, n.get('level', 4), q)],
+            'object': {'kind': 'video', 'id': n['video'], 'start': t},
+            **draft(n.get('author', AI), f'Deep Made Simple — “{v["title"] if v else n["video"]}” (YouTube, @deepmadesimple), at {t // 60}:{t % 60:02d}; summarised in our own words'),
+        })
+    return out, problems
+
+
 def main():
     text = load_text()
     of = ordinals()
@@ -368,6 +408,8 @@ def main():
                 freq[s] += 1
 
     st, problems = stories(text, conn_by_id)
+    vnotes, vproblems = video_items(text)
+    problems += vproblems
     st = [apply_review(x, rv) for x in st]
     st = [x for x in st if not x.get('rejected')]
     index = {'name': 'Deep Made Simple', 'tagline': 'Deep study, told plainly.',
@@ -376,13 +418,20 @@ def main():
              'note': 'Built only from the study and original-language data in this edition. Every claim cites its verse and carries an evidence level. Nothing here is Scripture, and nothing is published without a named human reviewer.',
              'books': {}, 'stories': [x['id'] for x in st]}
     total = Counter()
-    for b, chs in SCOPE.items():
-        sb = study[b]
-        orig = json.load(open(f'{OUT}/original/{b}.json'))
+    cover = {b: set(chs) for b, chs in SCOPE.items()}
+    for b, c in vnotes:
+        cover.setdefault(b, set()).add(c)
+    for b in sorted(cover, key=OSIS.index):
+        chs = sorted(cover[b])
+        sb = study.get(b)
+        orig = json.load(open(f'{OUT}/original/{b}.json')) if sb else None
         chapters = {}
         for ch in chs:
-            items = place_items(b, ch, sb['spans'], places, text, of) + person_items(b, ch, sb['spans'], people, text, of) + \
-                word_items(b, ch, orig, freq) + link_items(b, ch, sb['connections'], text)
+            items = []
+            if sb and ch in SCOPE.get(b, ()):
+                items = place_items(b, ch, sb['spans'], places, text, of) + person_items(b, ch, sb['spans'], people, text, of) + \
+                    word_items(b, ch, orig, freq) + link_items(b, ch, sb['connections'], text)
+            items = vnotes.get((b, ch), []) + items
             items = [apply_review(x, rv) for x in items]
             items = [x for x in items if not x.get('rejected')]
             for x in items:

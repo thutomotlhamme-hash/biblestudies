@@ -1,0 +1,5 @@
+{
+  "channel": "https://www.youtube.com/@deepmadesimple/videos",
+  "note": "Metadata only. Filled by npm run deep:sync. Captions are private research input in content/sources/deep/ (not committed, not shown). captions: true = fetched, false = none offered, null = not fetched yet.",
+  "videos": []
+}

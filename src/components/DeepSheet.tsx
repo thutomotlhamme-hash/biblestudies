@@ -60,6 +60,42 @@ function Claim({ c, scale }: { c: DeepClaim; scale: Scale }) {
   );
 }
 
+/**
+ * The moment a video note refers to, in YouTube's own embedded player (privacy-enhanced domain).
+ * Nothing is copied: the creator's video plays from YouTube, credited, starting at that second.
+ * It loads only when the reader asks for it.
+ */
+function VideoMoment({ id, start, title }: { id: string; start: number; title: string }) {
+  const [on, setOn] = useState(false);
+  const at = `${Math.floor(start / 60)}:${String(start % 60).padStart(2, '0')}`;
+  return (
+    <div className="mt-2" data-testid="deep-video">
+      {on ? (
+        <div className="relative w-full overflow-hidden rounded-[2px]" style={{ aspectRatio: '16 / 9' }}>
+          <iframe
+            className="absolute inset-0 h-full w-full"
+            src={`https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?start=${start}&rel=0`}
+            title={`Deep Made Simple — ${title}, from ${at}`}
+            allow="encrypted-media; picture-in-picture; fullscreen"
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
+        </div>
+      ) : (
+        <button type="button" className="btn-card w-full" onClick={() => setOn(true)} data-testid="deep-video-play">
+          ▶ Watch this moment ({at}) · YouTube
+        </button>
+      )}
+      <p className="supp mt-1 text-[11.5px] italic text-[var(--ink-faint)]">
+        Video by Deep Made Simple on YouTube ·{' '}
+        <a className="underline" href={`https://www.youtube.com/watch?v=${encodeURIComponent(id)}&t=${start}s`} target="_blank" rel="noopener noreferrer">
+          open on YouTube
+        </a>
+      </p>
+    </div>
+  );
+}
+
 function ItemCard({ it }: { it: DeepItem }) {
   const { open } = useReader();
   const o = it.object;
@@ -77,7 +113,8 @@ function ItemCard({ it }: { it: DeepItem }) {
           <Claim key={i} c={c} scale={it.scale} />
         ))}
       </ul>
-      {o && (
+      {o?.kind === 'video' && <VideoMoment id={o.id} start={o.start} title={it.title} />}
+      {o && o.kind !== 'video' && (
         <button
           type="button"
           className="btn-quiet -ml-2 mt-1 min-h-[36px] px-2 text-[13px] italic"
