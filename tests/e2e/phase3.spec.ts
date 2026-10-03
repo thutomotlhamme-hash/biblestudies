@@ -37,7 +37,7 @@ test.describe('Phase 3 — the complete Bible', () => {
     await expect(page.getByTestId('loading-leaf')).toHaveCount(0, { timeout: 15000 });
     await assertScriptureVerbatim(page);
     await goToChapter(page, 'Jude.1');
-    await turnUntilVisible(page, 'continue-chapter', 4);
+    await turnUntilVisible(page, 'continue-chapter', 15);
     await page.getByTestId('continue-chapter').click();
     await expect(page.getByTestId('reading-page')).toHaveAttribute('data-chapter', 'Rev.1');
   });
@@ -139,7 +139,7 @@ test.describe('Phase 3 — the complete Bible', () => {
 
   test('8 · genealogies as written: Luke 3, with the link quoted', async ({ page }) => {
     await openAt(page, 'Luke.3', 23);
-    await turnUntilVisible(page, 'insert-tab-insert-genealogy-luke-3', 4);
+    await turnUntilVisible(page, 'insert-tab-insert-genealogy-luke-3', 8);
     await page.getByTestId('insert-tab-insert-genealogy-luke-3').click();
     const line = page.getByTestId('genealogy-line');
     await expect(line).toContainText('Adam');
@@ -150,7 +150,7 @@ test.describe('Phase 3 — the complete Bible', () => {
 
   test('9 · scale: Noah’s ark, from Genesis 6:15', async ({ page }) => {
     await openAt(page, 'Gen.6', 14);
-    await turnUntilVisible(page, 'insert-tab-insert-scale-ark', 3);
+    await turnUntilVisible(page, 'insert-tab-insert-scale-ark', 6);
     await page.getByTestId('insert-tab-insert-scale-ark').click();
     await expect(page.getByTestId('scale-insert')).toContainText('three hundred cubits');
     await expect(page.getByTestId('scale-table')).toContainText('m');

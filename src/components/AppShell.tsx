@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { deviceVoice, recorded } from '@/lib/audio/audio';
 import { chapterOf, formatRef, parseRef } from '@/lib/content/refs';
-import { pageForVerse } from '@/lib/content/repository';
+import { pageForVerse, type PageFit } from '@/lib/content/repository';
 import type { ChapterRef, VerseRef } from '@/lib/content/types';
 import { useLibrary } from '@/lib/library/useLibrary';
 import { setAmbience, sounds } from '@/lib/sound';
@@ -79,10 +79,10 @@ export function AppShell() {
     return () => window.clearTimeout(t);
   }, [ed, phase]);
 
-  // Laptops and desktops: fit each page to the page actually on screen, so a page is read whole
-  // rather than scrolled. Start generous whenever the screen or type changes, then shrink to fit
-  // what is measured. Phones keep their tuned pagination.
-  const fitKey = `${wide}-${vw}-${phase}-${state.settings.fontStep}-${state.settings.lineStep}-${state.settings.legible}-${state.settings.layout}-${spread}-${state.settings.family}`;
+  // Every screen — phone, tablet, laptop: fit each page to the page actually on screen, so a page is
+  // read whole rather than scrolled. Start generous whenever the screen or type changes, then measure
+  // how much text a line of this page holds and how much room the page has, and paginate to that.
+  const fitKey = `${vw}-${state.settings.fontStep}-${state.settings.lineStep}-${state.settings.legible}-${state.settings.layout}-${spread}-${state.settings.family}`;
   const [vh, setVh] = useState(0);
   useEffect(() => {
     const on = () => setVh(window.innerHeight);
@@ -90,32 +90,74 @@ export function AppShell() {
     window.addEventListener('resize', on);
     return () => window.removeEventListener('resize', on);
   }, []);
+  const measured = useRef({ normal: false, first: false });
+  const [fitSettled, setFitSettled] = useState(false);
+  const FIT_STORE = 'holy-bible.page-fit';
   useEffect(() => {
-    if (!hydrated) return;
-    ed.setPageFit(wide && phase === 'reading' ? 2400 : null);
-  }, [ed, hydrated, fitKey, vh, wide, phase]);
+    if (!hydrated || !vh) return;
+    // a screen measured before opens already fitted
+    let stored: { key: string; fit: PageFit } | null = null;
+    try {
+      stored = JSON.parse(localStorage.getItem(FIT_STORE) ?? 'null');
+    } catch {}
+    const known = stored?.key === `${fitKey}-${vh}` ? stored.fit : null;
+    measured.current = { normal: !!known, first: !!known };
+    setFitSettled(false);
+    ed.setPageFit(known ?? { normal: 2400, first: 2400 });
+  }, [ed, hydrated, fitKey, vh]);
   useEffect(() => {
-    if (!wide || phase !== 'reading' || !chapter.loaded || ed.pageFit === null) return;
+    if (phase !== 'reading' || !chapter.loaded || !ed.pageFit) return;
     let raf = 0;
+    let live = true;
     const t = window.setTimeout(() => {
-      raf = requestAnimationFrame(() => {
-        let ratio = 1;
-        let chars = 0;
+      raf = requestAnimationFrame(async () => {
+        await document.fonts?.ready.catch(() => {});
+        const fit = ed.pageFit;
+        if (!live) return;
+        if (!fit) return;
+        let { normal, first } = fit;
         for (const el of document.querySelectorAll<HTMLElement>('[data-testid="page-scroller"], [data-testid="page-scroller-right"]')) {
-          const r = el.scrollHeight / Math.max(1, el.clientHeight);
-          if (r > ratio) {
-            ratio = r;
-            chars = [...el.querySelectorAll('.verse[data-verse]')].reduce((n, v) => n + (v.textContent?.length ?? 0), 0);
+          const text = el.querySelector<HTMLElement>('.scripture');
+          const verses = [...el.querySelectorAll<HTMLElement>('.verse[data-verse]')];
+          const head = el.querySelector<HTMLElement>('header.running-head');
+          if (!text || !head || verses.length < 2) continue; // one verse cannot be split; nothing to learn
+          const sc = el.getBoundingClientRect();
+          const tr = text.getBoundingClientRect();
+          if (tr.height < 60) continue;
+          // the page ends above the bottom fade and above any control floating over it
+          let limit = sc.height - 56;
+          const chip = document.querySelector('[data-testid="map-indicator"]')?.getBoundingClientRect();
+          if (chip && chip.top > sc.top && chip.top < sc.bottom && chip.left < tr.right && chip.right > tr.left) limit = Math.min(limit, chip.top - sc.top - 14);
+          const top = tr.top - sc.top;
+          const density = verses.reduce((n, v) => n + (v.textContent?.length ?? 0), 0) / tr.height;
+          const cap = density * (limit - top) * 0.95;
+          const overflows = tr.bottom - sc.top > limit + 2;
+          // where a page without a chapter heading would start its text
+          const plain = head.getBoundingClientRect().bottom - sc.top + 26;
+          if (verses[0].dataset.verse === '1') {
+            if (!measured.current.first || overflows) first = Math.min(measured.current.first ? first : Infinity, cap);
+            if (!measured.current.normal) normal = density * (limit - plain) * 0.95;
+            measured.current.first = true;
+          } else {
+            if (!measured.current.normal || overflows) normal = Math.min(measured.current.normal ? normal : Infinity, cap);
+            measured.current.normal = true;
           }
         }
-        if (ratio > 1.02 && chars > 0) ed.setPageFit(Math.min(ed.pageFit ?? chars, chars) * (0.97 / ratio));
+        const changed = ed.setPageFit({ normal, first: Math.min(first, normal) });
+        if (!changed) {
+          setFitSettled(true);
+          try {
+            localStorage.setItem(FIT_STORE, JSON.stringify({ key: `${fitKey}-${vh}`, fit: ed.pageFit }));
+          } catch {}
+        } else if (changed) setFitSettled(false);
       });
-    }, 450);
+    }, 60);
     return () => {
+      live = false;
       window.clearTimeout(t);
       cancelAnimationFrame(raf);
     };
-  }, [ed, wide, phase, version, chapter.ref, chapter.loaded, state.position.page, fitKey, vh]);
+  }, [ed, phase, version, chapter.ref, chapter.loaded, state.position.page, fitKey, vh]);
 
   // When a chapter's text arrives, place the reader on the page holding their verse.
   useEffect(() => {
@@ -218,7 +260,10 @@ export function AppShell() {
     [spread, state.position.page, chapter, ed, update, recordHistory, play],
   );
 
-  const onVerseInView = useCallback((verse: number) => update((s) => (verse !== s.position.verse ? { position: { ...s.position, verse } } : {})), [update]);
+  // While the pages are still being fitted to the screen, the reader's place is the verse they asked for.
+  const settledRef = useRef(fitSettled);
+  settledRef.current = fitSettled;
+  const onVerseInView = useCallback((verse: number) => settledRef.current && update((s) => (verse !== s.position.verse ? { position: { ...s.position, verse } } : {})), [update]);
 
   const encounterVerse = useCallback(
     (ref: VerseRef) => {
@@ -351,7 +396,7 @@ export function AppShell() {
 
   return (
     <ReaderContext.Provider value={ctx}>
-      <main className="desk fixed inset-0 overflow-hidden" data-phase={phase}>
+      <main className="desk fixed inset-0 overflow-hidden" data-phase={phase} data-page-fit={fitSettled ? 'settled' : 'measuring'}>
         {phase === 'reading' && (
           <motion.div
             className="absolute inset-0 pb-[6px] pt-[6px] md:pb-5 md:pt-5"

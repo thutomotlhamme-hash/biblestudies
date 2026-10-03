@@ -42,17 +42,39 @@ import type {
   VerseRef,
 } from './types';
 
+/** A page's capacity in characters, measured on this screen: the first page of a chapter carries its heading. */
+export interface PageFit {
+  normal: number;
+  first: number;
+}
+
 /**
  * Split a chapter into pages of roughly equal reading length (layout only, never Scripture).
- * `fit` is a page's capacity in characters measured on this screen (wide screens): no page may
- * then hold more than it, so the text is read on the page instead of scrolled within it.
+ * With `fit` (measured on this screen) pages are filled up to what the page can show, so the text is
+ * read on the page instead of scrolled within it; a verse is never split.
  */
-export function paginate(verses: Verse[], breaks?: number[], fit?: number): Page[] {
+export function paginate(verses: Verse[], breaks?: number[], fit?: PageFit): Page[] {
   if (!verses.length) return [{ index: 0, from: 1, to: 1 }];
-  if (breaks && !fit) return breaks.map((from, i) => ({ index: i, from, to: (breaks[i + 1] ?? verses.length + 1) - 1 }));
-  const TARGET = fit ?? 1150; // characters per page, tuned for a phone-sized page at the default size
+  if (fit) {
+    const pages: Page[] = [];
+    let acc = 0;
+    let from = 1;
+    verses.forEach((v, i) => {
+      const cap = pages.length ? fit.normal : fit.first;
+      if (acc > 0 && acc + v.text.length > cap) {
+        pages.push({ index: pages.length, from, to: v.verse - 1 });
+        from = v.verse;
+        acc = 0;
+      }
+      acc += v.text.length + 1;
+      if (i === verses.length - 1) pages.push({ index: pages.length, from, to: v.verse });
+    });
+    return pages;
+  }
+  if (breaks) return breaks.map((from, i) => ({ index: i, from, to: (breaks[i + 1] ?? verses.length + 1) - 1 }));
+  const TARGET = 1150; // characters per page, tuned for a phone-sized page at the default size
   const total = verses.reduce((n, v) => n + v.text.length, 0);
-  const count = Math.max(1, fit ? Math.ceil(total / TARGET) : Math.round(total / TARGET));
+  const count = Math.max(1, Math.round(total / TARGET));
   const per = total / count;
   const pages: Page[] = [];
   let acc = 0;
@@ -149,8 +171,8 @@ export class Library {
   segmentsByRef = new Map<VerseRef, { journey: string; segment: string }[]>();
   /** Deep Made Simple — supplementary layer for the covered chapters (study/deep/). */
   deep = { index: null as DeepIndex | null, items: new Map<ChapterRef, DeepItem[]>(), stories: [] as DeepStory[], storiesByChapter: new Map<ChapterRef, string[]>() };
-  /** Page capacity measured on a wide screen (characters); null keeps the phone pagination. */
-  pageFit: number | null = null;
+  /** Page capacity measured on this screen (characters); null keeps the default pagination. */
+  pageFit: PageFit | null = null;
   ready = false;
   registries = { places: false, people: false, timeline: false, map: false };
   errors: string[] = [];
@@ -288,12 +310,15 @@ export class Library {
   }
 
   /** Re-paginate every loaded chapter for a measured page capacity (layout only). */
-  setPageFit(fit: number | null) {
-    const next = fit === null ? null : Math.max(350, Math.round(fit));
-    if (next === this.pageFit || (next && this.pageFit && Math.abs(next - this.pageFit) / this.pageFit < 0.03)) return;
+  /** Returns true when the pages changed. */
+  setPageFit(fit: PageFit | null): boolean {
+    const next = fit && { normal: Math.max(250, Math.round(fit.normal)), first: Math.max(150, Math.round(fit.first)) };
+    const same = (a: number, b: number) => Math.abs(a - b) / b < 0.03;
+    if (next === this.pageFit || (next && this.pageFit && same(next.normal, this.pageFit.normal) && same(next.first, this.pageFit.first))) return false;
     this.pageFit = next;
     for (const c of this.chapters) if (c.loaded) c.pages = paginate(c.verses, c.pageBreaks, next ?? undefined);
     this.bump();
+    return true;
   }
 
   isBookLoaded(book: string) {

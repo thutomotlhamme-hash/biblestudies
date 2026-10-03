@@ -49,8 +49,11 @@ test.describe('Layout, accessibility and motion', () => {
 
   test('keyboard: arrows turn pages across chapters and books, m opens the atlas, Escape closes', async ({ page }) => {
     await openAt(page, 'Hos.11');
-    await page.keyboard.press('ArrowRight');
-    await page.waitForTimeout(600);
+    // pages fit the screen, so a chapter may take several turns
+    for (let i = 0; i < 12 && (await page.getByTestId('reading-page').getAttribute('data-chapter')) === 'Hos.11'; i++) {
+      await page.keyboard.press('ArrowRight');
+      await page.waitForTimeout(600);
+    }
     await expect(page.getByTestId('reading-page')).toHaveAttribute('data-chapter', 'Hos.12');
     await page.keyboard.press('ArrowLeft');
     await page.waitForTimeout(600);

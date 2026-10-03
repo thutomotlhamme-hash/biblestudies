@@ -34,6 +34,12 @@ export async function openCover(page: Page) {
   await expect(page.getByTestId('reading-page')).toBeVisible();
   await expect(page.getByTestId('cover-stage')).toHaveCount(0, { timeout: 6000 });
   await expect(page.getByTestId('loading-leaf')).toHaveCount(0, { timeout: 15000 });
+  await pagesSettled(page);
+}
+
+/** Pages are fitted to the screen once measured; wait until they have settled. */
+export async function pagesSettled(page: Page) {
+  await expect(page.locator('main[data-page-fit="settled"]')).toHaveCount(1, { timeout: 10000 });
 }
 
 export const openBible = (page: Page) => openAt(page, 'Matt.2');

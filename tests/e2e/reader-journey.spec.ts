@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { assertScriptureVerbatim, dragBy, KJV, openAt, openBible, openCover, runningHead, showChrome } from './helpers';
+import { assertScriptureVerbatim, dragBy, KJV, openAt, openBible, openCover, runningHead, showChrome, turnUntilVisible } from './helpers';
 
 test.describe('Matthew 2 — the Phase 1 reader journey still holds', () => {
   test('vellum → place → map → thread → focus → reopen', async ({ page }) => {
@@ -7,7 +7,8 @@ test.describe('Matthew 2 — the Phase 1 reader journey still holds', () => {
     await expect(page.getByRole('heading', { name: 'Chapter 2' })).toBeVisible();
     await assertScriptureVerbatim(page);
 
-    // vellum with the prophet named from Scripture
+    // vellum with the prophet named from Scripture (pages fit the screen, so it may be a page on)
+    await turnUntilVisible(page, 'margin-connection-x-micah5');
     await page.getByTestId('margin-connection-x-micah5').click();
     const sheet = page.getByTestId('vellum-sheet');
     await expect(sheet).toBeVisible();
@@ -90,7 +91,7 @@ test.describe('Matthew 2 — the Phase 1 reader journey still holds', () => {
   test('every verse of Matthew 2 is rendered verbatim', async ({ page }) => {
     await openBible(page);
     const seen = new Set<string>();
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 16 && (await page.getByTestId('reading-page').getAttribute('data-chapter')) === 'Matt.2'; i++) {
       (await assertScriptureVerbatim(page)).filter((r) => r.startsWith('Matt.2.')).forEach((r) => seen.add(r));
       await page.keyboard.press('ArrowRight');
       await page.waitForTimeout(650);
@@ -117,11 +118,7 @@ test.describe('Matthew 2 — the Phase 1 reader journey still holds', () => {
     await assertScriptureVerbatim(page, '[data-testid="prophet-plate"]');
     await page.getByTestId('vellum-close').click();
     await page.waitForTimeout(400);
-    const jer = page.getByTestId('margin-connection-x-jer31');
-    if (!(await jer.count())) {
-      await page.keyboard.press('ArrowRight');
-      await page.waitForTimeout(600);
-    }
+    await turnUntilVisible(page, 'margin-connection-x-jer31');
     await page.getByTestId('margin-connection-x-jer31').click();
     await expect(page.getByTestId('prophet-name')).toHaveText('Jeremiah');
     await expect(page.getByTestId('prophet-plate')).toContainText('Jeremy the prophet');
