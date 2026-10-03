@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+test-results
+playwright-report
+*.tsbuildinfo
+.netlify
+artifact*/
+content/sources/
+data-sources/
+__pycache__/

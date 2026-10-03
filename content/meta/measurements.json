@@ -1,0 +1,85 @@
+{
+ "cubit": {
+  "common": 0.4572,
+  "long": 0.524,
+  "note": "Scripture does not define the cubit. The common cubit is taken as about 45.7 cm (18 inches); a longer “royal” cubit of about 52.4 cm is also used. Both conversions are estimates."
+ },
+ "items": [
+  {
+   "id": "court",
+   "label": "The court",
+   "dims": {
+    "length": 100,
+    "breadth": 50,
+    "height": 5
+   },
+   "evidence": "Exod.27.18",
+   "phrase": "The length of the court shall be an hundred cubits, and the breadth fifty",
+   "basis": "stated"
+  },
+  {
+   "id": "boards",
+   "label": "A board of the tabernacle",
+   "dims": {
+    "length": 10,
+    "breadth": 1.5
+   },
+   "evidence": "Exod.26.16",
+   "phrase": "Ten cubits shall be the length of a board",
+   "basis": "stated"
+  },
+  {
+   "id": "tent-length",
+   "label": "The tabernacle, south side",
+   "dims": {
+    "length": 30
+   },
+   "evidence": "Exod.26.18",
+   "phrase": "twenty boards on the south side",
+   "basis": "derived",
+   "derivation": "20 boards × 1½ cubits (Exodus 26:16, 18) = 30 cubits."
+  },
+  {
+   "id": "tent-west",
+   "label": "The tabernacle, west side",
+   "dims": {
+    "length": 9
+   },
+   "evidence": "Exod.26.22",
+   "phrase": "westward thou shalt make six boards",
+   "basis": "derived",
+   "derivation": "6 boards × 1½ cubits = 9 cubits, plus two corner boards (Exodus 26:23). How the corner boards add to the width is not stated."
+  },
+  {
+   "id": "curtain",
+   "label": "One curtain",
+   "dims": {
+    "length": 28,
+    "breadth": 4
+   },
+   "evidence": "Exod.26.2",
+   "phrase": "The length of one curtain shall be eight and twenty cubits",
+   "basis": "stated"
+  },
+  {
+   "id": "ark",
+   "label": "The ark of the testimony",
+   "dims": {
+    "length": 2.5,
+    "breadth": 1.5,
+    "height": 1.5
+   },
+   "evidence": "Exod.25.10",
+   "phrase": "two cubits and a half shall be the length thereof",
+   "basis": "stated"
+  }
+ ],
+ "editorial": {
+  "author": "Claude (AI draft)",
+  "status": "draft",
+  "reviewedBy": null,
+  "reviewedAt": null
+ },
+ "evidenceLevel": "A",
+ "source": "Exodus 25:10; 26:2–23; 27:18"
+}

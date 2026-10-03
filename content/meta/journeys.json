@@ -1,0 +1,713 @@
+{
+ "certaintyLegend": {
+  "explicit": "Scripture states the movement between identified places. The line shows direction, not a road.",
+  "approximate": "Origin and destination are known in general, but the path, or one of the places, is uncertain.",
+  "reconstructed": "The line follows a historically plausible route that Scripture does not describe."
+ },
+ "journeys": [
+  {
+   "id": "abraham",
+   "name": "Abraham",
+   "era": "abraham",
+   "segments": [
+    {
+     "id": "ab1",
+     "to": "haran",
+     "verses": [
+      "Gen.11.31"
+     ],
+     "certainty": "reconstructed",
+     "label": "From Ur of the Chaldees to Haran",
+     "path": [
+      [
+       46.1,
+       30.96
+      ],
+      [
+       45.0,
+       31.6
+      ],
+      [
+       44.4,
+       32.5
+      ],
+      [
+       43.3,
+       33.4
+      ],
+      [
+       42.2,
+       34.2
+      ],
+      [
+       41.0,
+       34.8
+      ],
+      [
+       40.0,
+       35.6
+      ],
+      [
+       39.03,
+       36.87
+      ]
+     ],
+     "travellers": "Terah, Abram, Sarai and Lot",
+     "note": "Scripture names both places. The line follows the Euphrates as a plausible reconstruction.",
+     "from": "ur",
+     "evidenceLevel": "B",
+     "anchor": "Gen.11.31"
+    },
+    {
+     "id": "ab2",
+     "to": "shechem",
+     "verses": [
+      "Gen.12.4",
+      "Gen.12.5",
+      "Gen.12.6"
+     ],
+     "certainty": "explicit",
+     "label": "Out of Haran, through the land to Sichem",
+     "path": null,
+     "travellers": "Abram, Sarai and Lot",
+     "from": "haran",
+     "evidenceLevel": "A",
+     "anchor": "Gen.12.4"
+    },
+    {
+     "id": "ab3",
+     "to": "bethel",
+     "verses": [
+      "Gen.12.8"
+     ],
+     "certainty": "explicit",
+     "label": "A mountain east of Beth-el",
+     "path": null,
+     "travellers": "Abram",
+     "from": "shechem",
+     "evidenceLevel": "A",
+     "anchor": "Gen.12.8"
+    },
+    {
+     "id": "ab4",
+     "to": "egypt",
+     "verses": [
+      "Gen.12.9",
+      "Gen.12.10"
+     ],
+     "certainty": "approximate",
+     "label": "Toward the south, and down into Egypt",
+     "path": null,
+     "travellers": "Abram and Sarai",
+     "from": "bethel",
+     "evidenceLevel": "B",
+     "anchor": "Gen.12.9"
+    },
+    {
+     "id": "ab5",
+     "to": "bethel",
+     "verses": [
+      "Gen.13.1",
+      "Gen.13.3"
+     ],
+     "certainty": "approximate",
+     "label": "Out of Egypt, back to Beth-el",
+     "path": null,
+     "travellers": "Abram, Sarai and Lot",
+     "from": "egypt",
+     "evidenceLevel": "B",
+     "anchor": "Gen.13.1"
+    },
+    {
+     "id": "ab6",
+     "to": "hebron",
+     "verses": [
+      "Gen.13.18"
+     ],
+     "certainty": "explicit",
+     "label": "To the plain of Mamre, in Hebron",
+     "path": null,
+     "travellers": "Abram",
+     "from": "bethel",
+     "evidenceLevel": "A",
+     "anchor": "Gen.13.18"
+    },
+    {
+     "id": "ab7",
+     "to": "beersheba",
+     "verses": [
+      "Gen.22.19"
+     ],
+     "certainty": "approximate",
+     "label": "From the land of Moriah to Beer-sheba",
+     "path": null,
+     "travellers": "Abraham and Isaac",
+     "note": "Genesis 22 names Moriah as a land, not a point; the start is shown at Jerusalem only because of 2 Chronicles 3:1.",
+     "from": "moriah",
+     "evidenceLevel": "B",
+     "anchor": "Gen.22.19"
+    }
+   ],
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Movements as stated in the cited verses; lines are drawn between identified places."
+  },
+  {
+   "id": "jacob",
+   "name": "Jacob",
+   "era": "jacob",
+   "segments": [
+    {
+     "id": "jc1",
+     "to": "bethel",
+     "verses": [
+      "Gen.28.10",
+      "Gen.28.19"
+     ],
+     "certainty": "explicit",
+     "label": "From Beer-sheba; the night at Beth-el",
+     "path": null,
+     "travellers": "Jacob",
+     "from": "beersheba",
+     "evidenceLevel": "A",
+     "anchor": "Gen.28.10"
+    },
+    {
+     "id": "jc2",
+     "to": "haran",
+     "verses": [
+      "Gen.28.10"
+     ],
+     "certainty": "approximate",
+     "label": "Toward Haran",
+     "path": null,
+     "travellers": "Jacob",
+     "from": "bethel",
+     "evidenceLevel": "B",
+     "anchor": "Gen.28.10"
+    },
+    {
+     "id": "jc3",
+     "to": "bethel",
+     "verses": [
+      "Gen.35.6",
+      "Gen.35.9"
+     ],
+     "certainty": "approximate",
+     "label": "Out of Padan-aram to Beth-el",
+     "path": null,
+     "travellers": "Jacob and all the people with him",
+     "from": "padan-aram",
+     "evidenceLevel": "B",
+     "anchor": "Gen.35.6"
+    },
+    {
+     "id": "jc4",
+     "to": "bethlehem",
+     "verses": [
+      "Gen.35.16",
+      "Gen.35.19"
+     ],
+     "certainty": "explicit",
+     "label": "From Beth-el toward Ephrath",
+     "path": null,
+     "travellers": "Jacob and his household",
+     "from": "bethel",
+     "evidenceLevel": "A",
+     "anchor": "Gen.35.16"
+    },
+    {
+     "id": "jc5",
+     "to": "hebron",
+     "verses": [
+      "Gen.35.27"
+     ],
+     "certainty": "approximate",
+     "label": "To Isaac at Mamre, which is Hebron",
+     "path": null,
+     "travellers": "Jacob",
+     "from": "bethlehem",
+     "evidenceLevel": "B",
+     "anchor": "Gen.35.27"
+    },
+    {
+     "id": "jc6",
+     "to": "goshen",
+     "verses": [
+      "Gen.46.5",
+      "Gen.46.6",
+      "Gen.46.28"
+     ],
+     "certainty": "approximate",
+     "label": "From Beer-sheba down into Egypt, to Goshen",
+     "path": null,
+     "travellers": "Jacob and all his seed",
+     "from": "beersheba",
+     "evidenceLevel": "B",
+     "anchor": "Gen.46.5"
+    }
+   ],
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Movements as stated in the cited verses; lines are drawn between identified places."
+  },
+  {
+   "id": "joseph",
+   "name": "Joseph",
+   "era": "joseph",
+   "segments": [
+    {
+     "id": "js1",
+     "to": "shechem",
+     "verses": [
+      "Gen.37.14"
+     ],
+     "certainty": "explicit",
+     "label": "Out of the vale of Hebron to Shechem",
+     "path": null,
+     "travellers": "Joseph",
+     "from": "hebron",
+     "evidenceLevel": "A",
+     "anchor": "Gen.37.14"
+    },
+    {
+     "id": "js2",
+     "to": "dothan",
+     "verses": [
+      "Gen.37.17"
+     ],
+     "certainty": "explicit",
+     "label": "After his brethren to Dothan",
+     "path": null,
+     "travellers": "Joseph",
+     "from": "shechem",
+     "evidenceLevel": "A",
+     "anchor": "Gen.37.17"
+    },
+    {
+     "id": "js3",
+     "to": "egypt",
+     "verses": [
+      "Gen.37.28",
+      "Gen.37.36"
+     ],
+     "certainty": "approximate",
+     "label": "Sold, and brought into Egypt",
+     "path": null,
+     "travellers": "Joseph, with the Ishmeelites",
+     "from": "dothan",
+     "evidenceLevel": "B",
+     "anchor": "Gen.37.28"
+    }
+   ],
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Movements as stated in the cited verses; lines are drawn between identified places."
+  },
+  {
+   "id": "exodus",
+   "name": "The Exodus",
+   "era": "exodus",
+   "segments": [
+    {
+     "id": "ex1",
+     "to": "sinai",
+     "verses": [
+      "Exod.3.1"
+     ],
+     "certainty": "approximate",
+     "label": "Moses leads the flock to Horeb",
+     "path": null,
+     "travellers": "Moses",
+     "from": "midian",
+     "evidenceLevel": "B",
+     "anchor": "Exod.3.1"
+    },
+    {
+     "id": "ex2",
+     "to": "succoth",
+     "verses": [
+      "Exod.12.37"
+     ],
+     "certainty": "explicit",
+     "label": "From Rameses to Succoth",
+     "path": null,
+     "travellers": "The children of Israel",
+     "from": "rameses",
+     "evidenceLevel": "A",
+     "anchor": "Exod.12.37"
+    },
+    {
+     "id": "ex3",
+     "to": "sinai",
+     "verses": [
+      "Exod.13.20",
+      "Exod.19.1",
+      "Exod.19.2"
+     ],
+     "certainty": "reconstructed",
+     "label": "By Etham and Rephidim to the wilderness of Sinai",
+     "path": [
+      [
+       32.1,
+       30.55
+      ],
+      [
+       32.55,
+       29.95
+      ],
+      [
+       32.75,
+       29.3
+      ],
+      [
+       33.15,
+       28.85
+      ],
+      [
+       33.6,
+       28.7
+      ],
+      [
+       33.975,
+       28.54
+      ]
+     ],
+     "travellers": "The children of Israel",
+     "note": "Etham and Rephidim cannot be located, and the site of Sinai is debated. This line follows the traditional southern route and is a reconstruction.",
+     "from": "succoth",
+     "evidenceLevel": "B",
+     "anchor": "Exod.13.20"
+    }
+   ],
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Movements as stated in the cited verses; lines are drawn between identified places."
+  },
+  {
+   "id": "ruth",
+   "name": "Naomi and Ruth",
+   "era": "judges",
+   "segments": [
+    {
+     "id": "ru1",
+     "to": "moab",
+     "verses": [
+      "Ruth.1.1"
+     ],
+     "certainty": "approximate",
+     "label": "From Beth-lehem-judah to sojourn in Moab",
+     "path": null,
+     "travellers": "Elimelech, Naomi and their sons",
+     "from": "bethlehem",
+     "evidenceLevel": "B",
+     "anchor": "Ruth.1.1"
+    },
+    {
+     "id": "ru2",
+     "to": "bethlehem",
+     "verses": [
+      "Ruth.1.19",
+      "Ruth.1.22"
+     ],
+     "certainty": "approximate",
+     "label": "Out of Moab to Beth-lehem",
+     "path": null,
+     "travellers": "Naomi and Ruth",
+     "from": "moab",
+     "evidenceLevel": "B",
+     "anchor": "Ruth.1.19"
+    }
+   ],
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Movements as stated in the cited verses; lines are drawn between identified places."
+  },
+  {
+   "id": "david",
+   "name": "David",
+   "era": "david",
+   "segments": [
+    {
+     "id": "dv1",
+     "to": "hebron",
+     "verses": [
+      "1Sam.16.13",
+      "2Sam.5.3"
+     ],
+     "certainty": "approximate",
+     "label": "Anointed at Beth-lehem; made king in Hebron",
+     "path": null,
+     "travellers": "David",
+     "note": "The move to Hebron (2 Samuel 2:1) is outside these chapters.",
+     "from": "bethlehem",
+     "evidenceLevel": "B",
+     "anchor": "1Sam.16.13"
+    },
+    {
+     "id": "dv2",
+     "to": "jerusalem",
+     "verses": [
+      "2Sam.5.5",
+      "2Sam.5.6",
+      "2Sam.5.7"
+     ],
+     "certainty": "approximate",
+     "label": "From Hebron to Jerusalem, the city of David",
+     "path": null,
+     "travellers": "David and his men",
+     "from": "hebron",
+     "evidenceLevel": "B",
+     "anchor": "2Sam.5.5"
+    }
+   ],
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Movements as stated in the cited verses; lines are drawn between identified places."
+  },
+  {
+   "id": "jesus",
+   "name": "Matthew 2",
+   "era": "gospel",
+   "segments": [
+    {
+     "id": "s1",
+     "to": "jerusalem",
+     "verses": [
+      "Matt.2.1",
+      "Matt.2.2"
+     ],
+     "certainty": "approximate",
+     "label": "From the east to Jerusalem",
+     "path": [
+      [
+       38.4,
+       32.2
+      ],
+      [
+       36.6,
+       31.95
+      ],
+      [
+       35.2354,
+       31.778
+      ]
+     ],
+     "travellers": "The wise men",
+     "fromLabel": "from the east",
+     "style": "direction",
+     "from": null,
+     "evidenceLevel": "B",
+     "anchor": "Matt.2.1"
+    },
+    {
+     "id": "s2",
+     "to": "bethlehem",
+     "verses": [
+      "Matt.2.8",
+      "Matt.2.9"
+     ],
+     "certainty": "explicit",
+     "label": "Sent to Bethlehem",
+     "path": null,
+     "travellers": "The wise men",
+     "from": "jerusalem",
+     "evidenceLevel": "A",
+     "anchor": "Matt.2.8"
+    },
+    {
+     "id": "s3",
+     "to": null,
+     "verses": [
+      "Matt.2.12"
+     ],
+     "certainty": "approximate",
+     "label": "Home another way",
+     "path": [
+      [
+       35.2024,
+       31.7054
+      ],
+      [
+       35.45,
+       31.62
+      ],
+      [
+       36.2,
+       31.35
+      ],
+      [
+       38.4,
+       31.1
+      ]
+     ],
+     "travellers": "The wise men",
+     "toLabel": "into their own country another way",
+     "style": "direction",
+     "from": "bethlehem",
+     "evidenceLevel": "B",
+     "anchor": "Matt.2.12"
+    },
+    {
+     "id": "s4",
+     "to": "egypt",
+     "verses": [
+      "Matt.2.13",
+      "Matt.2.14"
+     ],
+     "certainty": "reconstructed",
+     "label": "By night into Egypt",
+     "path": [
+      [
+       35.2024,
+       31.7054
+      ],
+      [
+       34.8,
+       31.6
+      ],
+      [
+       34.46,
+       31.5
+      ],
+      [
+       34.25,
+       31.28
+      ],
+      [
+       33.8,
+       31.13
+      ],
+      [
+       32.55,
+       31.04
+      ],
+      [
+       31.8,
+       30.9
+      ],
+      [
+       31.1,
+       30.75
+      ]
+     ],
+     "travellers": "Joseph, the young child and his mother",
+     "note": "Matthew records only the destination. The line follows the coast road as a reconstruction.",
+     "from": "bethlehem",
+     "evidenceLevel": "B",
+     "anchor": "Matt.2.13"
+    },
+    {
+     "id": "s5",
+     "to": null,
+     "verses": [
+      "Matt.2.19",
+      "Matt.2.20",
+      "Matt.2.21"
+     ],
+     "certainty": "reconstructed",
+     "label": "Into the land of Israel",
+     "path": [
+      [
+       31.1,
+       30.75
+      ],
+      [
+       31.8,
+       30.95
+      ],
+      [
+       32.55,
+       31.08
+      ],
+      [
+       33.8,
+       31.18
+      ],
+      [
+       34.25,
+       31.33
+      ],
+      [
+       34.55,
+       31.62
+      ],
+      [
+       34.72,
+       31.95
+      ]
+     ],
+     "travellers": "Joseph, the young child and his mother",
+     "toLabel": "into the land of Israel",
+     "from": "egypt",
+     "evidenceLevel": "B",
+     "anchor": "Matt.2.19"
+    },
+    {
+     "id": "s6",
+     "to": "nazareth",
+     "verses": [
+      "Matt.2.22",
+      "Matt.2.23"
+     ],
+     "certainty": "approximate",
+     "label": "Aside into Galilee, to Nazareth",
+     "path": [
+      [
+       34.72,
+       31.95
+      ],
+      [
+       34.8,
+       32.3
+      ],
+      [
+       34.95,
+       32.55
+      ],
+      [
+       35.2978,
+       32.7019
+      ]
+     ],
+     "travellers": "Joseph, the young child and his mother",
+     "fromLabel": "the land of Israel",
+     "from": null,
+     "evidenceLevel": "B",
+     "anchor": "Matt.2.22"
+    }
+   ],
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Movements as stated in the cited verses; lines are drawn between identified places."
+  }
+ ]
+}

@@ -1,0 +1,381 @@
+{
+ "certaintyLabels": [
+  "Biblically explicit",
+  "Historically established",
+  "Approximate",
+  "Scholarly estimate"
+ ],
+ "items": [
+  {
+   "id": "t-abraham",
+   "label": "Abraham leaves Haran",
+   "category": "journey",
+   "dateStart": -2100,
+   "dateEnd": -1800,
+   "dateType": "range",
+   "certainty": "Scholarly estimate",
+   "refs": [
+    "Gen.12.4"
+   ],
+   "note": "Scripture gives Abram’s age (seventy-five) but no fixed date. Dates of the patriarchs are debated.",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "people": [
+    "abraham"
+   ],
+   "places": [
+    "haran",
+    "shechem"
+   ],
+   "journey": "abraham"
+  },
+  {
+   "id": "t-jacob",
+   "label": "Jacob at Beth-el",
+   "category": "person",
+   "dateStart": -2000,
+   "dateEnd": -1700,
+   "dateType": "range",
+   "certainty": "Scholarly estimate",
+   "refs": [
+    "Gen.28.19",
+    "Gen.35.6"
+   ],
+   "note": "Relative order is given by Genesis; the absolute date is an estimate.",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "people": [
+    "jacob"
+   ],
+   "places": [
+    "bethel"
+   ],
+   "journey": "jacob"
+  },
+  {
+   "id": "t-joseph",
+   "label": "Joseph brought into Egypt",
+   "category": "event",
+   "dateStart": -1900,
+   "dateEnd": -1600,
+   "dateType": "range",
+   "certainty": "Scholarly estimate",
+   "refs": [
+    "Gen.37.28"
+   ],
+   "note": "Relative order is given by Genesis; the absolute date is an estimate.",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "people": [
+    "joseph"
+   ],
+   "places": [
+    "egypt",
+    "dothan"
+   ],
+   "journey": "joseph"
+  },
+  {
+   "id": "t-sojourn",
+   "label": "Israel in Egypt 430 years",
+   "category": "event",
+   "dateStart": null,
+   "dateEnd": null,
+   "dateType": "duration",
+   "certainty": "Biblically explicit",
+   "refs": [
+    "Exod.12.40",
+    "Exod.12.41"
+   ],
+   "note": "Exodus 12:40–41 states the length of the sojourning: four hundred and thirty years. The start and end dates are not stated.",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "places": [
+    "egypt"
+   ]
+  },
+  {
+   "id": "t-exodus",
+   "label": "The Exodus",
+   "category": "journey",
+   "dateStart": -1450,
+   "dateEnd": -1250,
+   "dateType": "range",
+   "certainty": "Scholarly estimate",
+   "refs": [
+    "Exod.12.37",
+    "Exod.12.41"
+   ],
+   "note": "Two main views: c. 1446 BC (from 1 Kings 6:1) or the 13th century BC. Both are shown by the range.",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "people": [
+    "moses"
+   ],
+   "places": [
+    "rameses",
+    "succoth",
+    "sinai"
+   ],
+   "journey": "exodus"
+  },
+  {
+   "id": "t-judges",
+   "label": "“In the days when the judges ruled”",
+   "category": "era",
+   "dateStart": -1200,
+   "dateEnd": -1050,
+   "dateType": "range",
+   "certainty": "Approximate",
+   "refs": [
+    "Ruth.1.1"
+   ],
+   "note": "Ruth is set in the period of the judges (Ruth 1:1). Dates approximate.",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "people": [
+    "naomi",
+    "ruth"
+   ],
+   "places": [
+    "bethlehem",
+    "moab"
+   ],
+   "journey": "ruth"
+  },
+  {
+   "id": "t-david",
+   "label": "David reigns forty years",
+   "category": "ruler",
+   "dateStart": -1010,
+   "dateEnd": -970,
+   "dateType": "approximate",
+   "certainty": "Historically established",
+   "refs": [
+    "2Sam.5.4",
+    "2Sam.5.5"
+   ],
+   "note": "Scripture states the length and division of the reign: 7 years 6 months in Hebron, 33 in Jerusalem (2 Samuel 5:5). The dates are approximate.",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "people": [
+    "david"
+   ],
+   "places": [
+    "hebron",
+    "jerusalem"
+   ],
+   "journey": "david"
+  },
+  {
+   "id": "t-hosea",
+   "label": "Hosea prophesies",
+   "category": "prophet",
+   "dateStart": -755,
+   "dateEnd": -715,
+   "dateType": "approximate",
+   "certainty": "Approximate",
+   "refs": [
+    "Hos.1.1"
+   ],
+   "note": "Dated by the kings named in Hosea 1:1.",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "people": [
+    "hosea"
+   ]
+  },
+  {
+   "id": "t-micah",
+   "label": "Micah prophesies",
+   "category": "prophet",
+   "dateStart": -740,
+   "dateEnd": -700,
+   "dateType": "approximate",
+   "certainty": "Approximate",
+   "refs": [
+    "Mic.1.1"
+   ],
+   "note": "Dated by the kings named in Micah 1:1.",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "people": [
+    "micah"
+   ]
+  },
+  {
+   "id": "t-isaiah",
+   "label": "Isaiah prophesies",
+   "category": "prophet",
+   "dateStart": -740,
+   "dateEnd": -700,
+   "dateType": "approximate",
+   "certainty": "Approximate",
+   "refs": [
+    "Isa.1.1"
+   ],
+   "note": "Dated by the kings named in Isaiah 1:1.",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "people": [
+    "isaiah"
+   ]
+  },
+  {
+   "id": "t-jeremiah",
+   "label": "Jeremiah prophesies",
+   "category": "prophet",
+   "dateStart": -627,
+   "dateEnd": -586,
+   "dateType": "approximate",
+   "certainty": "Historically established",
+   "refs": [
+    "Jer.1.2",
+    "Jer.1.3"
+   ],
+   "note": "From the thirteenth year of Josiah to the carrying away of Jerusalem (Jeremiah 1:2–3).",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "people": [
+    "jeremiah"
+   ],
+   "places": [
+    "ramah"
+   ]
+  },
+  {
+   "id": "t-exile",
+   "label": "Carried away to Babylon",
+   "category": "event",
+   "dateStart": -597,
+   "dateEnd": -586,
+   "dateType": "approximate",
+   "certainty": "Historically established",
+   "refs": [
+    "Matt.1.11",
+    "Matt.1.12"
+   ],
+   "note": "Matthew 1:17 uses the carrying away into Babylon to divide the genealogy.",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "places": [
+    "babylon"
+   ]
+  },
+  {
+   "id": "t-herod",
+   "label": "Herod the king reigns",
+   "category": "ruler",
+   "dateStart": -37,
+   "dateEnd": -4,
+   "dateType": "approximate",
+   "certainty": "Historically established",
+   "refs": [
+    "Matt.2.1"
+   ],
+   "note": "Herod I reigned c. 37–4 BC (Josephus). His death is most commonly dated to 4 BC.",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "people": [
+    "herod"
+   ],
+   "places": [
+    "jerusalem"
+   ]
+  },
+  {
+   "id": "t-birth",
+   "label": "Jesus born in Bethlehem",
+   "category": "event",
+   "dateStart": -6,
+   "dateEnd": -4,
+   "dateType": "approximate",
+   "certainty": "Scholarly estimate",
+   "refs": [
+    "Matt.2.1"
+   ],
+   "note": "“In the days of Herod the king” (Matthew 2:1), so before Herod’s death.",
+   "editorial": {
+    "author": "Claude (AI draft)",
+    "status": "draft",
+    "reviewedBy": null,
+    "reviewedAt": null
+   },
+   "source": "Standard reference chronologies; see note",
+   "people": [
+    "jesus",
+    "mary",
+    "joseph-nazareth"
+   ],
+   "places": [
+    "bethlehem"
+   ],
+   "journey": "jesus"
+  }
+ ]
+}

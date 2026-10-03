@@ -1,0 +1,114 @@
+[
+ {
+  "ref": "Gen.11",
+  "era": "abraham",
+  "chrono": 1
+ },
+ {
+  "ref": "Gen.12",
+  "era": "abraham",
+  "chrono": 2
+ },
+ {
+  "ref": "Gen.13",
+  "era": "abraham",
+  "chrono": 3
+ },
+ {
+  "ref": "Gen.22",
+  "era": "abraham",
+  "chrono": 4
+ },
+ {
+  "ref": "Gen.28",
+  "era": "jacob",
+  "chrono": 5
+ },
+ {
+  "ref": "Gen.35",
+  "era": "jacob",
+  "chrono": 6
+ },
+ {
+  "ref": "Gen.37",
+  "era": "joseph",
+  "chrono": 7
+ },
+ {
+  "ref": "Gen.46",
+  "era": "joseph",
+  "chrono": 8
+ },
+ {
+  "ref": "Exod.3",
+  "era": "exodus",
+  "chrono": 9
+ },
+ {
+  "ref": "Exod.12",
+  "era": "exodus",
+  "chrono": 10
+ },
+ {
+  "ref": "Exod.13",
+  "era": "exodus",
+  "chrono": 11
+ },
+ {
+  "ref": "Exod.19",
+  "era": "exodus",
+  "chrono": 12
+ },
+ {
+  "ref": "Exod.26",
+  "era": "exodus",
+  "chrono": 13
+ },
+ {
+  "ref": "Ruth.1",
+  "era": "judges",
+  "chrono": 14
+ },
+ {
+  "ref": "1Sam.16",
+  "era": "david",
+  "chrono": 15
+ },
+ {
+  "ref": "2Sam.5",
+  "era": "david",
+  "chrono": 16
+ },
+ {
+  "ref": "Jer.31",
+  "era": "prophets",
+  "chrono": 19
+ },
+ {
+  "ref": "Hos.11",
+  "era": "prophets",
+  "chrono": 17
+ },
+ {
+  "ref": "Mic.5",
+  "era": "prophets",
+  "chrono": 18
+ },
+ {
+  "ref": "Matt.1",
+  "era": "gospel",
+  "chrono": 20
+ },
+ {
+  "ref": "Matt.2",
+  "era": "gospel",
+  "chrono": 21,
+  "pageBreaks": [
+   1,
+   9,
+   13,
+   16,
+   19
+  ]
+ }
+]

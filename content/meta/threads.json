@@ -1,0 +1,180 @@
+[
+ {
+  "id": "shepherd",
+  "name": "Shepherd & flock",
+  "match": "\\b(shepherds?|flocks?|sheep)\\b",
+  "extraRefs": [],
+  "description": "Passages in this edition where the wording appears. No interpretation is added.",
+  "evidenceLevel": "C",
+  "source": "Word search of the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "covenant",
+  "name": "Covenant",
+  "match": "\\bcovenant\\b",
+  "extraRefs": [],
+  "description": "Passages in this edition where the wording appears. No interpretation is added.",
+  "evidenceLevel": "C",
+  "source": "Word search of the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "wilderness",
+  "name": "Wilderness",
+  "match": "\\bwilderness\\b",
+  "extraRefs": [],
+  "description": "Passages in this edition where the wording appears. No interpretation is added.",
+  "evidenceLevel": "C",
+  "source": "Word search of the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "mountain",
+  "name": "Mountain",
+  "match": "\\bmount(ain)?s?\\b",
+  "extraRefs": [
+   "2Chr.3.1"
+  ],
+  "description": "Passages in this edition where the wording appears. No interpretation is added.",
+  "evidenceLevel": "C",
+  "source": "Word search of the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "king",
+  "name": "King & kingdom",
+  "match": "\\bking(dom)?s?\\b",
+  "extraRefs": [
+   "Zech.9.9",
+   "Matt.27.11",
+   "Matt.27.37",
+   "John.19.19"
+  ],
+  "description": "Passages in this edition where the wording appears. No interpretation is added.",
+  "evidenceLevel": "C",
+  "source": "Word search of the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "bread",
+  "name": "Bread",
+  "match": "\\bbread\\b",
+  "extraRefs": [],
+  "description": "Passages in this edition where the wording appears. No interpretation is added.",
+  "evidenceLevel": "C",
+  "source": "Word search of the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "water",
+  "name": "Water",
+  "match": "\\bwaters?\\b",
+  "extraRefs": [],
+  "description": "Passages in this edition where the wording appears. No interpretation is added.",
+  "evidenceLevel": "C",
+  "source": "Word search of the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "sacrifice",
+  "name": "Sacrifice",
+  "match": "\\b(sacrifices?|burnt offering)\\b",
+  "extraRefs": [],
+  "description": "Passages in this edition where the wording appears. No interpretation is added.",
+  "evidenceLevel": "C",
+  "source": "Word search of the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "dwelling",
+  "name": "Tent & tabernacle",
+  "match": "\\b(tabernacle|tent)\\b",
+  "extraRefs": [],
+  "description": "Passages in this edition where the wording appears. No interpretation is added.",
+  "evidenceLevel": "C",
+  "source": "Word search of the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "exile",
+  "name": "Exile & captivity",
+  "match": "\\b(captiv\\w*|carr(ied|ying) away)\\b",
+  "extraRefs": [
+   "Jer.1.3"
+  ],
+  "description": "Passages in this edition where the wording appears. No interpretation is added.",
+  "evidenceLevel": "C",
+  "source": "Word search of the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "dream",
+  "name": "Dream",
+  "match": "\\bdream(s|ed)?\\b",
+  "extraRefs": [
+   "Gen.41.1",
+   "Dan.2.1",
+   "Matt.27.19"
+  ],
+  "description": "Passages in this edition where the wording appears. No interpretation is added.",
+  "evidenceLevel": "C",
+  "source": "Word search of the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ }
+]

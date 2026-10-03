@@ -1,0 +1,167 @@
+[
+ {
+  "id": "x-micah5",
+  "sourceVerses": [
+   "Matt.2.5",
+   "Matt.2.6"
+  ],
+  "anchorVerse": "Matt.2.5",
+  "types": [
+   "AS_WRITTEN",
+   "QUOTED"
+  ],
+  "evidence": {
+   "verse": "Matt.2.5",
+   "phrase": "thus it is written by the prophet"
+  },
+  "targets": [
+   {
+    "ref": "Mic.5.2",
+    "type": "QUOTED",
+    "sharedPhrase": "out of thee"
+   },
+   {
+    "ref": "2Sam.5.2",
+    "type": "REPEATED_PHRASE",
+    "sharedPhrase": "my people Israel"
+   }
+  ],
+  "location": "bethlehem",
+  "threadIds": [],
+  "prophet": {
+   "attribution": "by the prophet",
+   "namedInText": false,
+   "name": "Micah",
+   "identifiedBy": "Mic.1.1",
+   "identifiedPhrase": "Micah the Morasthite"
+  },
+  "evidenceLevel": "A",
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-hosea11",
+  "sourceVerses": [
+   "Matt.2.15"
+  ],
+  "anchorVerse": "Matt.2.15",
+  "types": [
+   "FULFILLED",
+   "QUOTED"
+  ],
+  "evidence": {
+   "verse": "Matt.2.15",
+   "phrase": "that it might be fulfilled which was spoken of the Lord by the prophet"
+  },
+  "targets": [
+   {
+    "ref": "Hos.11.1",
+    "type": "QUOTED",
+    "sharedPhrase": "out of Egypt"
+   }
+  ],
+  "location": "egypt",
+  "threadIds": [],
+  "prophet": {
+   "attribution": "by the prophet",
+   "namedInText": false,
+   "name": "Hosea",
+   "identifiedBy": "Hos.1.1",
+   "identifiedPhrase": "Hosea, the son of Beeri"
+  },
+  "evidenceLevel": "A",
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-jer31",
+  "sourceVerses": [
+   "Matt.2.17",
+   "Matt.2.18"
+  ],
+  "anchorVerse": "Matt.2.17",
+  "types": [
+   "FULFILLED",
+   "QUOTED"
+  ],
+  "evidence": {
+   "verse": "Matt.2.17",
+   "phrase": "Then was fulfilled that which was spoken by Jeremy the prophet"
+  },
+  "targets": [
+   {
+    "ref": "Jer.31.15",
+    "type": "QUOTED",
+    "sharedPhrase": "weeping for her children"
+   },
+   {
+    "ref": "Gen.35.19",
+    "type": "NAME",
+    "sharedPhrase": "Rachel"
+   }
+  ],
+  "location": "ramah",
+  "threadIds": [],
+  "prophet": {
+   "attribution": "Jeremy the prophet",
+   "namedInText": true,
+   "textName": "Jeremy",
+   "name": "Jeremiah",
+   "identifiedBy": "Jer.1.1",
+   "identifiedPhrase": "Jeremiah the son of Hilkiah"
+  },
+  "evidenceLevel": "A",
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-nazarene",
+  "sourceVerses": [
+   "Matt.2.23"
+  ],
+  "anchorVerse": "Matt.2.23",
+  "types": [
+   "FULFILLED"
+  ],
+  "evidence": {
+   "verse": "Matt.2.23",
+   "phrase": "that it might be fulfilled which was spoken by the prophets"
+  },
+  "targets": [],
+  "unassignedNote": "Matthew attributes these words to “the prophets” (plural) and does not name a passage. No Old Testament verse contains the words “He shall be called a Nazarene”, so this edition does not assign one.",
+  "location": "nazareth",
+  "threadIds": [],
+  "prophet": {
+   "attribution": "by the prophets",
+   "namedInText": false,
+   "name": null
+  },
+  "evidenceLevel": "A",
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ }
+]

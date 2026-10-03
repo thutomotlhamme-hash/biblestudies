@@ -1,0 +1,72 @@
+# The Holy Bible — continuous integration and deployment.
+# Scripture integrity tests run first and block everything after them: if a single character of
+# any chapter differs from its recorded checksum, nothing is built or deployed.
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  integrity:
+    name: Scripture integrity & supplementary evidence
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test:integrity
+      - run: npm test
+
+  e2e:
+    name: Reader journeys on phone, tablet and desktop
+    needs: integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npx playwright test
+        env: { CI: '1' }
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with: { name: playwright-results, path: test-results }
+
+  deploy-preview:
+    name: Editorial preview (drafts visible, marked as such)
+    needs: e2e
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: preview
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci && npm run build
+        env: { NEXT_PUBLIC_MIN_EDITORIAL_STATUS: draft }
+      - run: npx netlify-cli deploy --dir=out --site "$NETLIFY_SITE_ID" --alias preview
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+  deploy-production:
+    name: Production (only reviewed, published material)
+    needs: e2e
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci && npm run build
+        env: { NEXT_PUBLIC_MIN_EDITORIAL_STATUS: published }
+      - run: npx netlify-cli deploy --prod --dir=out --site "$NETLIFY_SITE_ID"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

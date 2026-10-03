@@ -1,0 +1,773 @@
+[
+ {
+  "id": "terah",
+  "name": "Terah",
+  "aliases": [
+   "Terah"
+  ],
+  "kind": "patriarch",
+  "summary": "Father of Abram.",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "child",
+    "to": "abraham",
+    "evidence": "Gen.11.27",
+    "phrase": "Terah begat Abram"
+   }
+  ]
+ },
+ {
+  "id": "abraham",
+  "name": "Abraham",
+  "aliases": [
+   "Abram",
+   "Abraham"
+  ],
+  "kind": "patriarch",
+  "summary": "Called out of Haran into Canaan (Genesis 12). Named Abram until Genesis 17:5.",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "parent",
+    "to": "terah",
+    "evidence": "Gen.11.27",
+    "phrase": "Terah begat Abram"
+   },
+   {
+    "type": "spouse",
+    "to": "sarah",
+    "evidence": "Gen.11.29",
+    "phrase": "the name of Abram’s wife was Sarai"
+   },
+   {
+    "type": "child",
+    "to": "isaac",
+    "evidence": "Matt.1.2",
+    "phrase": "Abraham begat Isaac"
+   }
+  ],
+  "otherNames": "Abram"
+ },
+ {
+  "id": "sarah",
+  "name": "Sarah",
+  "aliases": [
+   "Sarai",
+   "Sarah"
+  ],
+  "kind": "matriarch",
+  "summary": "Wife of Abraham. Named Sarai in these chapters.",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "spouse",
+    "to": "abraham",
+    "evidence": "Gen.12.5",
+    "phrase": "Abram took Sarai his wife"
+   }
+  ]
+ },
+ {
+  "id": "lot",
+  "name": "Lot",
+  "aliases": [
+   "Lot"
+  ],
+  "kind": "person",
+  "summary": "Son of Haran, Abram’s nephew.",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "relative",
+    "to": "abraham",
+    "evidence": "Gen.12.5",
+    "phrase": "Lot his brother’s son"
+   }
+  ]
+ },
+ {
+  "id": "isaac",
+  "name": "Isaac",
+  "aliases": [
+   "Isaac"
+  ],
+  "kind": "patriarch",
+  "summary": "Son of Abraham.",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "parent",
+    "to": "abraham",
+    "evidence": "Matt.1.2",
+    "phrase": "Abraham begat Isaac"
+   },
+   {
+    "type": "child",
+    "to": "jacob",
+    "evidence": "Matt.1.2",
+    "phrase": "Isaac begat Jacob"
+   }
+  ]
+ },
+ {
+  "id": "jacob",
+  "name": "Jacob",
+  "aliases": [
+   "Jacob"
+  ],
+  "kind": "patriarch",
+  "summary": "Son of Isaac, renamed Israel (Genesis 35:10). Father of the twelve sons.",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "parent",
+    "to": "isaac",
+    "evidence": "Matt.1.2",
+    "phrase": "Isaac begat Jacob"
+   },
+   {
+    "type": "spouse",
+    "to": "rachel",
+    "evidence": "Gen.46.19",
+    "phrase": "Rachel Jacob’s wife"
+   },
+   {
+    "type": "child",
+    "to": "judah",
+    "evidence": "Gen.35.23",
+    "phrase": "Judah"
+   },
+   {
+    "type": "child",
+    "to": "joseph",
+    "evidence": "Gen.35.24",
+    "phrase": "The sons of Rachel; Joseph, and Benjamin"
+   }
+  ],
+  "otherNames": "Israel",
+  "notIn": [
+   "Matt.1.15",
+   "Matt.1.16"
+  ]
+ },
+ {
+  "id": "rachel",
+  "name": "Rachel",
+  "aliases": [
+   "Rachel",
+   "Rahel"
+  ],
+  "kind": "matriarch",
+  "summary": "Wife of Jacob; mother of Joseph and Benjamin. Died on the way to Ephrath (Genesis 35:19).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "spouse",
+    "to": "jacob",
+    "evidence": "Gen.46.19",
+    "phrase": "Rachel Jacob’s wife"
+   },
+   {
+    "type": "child",
+    "to": "joseph",
+    "evidence": "Gen.35.24",
+    "phrase": "The sons of Rachel; Joseph, and Benjamin"
+   }
+  ]
+ },
+ {
+  "id": "judah",
+  "name": "Judah",
+  "aliases": [
+   "Judah",
+   "Judas"
+  ],
+  "kind": "patriarch",
+  "summary": "Son of Jacob and Leah (Genesis 35:23). Matthew spells the name Judas (Matthew 1:2–3).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "parent",
+    "to": "jacob",
+    "evidence": "Gen.35.23",
+    "phrase": "Judah"
+   },
+   {
+    "type": "child",
+    "to": "phares",
+    "evidence": "Matt.1.3",
+    "phrase": "Judas begat Phares"
+   }
+  ],
+  "onlyIn": [
+   "Gen.35.23",
+   "Gen.46.12",
+   "Gen.46.28",
+   "Gen.37.26",
+   "Matt.1.2",
+   "Matt.1.3"
+  ]
+ },
+ {
+  "id": "joseph",
+  "name": "Joseph (son of Jacob)",
+  "aliases": [
+   "Joseph"
+  ],
+  "kind": "patriarch",
+  "summary": "Son of Jacob and Rachel; sold into Egypt (Genesis 37).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "parent",
+    "to": "jacob",
+    "evidence": "Gen.35.24",
+    "phrase": "The sons of Rachel; Joseph, and Benjamin"
+   },
+   {
+    "type": "parent",
+    "to": "rachel",
+    "evidence": "Gen.35.24",
+    "phrase": "The sons of Rachel; Joseph"
+   }
+  ],
+  "onlyBooks": [
+   "Gen",
+   "Exod"
+  ]
+ },
+ {
+  "id": "moses",
+  "name": "Moses",
+  "aliases": [
+   "Moses"
+  ],
+  "kind": "prophet",
+  "summary": "Called at Horeb (Exodus 3); led Israel out of Egypt.",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "relative",
+    "to": "jethro",
+    "evidence": "Exod.3.1",
+    "phrase": "Jethro his father in law"
+   }
+  ]
+ },
+ {
+  "id": "jethro",
+  "name": "Jethro",
+  "aliases": [
+   "Jethro"
+  ],
+  "kind": "person",
+  "summary": "Priest of Midian, Moses’ father-in-law.",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "relative",
+    "to": "moses",
+    "evidence": "Exod.3.1",
+    "phrase": "Jethro his father in law"
+   }
+  ]
+ },
+ {
+  "id": "naomi",
+  "name": "Naomi",
+  "aliases": [
+   "Naomi"
+  ],
+  "kind": "person",
+  "summary": "Wife of Elimelech of Beth-lehem-judah.",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "relative",
+    "to": "ruth",
+    "evidence": "Ruth.1.22",
+    "phrase": "Ruth the Moabitess, her daughter in law"
+   }
+  ]
+ },
+ {
+  "id": "ruth",
+  "name": "Ruth",
+  "aliases": [
+   "Ruth"
+  ],
+  "kind": "person",
+  "summary": "A Moabitess who returned with Naomi to Beth-lehem. Named in Matthew’s genealogy (Matthew 1:5).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "relative",
+    "to": "naomi",
+    "evidence": "Ruth.1.22",
+    "phrase": "Ruth the Moabitess, her daughter in law"
+   },
+   {
+    "type": "child",
+    "to": "obed",
+    "evidence": "Matt.1.5",
+    "phrase": "Booz begat Obed of Ruth"
+   }
+  ],
+  "notIn": [
+   "Ruth.1.1"
+  ]
+ },
+ {
+  "id": "boaz",
+  "name": "Boaz",
+  "aliases": [
+   "Booz"
+  ],
+  "kind": "person",
+  "summary": "Named Booz in Matthew 1:5; father of Obed by Ruth.",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "child",
+    "to": "obed",
+    "evidence": "Matt.1.5",
+    "phrase": "Booz begat Obed of Ruth"
+   }
+  ]
+ },
+ {
+  "id": "obed",
+  "name": "Obed",
+  "aliases": [
+   "Obed"
+  ],
+  "kind": "person",
+  "summary": "Son of Boaz and Ruth; father of Jesse (Matthew 1:5).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "child",
+    "to": "jesse",
+    "evidence": "Matt.1.5",
+    "phrase": "Obed begat Jesse"
+   }
+  ]
+ },
+ {
+  "id": "samuel",
+  "name": "Samuel",
+  "aliases": [
+   "Samuel"
+  ],
+  "kind": "prophet",
+  "summary": "Prophet who anointed David at Beth-lehem (1 Samuel 16).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": []
+ },
+ {
+  "id": "saul",
+  "name": "Saul",
+  "aliases": [
+   "Saul"
+  ],
+  "kind": "ruler",
+  "summary": "First king of Israel, rejected in 1 Samuel 16:1.",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": []
+ },
+ {
+  "id": "jesse",
+  "name": "Jesse",
+  "aliases": [
+   "Jesse"
+  ],
+  "kind": "person",
+  "summary": "The Beth-lehemite, father of David.",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "child",
+    "to": "david",
+    "evidence": "Matt.1.6",
+    "phrase": "Jesse begat David the king"
+   }
+  ]
+ },
+ {
+  "id": "david",
+  "name": "David",
+  "aliases": [
+   "David"
+  ],
+  "kind": "ruler",
+  "summary": "Son of Jesse, anointed at Beth-lehem; king in Hebron, then in Jerusalem (2 Samuel 5).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "parent",
+    "to": "jesse",
+    "evidence": "Matt.1.6",
+    "phrase": "Jesse begat David the king"
+   },
+   {
+    "type": "child",
+    "to": "solomon",
+    "evidence": "Matt.1.6",
+    "phrase": "David the king begat Solomon"
+   }
+  ]
+ },
+ {
+  "id": "solomon",
+  "name": "Solomon",
+  "aliases": [
+   "Solomon"
+  ],
+  "kind": "ruler",
+  "summary": "Son of David (Matthew 1:6); built the house of the LORD in mount Moriah (2 Chronicles 3:1).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "parent",
+    "to": "david",
+    "evidence": "Matt.1.6",
+    "phrase": "David the king begat Solomon"
+   }
+  ]
+ },
+ {
+  "id": "isaiah",
+  "name": "Isaiah",
+  "aliases": [
+   "Isaiah",
+   "Esaias"
+  ],
+  "kind": "prophet",
+  "summary": "Prophet in the days of Uzziah, Jotham, Ahaz and Hezekiah (Isaiah 1:1).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": []
+ },
+ {
+  "id": "hosea",
+  "name": "Hosea",
+  "aliases": [
+   "Hosea"
+  ],
+  "kind": "prophet",
+  "summary": "Prophet in the days of Uzziah … Hezekiah and Jeroboam (Hosea 1:1).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": []
+ },
+ {
+  "id": "micah",
+  "name": "Micah",
+  "aliases": [
+   "Micah"
+  ],
+  "kind": "prophet",
+  "summary": "Micah the Morasthite, in the days of Jotham, Ahaz and Hezekiah (Micah 1:1).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": []
+ },
+ {
+  "id": "jeremiah",
+  "name": "Jeremiah",
+  "aliases": [
+   "Jeremiah",
+   "Jeremy"
+  ],
+  "kind": "prophet",
+  "summary": "Prophet from the thirteenth year of Josiah to the carrying away of Jerusalem (Jeremiah 1:2–3). Matthew calls him Jeremy.",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": []
+ },
+ {
+  "id": "herod",
+  "name": "Herod the king",
+  "aliases": [
+   "Herod"
+  ],
+  "kind": "ruler",
+  "summary": "Herod I, king of Judaea (Matthew 2).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": []
+ },
+ {
+  "id": "mary",
+  "name": "Mary",
+  "aliases": [
+   "Mary"
+  ],
+  "kind": "person",
+  "summary": "Mother of Jesus (Matthew 1:16).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "spouse",
+    "to": "joseph-nazareth",
+    "evidence": "Matt.1.16",
+    "phrase": "Joseph the husband of Mary"
+   },
+   {
+    "type": "child",
+    "to": "jesus",
+    "evidence": "Matt.1.16",
+    "phrase": "Mary, of whom was born Jesus"
+   }
+  ]
+ },
+ {
+  "id": "joseph-nazareth",
+  "name": "Joseph (husband of Mary)",
+  "aliases": [
+   "Joseph"
+  ],
+  "kind": "person",
+  "summary": "“Joseph the husband of Mary” (Matthew 1:16); called “thou son of David” (Matthew 1:20).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "spouse",
+    "to": "mary",
+    "evidence": "Matt.1.16",
+    "phrase": "Joseph the husband of Mary"
+   },
+   {
+    "type": "parent",
+    "to": "jacob-matthan",
+    "evidence": "Matt.1.16",
+    "phrase": "Jacob begat Joseph"
+   }
+  ],
+  "onlyBooks": [
+   "Matt"
+  ]
+ },
+ {
+  "id": "jesus",
+  "name": "Jesus",
+  "aliases": [
+   "Jesus"
+  ],
+  "kind": "person",
+  "summary": "“Jesus Christ, the son of David, the son of Abraham” (Matthew 1:1).",
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "relationships": [
+   {
+    "type": "parent",
+    "to": "mary",
+    "evidence": "Matt.1.16",
+    "phrase": "Mary, of whom was born Jesus"
+   },
+   {
+    "type": "ancestor",
+    "to": "david",
+    "evidence": "Matt.1.1",
+    "phrase": "the son of David"
+   },
+   {
+    "type": "ancestor",
+    "to": "abraham",
+    "evidence": "Matt.1.1",
+    "phrase": "the son of Abraham"
+   }
+  ]
+ }
+]

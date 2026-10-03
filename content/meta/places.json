@@ -1,0 +1,709 @@
+[
+ {
+  "id": "ur",
+  "name": "Ur of the Chaldees",
+  "kind": "city",
+  "lat": 30.9626,
+  "lon": 46.1031,
+  "idCertainty": "traditional",
+  "identification": "Traditionally identified with Tell el-Muqayyar in southern Iraq. Some scholars propose a northern location.",
+  "aliases": [
+   "Ur"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "haran",
+  "name": "Haran",
+  "kind": "city",
+  "lat": 36.8656,
+  "lon": 39.0317,
+  "idCertainty": "known",
+  "identification": "Harran, in south-eastern Turkey. Stephen calls it Charran (Acts 7:2).",
+  "aliases": [
+   "Haran",
+   "Charran"
+  ],
+  "alsoAppears": [
+   "Acts.7.2"
+  ],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notIn": [
+   "Gen.11.26",
+   "Gen.11.27",
+   "Gen.11.28",
+   "Gen.11.29"
+  ],
+  "skip": {
+   "Gen.11.31": [
+    0
+   ]
+  },
+  "note": "In Genesis 11:26–31 Haran is also the name of Abram’s brother. Only the place is marked."
+ },
+ {
+  "id": "padan-aram",
+  "name": "Padan-aram",
+  "kind": "region",
+  "lat": 36.4,
+  "lon": 39.4,
+  "idCertainty": "region",
+  "identification": "The region around Haran in upper Mesopotamia.",
+  "aliases": [
+   "Padan-aram",
+   "Padan"
+  ],
+  "alsoAppears": [
+   "Gen.48.7"
+  ],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "canaan",
+  "name": "Canaan",
+  "kind": "region",
+  "lat": 31.9,
+  "lon": 35.0,
+  "idCertainty": "region",
+  "identification": "The land west of the Jordan promised to Abram’s seed.",
+  "aliases": [
+   "Canaan"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "shechem",
+  "name": "Shechem",
+  "kind": "town",
+  "lat": 32.2137,
+  "lon": 35.2819,
+  "idCertainty": "known",
+  "identification": "Tell Balata, beside modern Nablus. The KJV spells it Sichem in Genesis 12:6.",
+  "aliases": [
+   "Sichem",
+   "Shechem"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "bethel",
+  "name": "Beth-el",
+  "kind": "town",
+  "lat": 31.9296,
+  "lon": 35.2208,
+  "idCertainty": "probable",
+  "identification": "Usually identified with Beitin, north of Jerusalem.",
+  "aliases": [
+   "Beth-el",
+   "Luz"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "samePlace": [
+   {
+    "label": "Luz",
+    "evidence": "Gen.28.19",
+    "phrase": "the name of that city was called Luz at the first"
+   },
+   {
+    "label": "Luz",
+    "evidence": "Gen.35.6",
+    "phrase": "Luz, which is in the land of Canaan, that is, Beth-el"
+   }
+  ]
+ },
+ {
+  "id": "ai",
+  "name": "Hai",
+  "kind": "town",
+  "lat": 31.9167,
+  "lon": 35.2603,
+  "idCertainty": "debated",
+  "identification": "Hai (Ai) is often identified with et-Tell; the identification is debated.",
+  "aliases": [
+   "Hai"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "egypt",
+  "name": "Egypt",
+  "kind": "region",
+  "lat": 30.75,
+  "lon": 31.1,
+  "idCertainty": "region",
+  "identification": "Scripture names the land; the marker shows the Nile Delta only as a general location.",
+  "aliases": [
+   "Egypt"
+  ],
+  "alsoAppears": [
+   "Hos.11.1"
+  ],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "hebron",
+  "name": "Hebron",
+  "kind": "city",
+  "lat": 31.5326,
+  "lon": 35.0998,
+  "idCertainty": "known",
+  "identification": "Hebron, in the hill country of Judah. Scripture places Mamre at Hebron (Genesis 13:18; 35:27).",
+  "aliases": [
+   "Hebron",
+   "Mamre",
+   "Arbah"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "samePlace": [
+   {
+    "label": "Mamre",
+    "evidence": "Gen.13.18",
+    "phrase": "the plain of Mamre, which is in Hebron"
+   },
+   {
+    "label": "Arbah",
+    "evidence": "Gen.35.27",
+    "phrase": "the city of Arbah, which is Hebron"
+   }
+  ]
+ },
+ {
+  "id": "moriah",
+  "name": "Moriah",
+  "kind": "region",
+  "lat": 31.778,
+  "lon": 35.2354,
+  "idCertainty": "debated",
+  "identification": "“The land of Moriah” (Genesis 22:2). 2 Chronicles 3:1 places “mount Moriah” at Jerusalem; Genesis does not say the two are the same place.",
+  "aliases": [
+   "Moriah"
+  ],
+  "alsoAppears": [
+   "2Chr.3.1"
+  ],
+  "evidenceLevel": "C",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "samePlace": [
+   {
+    "label": "mount Moriah, at Jerusalem",
+    "evidence": "2Chr.3.1",
+    "phrase": "at Jerusalem in mount Moriah",
+    "level": "C"
+   }
+  ]
+ },
+ {
+  "id": "beersheba",
+  "name": "Beer-sheba",
+  "kind": "town",
+  "lat": 31.2445,
+  "lon": 34.8404,
+  "idCertainty": "known",
+  "identification": "Tel Be’er Sheva, in the Negev.",
+  "aliases": [
+   "Beer-sheba"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "dothan",
+  "name": "Dothan",
+  "kind": "town",
+  "lat": 32.4153,
+  "lon": 35.2394,
+  "idCertainty": "known",
+  "identification": "Tel Dothan, north of Shechem.",
+  "aliases": [
+   "Dothan"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "goshen",
+  "name": "Goshen",
+  "kind": "region",
+  "lat": 30.75,
+  "lon": 31.75,
+  "idCertainty": "region",
+  "identification": "A region of the eastern Nile Delta; its exact extent is not known.",
+  "aliases": [
+   "Goshen"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "rameses",
+  "name": "Rameses",
+  "kind": "city",
+  "lat": 30.7989,
+  "lon": 31.8339,
+  "idCertainty": "probable",
+  "identification": "Usually identified with Pi-Ramesses at Qantir in the eastern Delta.",
+  "aliases": [
+   "Rameses"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "succoth",
+  "name": "Succoth",
+  "kind": "town",
+  "lat": 30.5528,
+  "lon": 32.0983,
+  "idCertainty": "probable",
+  "identification": "Often identified with Tell el-Maskhuta, east of the Delta. (A different Succoth appears in Genesis 33.)",
+  "aliases": [
+   "Succoth"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "etham",
+  "name": "Etham",
+  "kind": "site",
+  "lat": null,
+  "lon": null,
+  "idCertainty": "unknown",
+  "identification": "“In the edge of the wilderness” (Exodus 13:20). The location is not known, so it is not placed on the map.",
+  "aliases": [
+   "Etham"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "rephidim",
+  "name": "Rephidim",
+  "kind": "site",
+  "lat": null,
+  "lon": null,
+  "idCertainty": "unknown",
+  "identification": "The last camp before Sinai (Exodus 19:2). The location is not known, so it is not placed on the map.",
+  "aliases": [
+   "Rephidim"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "sinai",
+  "name": "Mount Sinai",
+  "kind": "mountain",
+  "lat": 28.5394,
+  "lon": 33.975,
+  "idCertainty": "debated",
+  "identification": "Traditionally Jebel Musa in the southern Sinai peninsula; other locations are proposed. Scripture also calls the mountain of the law Horeb (Deuteronomy 4:10; Malachi 4:4).",
+  "aliases": [
+   "Sinai",
+   "Horeb"
+  ],
+  "alsoAppears": [
+   "Deut.4.10",
+   "Mal.4.4"
+  ],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "samePlace": [
+   {
+    "label": "Horeb",
+    "evidence": "Mal.4.4",
+    "phrase": "the law of Moses my servant, which I commanded unto him in Horeb"
+   }
+  ]
+ },
+ {
+  "id": "midian",
+  "name": "Midian",
+  "kind": "region",
+  "lat": 28.3,
+  "lon": 35.4,
+  "idCertainty": "region",
+  "identification": "Land east of the Gulf of Aqaba; its limits are uncertain.",
+  "aliases": [
+   "Midian"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "moab",
+  "name": "Moab",
+  "kind": "region",
+  "lat": 31.35,
+  "lon": 35.8,
+  "idCertainty": "region",
+  "identification": "The land east of the Dead Sea.",
+  "aliases": [
+   "Moab"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "bethlehem",
+  "name": "Bethlehem",
+  "kind": "town",
+  "lat": 31.7054,
+  "lon": 35.2024,
+  "idCertainty": "known",
+  "identification": "Modern Bethlehem, about 9 km south of Jerusalem.",
+  "aliases": [
+   "Bethlehem",
+   "Beth-lehem",
+   "Beth-lehem-judah",
+   "Beth-lehemite",
+   "Ephrath",
+   "Ephratah"
+  ],
+  "alsoAppears": [
+   "Gen.48.7",
+   "Luke.2.4",
+   "Luke.2.15",
+   "John.7.42"
+  ],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "samePlace": [
+   {
+    "label": "Ephrath",
+    "evidence": "Gen.35.19",
+    "phrase": "Ephrath, which is Beth-lehem"
+   }
+  ]
+ },
+ {
+  "id": "jerusalem",
+  "name": "Jerusalem",
+  "kind": "city",
+  "lat": 31.778,
+  "lon": 35.2354,
+  "idCertainty": "known",
+  "identification": "Jerusalem, in the hill country of Judaea. David takes “the strong hold of Zion: the same is the city of David” (2 Samuel 5:7).",
+  "aliases": [
+   "Jerusalem"
+  ],
+  "alsoAppears": [
+   "Zech.9.9",
+   "Jer.40.1",
+   "Luke.2.41",
+   "2Chr.3.1"
+  ],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "ramah",
+  "name": "Ramah",
+  "kind": "town",
+  "lat": 31.8518,
+  "lon": 35.231,
+  "idCertainty": "traditional",
+  "identification": "Ramah of Benjamin, usually identified with er-Ram, about 8 km north of Jerusalem.",
+  "aliases": [
+   "Ramah",
+   "Rama"
+  ],
+  "alsoAppears": [
+   "Josh.18.25",
+   "Jer.40.1"
+  ],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notIn": [
+   "1Sam.16.13",
+   "1Sam.1.19"
+  ]
+ },
+ {
+  "id": "ramah-samuel",
+  "name": "Ramah (Samuel’s home)",
+  "kind": "site",
+  "lat": null,
+  "lon": null,
+  "idCertainty": "unknown",
+  "identification": "Samuel’s home town (1 Samuel 1:19). Its location, and whether it is the Ramah of Jeremiah 31:15, is debated, so it is not placed on the map.",
+  "aliases": [
+   "Ramah"
+  ],
+  "alsoAppears": [
+   "1Sam.1.19"
+  ],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "onlyIn": [
+   "1Sam.16.13",
+   "1Sam.1.19"
+  ]
+ },
+ {
+  "id": "babylon",
+  "name": "Babylon",
+  "kind": "city",
+  "lat": 32.5364,
+  "lon": 44.4209,
+  "idCertainty": "known",
+  "identification": "Babylon, on the Euphrates south of modern Baghdad.",
+  "aliases": [
+   "Babylon"
+  ],
+  "alsoAppears": [],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "nazareth",
+  "name": "Nazareth",
+  "kind": "town",
+  "lat": 32.7019,
+  "lon": 35.2978,
+  "idCertainty": "known",
+  "identification": "Modern Nazareth, in Lower Galilee.",
+  "aliases": [
+   "Nazareth"
+  ],
+  "alsoAppears": [
+   "Luke.1.26",
+   "Luke.2.39",
+   "Matt.4.13",
+   "Matt.21.11",
+   "John.1.46"
+  ],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "galilee",
+  "name": "Galilee",
+  "kind": "region",
+  "lat": 32.86,
+  "lon": 35.33,
+  "idCertainty": "region",
+  "identification": "The northern region west of the Sea of Galilee.",
+  "aliases": [
+   "Galilee"
+  ],
+  "alsoAppears": [
+   "Isa.9.1",
+   "Matt.4.15",
+   "Luke.1.26"
+  ],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "judaea",
+  "name": "Judaea",
+  "kind": "region",
+  "lat": 31.45,
+  "lon": 34.93,
+  "idCertainty": "region",
+  "identification": "The southern region, including Jerusalem and Bethlehem.",
+  "aliases": [
+   "Judaea",
+   "Judæa",
+   "Judea"
+  ],
+  "alsoAppears": [
+   "Luke.1.5"
+  ],
+  "evidenceLevel": "B",
+  "source": "Scripture references as cited; coordinates from standard biblical atlases",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ }
+]

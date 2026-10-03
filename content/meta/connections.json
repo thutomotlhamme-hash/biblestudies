@@ -1,0 +1,609 @@
+[
+ {
+  "id": "x-micah5",
+  "sourceVerses": [
+   "Matt.2.5",
+   "Matt.2.6"
+  ],
+  "anchorVerse": "Matt.2.5",
+  "types": [
+   "AS_WRITTEN",
+   "QUOTED"
+  ],
+  "evidence": {
+   "verse": "Matt.2.5",
+   "phrase": "thus it is written by the prophet"
+  },
+  "targets": [
+   {
+    "ref": "Mic.5.2",
+    "type": "QUOTED",
+    "sharedPhrase": "out of thee"
+   },
+   {
+    "ref": "2Sam.5.2",
+    "type": "REPEATED_PHRASE",
+    "sharedPhrase": "my people Israel"
+   }
+  ],
+  "location": "bethlehem",
+  "threadIds": [],
+  "prophet": {
+   "attribution": "by the prophet",
+   "namedInText": false,
+   "name": "Micah",
+   "identifiedBy": "Mic.1.1",
+   "identifiedPhrase": "Micah the Morasthite"
+  },
+  "evidenceLevel": "A",
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-hosea11",
+  "sourceVerses": [
+   "Matt.2.15"
+  ],
+  "anchorVerse": "Matt.2.15",
+  "types": [
+   "FULFILLED",
+   "QUOTED"
+  ],
+  "evidence": {
+   "verse": "Matt.2.15",
+   "phrase": "that it might be fulfilled which was spoken of the Lord by the prophet"
+  },
+  "targets": [
+   {
+    "ref": "Hos.11.1",
+    "type": "QUOTED",
+    "sharedPhrase": "out of Egypt"
+   }
+  ],
+  "location": "egypt",
+  "threadIds": [],
+  "prophet": {
+   "attribution": "by the prophet",
+   "namedInText": false,
+   "name": "Hosea",
+   "identifiedBy": "Hos.1.1",
+   "identifiedPhrase": "Hosea, the son of Beeri"
+  },
+  "evidenceLevel": "A",
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-jer31",
+  "sourceVerses": [
+   "Matt.2.17",
+   "Matt.2.18"
+  ],
+  "anchorVerse": "Matt.2.17",
+  "types": [
+   "FULFILLED",
+   "QUOTED"
+  ],
+  "evidence": {
+   "verse": "Matt.2.17",
+   "phrase": "Then was fulfilled that which was spoken by Jeremy the prophet"
+  },
+  "targets": [
+   {
+    "ref": "Jer.31.15",
+    "type": "QUOTED",
+    "sharedPhrase": "weeping for her children"
+   },
+   {
+    "ref": "Gen.35.19",
+    "type": "NAME",
+    "sharedPhrase": "Rachel"
+   }
+  ],
+  "location": "ramah",
+  "threadIds": [],
+  "prophet": {
+   "attribution": "Jeremy the prophet",
+   "namedInText": true,
+   "textName": "Jeremy",
+   "name": "Jeremiah",
+   "identifiedBy": "Jer.1.1",
+   "identifiedPhrase": "Jeremiah the son of Hilkiah"
+  },
+  "evidenceLevel": "A",
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-nazarene",
+  "sourceVerses": [
+   "Matt.2.23"
+  ],
+  "anchorVerse": "Matt.2.23",
+  "types": [
+   "FULFILLED"
+  ],
+  "evidence": {
+   "verse": "Matt.2.23",
+   "phrase": "that it might be fulfilled which was spoken by the prophets"
+  },
+  "targets": [],
+  "unassignedNote": "Matthew attributes these words to “the prophets” (plural) and does not name a passage. No Old Testament verse contains the words “He shall be called a Nazarene”, so this edition does not assign one.",
+  "location": "nazareth",
+  "threadIds": [],
+  "prophet": {
+   "attribution": "by the prophets",
+   "namedInText": false,
+   "name": null
+  },
+  "evidenceLevel": "A",
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-gen13-altar",
+  "sourceVerses": [
+   "Gen.13.3",
+   "Gen.13.4"
+  ],
+  "anchorVerse": "Gen.13.3",
+  "types": [
+   "REMEMBERED",
+   "SAME_PLACE"
+  ],
+  "evidence": {
+   "verse": "Gen.13.4",
+   "phrase": "the altar, which he had made there at the first"
+  },
+  "targets": [
+   {
+    "ref": "Gen.12.8",
+    "type": "SAME_PLACE",
+    "sharedPhrase": "Hai"
+   }
+  ],
+  "evidenceLevel": "A",
+  "threadIds": [],
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-gen35-bethel",
+  "sourceVerses": [
+   "Gen.35.1"
+  ],
+  "anchorVerse": "Gen.35.1",
+  "types": [
+   "REMEMBERED"
+  ],
+  "evidence": {
+   "verse": "Gen.35.1",
+   "phrase": "that appeared unto thee when thou fleddest from the face of Esau thy brother"
+  },
+  "targets": [
+   {
+    "ref": "Gen.28.19",
+    "type": "SAME_PLACE",
+    "sharedPhrase": "Beth-el"
+   }
+  ],
+  "evidenceLevel": "A",
+  "threadIds": [],
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-gen35-luz",
+  "sourceVerses": [
+   "Gen.35.6"
+  ],
+  "anchorVerse": "Gen.35.6",
+  "types": [
+   "SAME_PLACE"
+  ],
+  "evidence": {
+   "verse": "Gen.35.6",
+   "phrase": "Luz, which is in the land of Canaan, that is, Beth-el"
+  },
+  "targets": [
+   {
+    "ref": "Gen.28.19",
+    "type": "SAME_PLACE",
+    "sharedPhrase": "Luz"
+   }
+  ],
+  "evidenceLevel": "A",
+  "threadIds": [],
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-gen35-ephrath",
+  "sourceVerses": [
+   "Gen.35.19"
+  ],
+  "anchorVerse": "Gen.35.19",
+  "types": [
+   "SAME_PLACE"
+  ],
+  "evidence": {
+   "verse": "Gen.35.19",
+   "phrase": "Ephrath, which is Beth-lehem"
+  },
+  "targets": [
+   {
+    "ref": "Mic.5.2",
+    "type": "SAME_PLACE",
+    "sharedPhrase": "Beth-lehem"
+   },
+   {
+    "ref": "Ruth.1.1",
+    "type": "SAME_PLACE",
+    "sharedPhrase": "Beth-lehem"
+   }
+  ],
+  "evidenceLevel": "B",
+  "threadIds": [],
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-gen35-mamre",
+  "sourceVerses": [
+   "Gen.35.27"
+  ],
+  "anchorVerse": "Gen.35.27",
+  "types": [
+   "REMEMBERED",
+   "SAME_PLACE"
+  ],
+  "evidence": {
+   "verse": "Gen.35.27",
+   "phrase": "where Abraham and Isaac sojourned"
+  },
+  "targets": [
+   {
+    "ref": "Gen.13.18",
+    "type": "SAME_PLACE",
+    "sharedPhrase": "Mamre"
+   }
+  ],
+  "evidenceLevel": "A",
+  "threadIds": [],
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-gen22-moriah",
+  "sourceVerses": [
+   "Gen.22.2"
+  ],
+  "anchorVerse": "Gen.22.2",
+  "types": [
+   "SAME_PLACE"
+  ],
+  "evidence": {
+   "verse": "Gen.22.2",
+   "phrase": "the land of Moriah"
+  },
+  "targets": [
+   {
+    "ref": "2Chr.3.1",
+    "type": "SAME_PLACE",
+    "sharedPhrase": "Moriah"
+   }
+  ],
+  "evidenceLevel": "C",
+  "threadIds": [],
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": "Same name only. Genesis 22 does not identify the land of Moriah with Jerusalem."
+ },
+ {
+  "id": "x-ex3-fathers",
+  "sourceVerses": [
+   "Exod.3.6"
+  ],
+  "anchorVerse": "Exod.3.6",
+  "types": [
+   "REMEMBERED",
+   "REPEATED_PHRASE"
+  ],
+  "evidence": {
+   "verse": "Exod.3.6",
+   "phrase": "the God of Abraham, the God of Isaac, and the God of Jacob"
+  },
+  "targets": [
+   {
+    "ref": "Gen.28.13",
+    "type": "REPEATED_PHRASE",
+    "sharedPhrase": "the God of Isaac"
+   }
+  ],
+  "evidenceLevel": "B",
+  "threadIds": [],
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-ex13-bones",
+  "sourceVerses": [
+   "Exod.13.19"
+  ],
+  "anchorVerse": "Exod.13.19",
+  "types": [
+   "REMEMBERED",
+   "QUOTED"
+  ],
+  "evidence": {
+   "verse": "Exod.13.19",
+   "phrase": "for he had straitly sworn the children of Israel, saying"
+  },
+  "targets": [
+   {
+    "ref": "Gen.50.25",
+    "type": "QUOTED",
+    "sharedPhrase": "God will surely visit you"
+   }
+  ],
+  "evidenceLevel": "A",
+  "threadIds": [],
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-ruth-famine",
+  "sourceVerses": [
+   "Ruth.1.1"
+  ],
+  "anchorVerse": "Ruth.1.1",
+  "types": [
+   "REPEATED_PHRASE"
+  ],
+  "evidence": {
+   "verse": "Ruth.1.1",
+   "phrase": "there was a famine in the land"
+  },
+  "targets": [
+   {
+    "ref": "Gen.12.10",
+    "type": "REPEATED_PHRASE",
+    "sharedPhrase": "there was a famine in the land"
+   }
+  ],
+  "evidenceLevel": "C",
+  "threadIds": [],
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-matt1-fathers",
+  "sourceVerses": [
+   "Matt.1.2"
+  ],
+  "anchorVerse": "Matt.1.2",
+  "types": [
+   "GENEALOGY"
+  ],
+  "evidence": {
+   "verse": "Matt.1.2",
+   "phrase": "Abraham begat Isaac; and Isaac begat Jacob"
+  },
+  "targets": [
+   {
+    "ref": "Gen.22.2",
+    "type": "NAME",
+    "sharedPhrase": "Isaac"
+   },
+   {
+    "ref": "Gen.35.23",
+    "type": "NAME",
+    "sharedPhrase": "Jacob"
+   }
+  ],
+  "evidenceLevel": "B",
+  "threadIds": [],
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-matt1-david",
+  "sourceVerses": [
+   "Matt.1.5",
+   "Matt.1.6"
+  ],
+  "anchorVerse": "Matt.1.5",
+  "types": [
+   "GENEALOGY"
+  ],
+  "evidence": {
+   "verse": "Matt.1.5",
+   "phrase": "Booz begat Obed of Ruth; and Obed begat Jesse"
+  },
+  "targets": [
+   {
+    "ref": "Ruth.1.4",
+    "type": "NAME",
+    "sharedPhrase": "Ruth"
+   },
+   {
+    "ref": "1Sam.16.1",
+    "type": "NAME",
+    "sharedPhrase": "Jesse"
+   },
+   {
+    "ref": "2Sam.5.3",
+    "type": "NAME",
+    "sharedPhrase": "David"
+   }
+  ],
+  "evidenceLevel": "B",
+  "threadIds": [],
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": null
+ },
+ {
+  "id": "x-matt1-isaiah",
+  "sourceVerses": [
+   "Matt.1.22",
+   "Matt.1.23"
+  ],
+  "anchorVerse": "Matt.1.22",
+  "types": [
+   "FULFILLED",
+   "QUOTED"
+  ],
+  "evidence": {
+   "verse": "Matt.1.22",
+   "phrase": "that it might be fulfilled which was spoken of the Lord by the prophet"
+  },
+  "targets": [
+   {
+    "ref": "Isa.7.14",
+    "type": "QUOTED",
+    "sharedPhrase": "Behold, a virgin shall"
+   }
+  ],
+  "evidenceLevel": "A",
+  "threadIds": [],
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "prophet": {
+   "attribution": "by the prophet",
+   "namedInText": false,
+   "name": "Isaiah",
+   "identifiedBy": "Isa.1.1",
+   "identifiedPhrase": "Isaiah the son of Amoz"
+  },
+  "notes": null
+ },
+ {
+  "id": "x-jer31-rachel",
+  "sourceVerses": [
+   "Jer.31.15"
+  ],
+  "anchorVerse": "Jer.31.15",
+  "types": [
+   "NAME"
+  ],
+  "evidence": {
+   "verse": "Jer.31.15",
+   "phrase": "Rahel weeping for her children"
+  },
+  "targets": [
+   {
+    "ref": "Gen.35.19",
+    "type": "NAME",
+    "sharedPhrase": "Rachel",
+    "nameForms": [
+     "Rahel",
+     "Rachel"
+    ]
+   }
+  ],
+  "evidenceLevel": "B",
+  "threadIds": [],
+  "source": "The wording of the cited verses",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "notes": "Rahel is the KJV spelling of Rachel in Jeremiah 31:15; Matthew 2:18 spells it Rachel."
+ }
+]

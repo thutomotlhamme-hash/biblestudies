@@ -1,0 +1,679 @@
+{
+ "id": "matthew-1",
+ "title": "The book of the generation of Jesus Christ",
+ "evidence": "Matt.1.1",
+ "sections": [
+  {
+   "label": "From Abraham to David",
+   "from": "abraham",
+   "to": "david"
+  },
+  {
+   "label": "From David until the carrying away into Babylon",
+   "from": "solomon",
+   "to": "jechonias"
+  },
+  {
+   "label": "From the carrying away into Babylon unto Christ",
+   "from": "salathiel",
+   "to": "jesus"
+  }
+ ],
+ "sectionsEvidence": "Matt.1.17",
+ "nodes": [
+  {
+   "id": "abraham",
+   "name": "Abraham",
+   "person": "abraham"
+  },
+  {
+   "id": "isaac",
+   "name": "Isaac",
+   "person": "isaac"
+  },
+  {
+   "id": "jacob",
+   "name": "Jacob",
+   "person": "jacob"
+  },
+  {
+   "id": "judah",
+   "name": "Judas",
+   "person": "judah"
+  },
+  {
+   "id": "phares",
+   "name": "Phares",
+   "person": null
+  },
+  {
+   "id": "esrom",
+   "name": "Esrom",
+   "person": null
+  },
+  {
+   "id": "aram",
+   "name": "Aram",
+   "person": null
+  },
+  {
+   "id": "aminadab",
+   "name": "Aminadab",
+   "person": null
+  },
+  {
+   "id": "naasson",
+   "name": "Naasson",
+   "person": null
+  },
+  {
+   "id": "salmon",
+   "name": "Salmon",
+   "person": null
+  },
+  {
+   "id": "boaz",
+   "name": "Booz",
+   "person": "boaz"
+  },
+  {
+   "id": "obed",
+   "name": "Obed",
+   "person": "obed"
+  },
+  {
+   "id": "jesse",
+   "name": "Jesse",
+   "person": "jesse"
+  },
+  {
+   "id": "david",
+   "name": "David",
+   "person": "david"
+  },
+  {
+   "id": "solomon",
+   "name": "Solomon",
+   "person": "solomon"
+  },
+  {
+   "id": "roboam",
+   "name": "Roboam",
+   "person": null
+  },
+  {
+   "id": "abia",
+   "name": "Abia",
+   "person": null
+  },
+  {
+   "id": "asa",
+   "name": "Asa",
+   "person": null
+  },
+  {
+   "id": "josaphat",
+   "name": "Josaphat",
+   "person": null
+  },
+  {
+   "id": "joram",
+   "name": "Joram",
+   "person": null
+  },
+  {
+   "id": "ozias",
+   "name": "Ozias",
+   "person": null
+  },
+  {
+   "id": "joatham",
+   "name": "Joatham",
+   "person": null
+  },
+  {
+   "id": "achaz",
+   "name": "Achaz",
+   "person": null
+  },
+  {
+   "id": "ezekias",
+   "name": "Ezekias",
+   "person": null
+  },
+  {
+   "id": "manasses",
+   "name": "Manasses",
+   "person": null
+  },
+  {
+   "id": "amon",
+   "name": "Amon",
+   "person": null
+  },
+  {
+   "id": "josias",
+   "name": "Josias",
+   "person": null
+  },
+  {
+   "id": "jechonias",
+   "name": "Jechonias",
+   "person": null
+  },
+  {
+   "id": "salathiel",
+   "name": "Salathiel",
+   "person": null
+  },
+  {
+   "id": "zorobabel",
+   "name": "Zorobabel",
+   "person": null
+  },
+  {
+   "id": "abiud",
+   "name": "Abiud",
+   "person": null
+  },
+  {
+   "id": "eliakim",
+   "name": "Eliakim",
+   "person": null
+  },
+  {
+   "id": "azor",
+   "name": "Azor",
+   "person": null
+  },
+  {
+   "id": "sadoc",
+   "name": "Sadoc",
+   "person": null
+  },
+  {
+   "id": "achim",
+   "name": "Achim",
+   "person": null
+  },
+  {
+   "id": "eliud",
+   "name": "Eliud",
+   "person": null
+  },
+  {
+   "id": "eleazar",
+   "name": "Eleazar",
+   "person": null
+  },
+  {
+   "id": "matthan",
+   "name": "Matthan",
+   "person": null
+  },
+  {
+   "id": "jacob-matthan",
+   "name": "Jacob",
+   "person": null
+  },
+  {
+   "id": "joseph-nazareth",
+   "name": "Joseph",
+   "person": "joseph-nazareth"
+  },
+  {
+   "id": "mary",
+   "name": "Mary",
+   "person": "mary"
+  },
+  {
+   "id": "jesus",
+   "name": "Jesus",
+   "person": "jesus"
+  }
+ ],
+ "edges": [
+  {
+   "parent": "Abraham",
+   "child": "Isaac",
+   "evidence": "Matt.1.2",
+   "phrase": "Abraham begat Isaac",
+   "clause": "Abraham begat Isaac",
+   "parentId": "abraham",
+   "childId": "isaac"
+  },
+  {
+   "parent": "Isaac",
+   "child": "Jacob",
+   "evidence": "Matt.1.2",
+   "phrase": "Isaac begat Jacob",
+   "clause": "and Isaac begat Jacob",
+   "parentId": "isaac",
+   "childId": "jacob"
+  },
+  {
+   "parent": "Jacob",
+   "child": "Judas",
+   "evidence": "Matt.1.2",
+   "phrase": "Jacob begat Judas",
+   "clause": "and Jacob begat Judas and his brethren",
+   "parentId": "jacob",
+   "childId": "judah"
+  },
+  {
+   "parent": "Judas",
+   "child": "Phares",
+   "evidence": "Matt.1.3",
+   "phrase": "Judas begat Phares",
+   "clause": "Judas begat Phares and Zara of Thamar",
+   "mother": "of Thamar",
+   "parentId": "judah",
+   "childId": "phares"
+  },
+  {
+   "parent": "Phares",
+   "child": "Esrom",
+   "evidence": "Matt.1.3",
+   "phrase": "Phares begat Esrom",
+   "clause": "and Phares begat Esrom",
+   "parentId": "phares",
+   "childId": "esrom"
+  },
+  {
+   "parent": "Esrom",
+   "child": "Aram",
+   "evidence": "Matt.1.3",
+   "phrase": "Esrom begat Aram",
+   "clause": "and Esrom begat Aram",
+   "parentId": "esrom",
+   "childId": "aram"
+  },
+  {
+   "parent": "Aram",
+   "child": "Aminadab",
+   "evidence": "Matt.1.4",
+   "phrase": "Aram begat Aminadab",
+   "clause": "Aram begat Aminadab",
+   "parentId": "aram",
+   "childId": "aminadab"
+  },
+  {
+   "parent": "Aminadab",
+   "child": "Naasson",
+   "evidence": "Matt.1.4",
+   "phrase": "Aminadab begat Naasson",
+   "clause": "and Aminadab begat Naasson",
+   "parentId": "aminadab",
+   "childId": "naasson"
+  },
+  {
+   "parent": "Naasson",
+   "child": "Salmon",
+   "evidence": "Matt.1.4",
+   "phrase": "Naasson begat Salmon",
+   "clause": "and Naasson begat Salmon",
+   "parentId": "naasson",
+   "childId": "salmon"
+  },
+  {
+   "parent": "Salmon",
+   "child": "Booz",
+   "evidence": "Matt.1.5",
+   "phrase": "Salmon begat Booz",
+   "clause": "Salmon begat Booz of Rachab",
+   "mother": "of Rachab",
+   "parentId": "salmon",
+   "childId": "boaz"
+  },
+  {
+   "parent": "Booz",
+   "child": "Obed",
+   "evidence": "Matt.1.5",
+   "phrase": "Booz begat Obed",
+   "clause": "and Booz begat Obed of Ruth",
+   "mother": "of Ruth",
+   "parentId": "boaz",
+   "childId": "obed"
+  },
+  {
+   "parent": "Obed",
+   "child": "Jesse",
+   "evidence": "Matt.1.5",
+   "phrase": "Obed begat Jesse",
+   "clause": "and Obed begat Jesse",
+   "parentId": "obed",
+   "childId": "jesse"
+  },
+  {
+   "parent": "Jesse",
+   "child": "David",
+   "evidence": "Matt.1.6",
+   "phrase": "Jesse begat David",
+   "clause": "Jesse begat David the king",
+   "parentId": "jesse",
+   "childId": "david"
+  },
+  {
+   "parent": "David",
+   "child": "Solomon",
+   "evidence": "Matt.1.6",
+   "phrase": "David the king begat Solomon",
+   "clause": "and David the king begat Solomon of her that had been the wife of Urias",
+   "mother": "of her that had been the wife of Urias",
+   "parentId": "david",
+   "childId": "solomon"
+  },
+  {
+   "parent": "Solomon",
+   "child": "Roboam",
+   "evidence": "Matt.1.7",
+   "phrase": "Solomon begat Roboam",
+   "clause": "Solomon begat Roboam",
+   "parentId": "solomon",
+   "childId": "roboam"
+  },
+  {
+   "parent": "Roboam",
+   "child": "Abia",
+   "evidence": "Matt.1.7",
+   "phrase": "Roboam begat Abia",
+   "clause": "and Roboam begat Abia",
+   "parentId": "roboam",
+   "childId": "abia"
+  },
+  {
+   "parent": "Abia",
+   "child": "Asa",
+   "evidence": "Matt.1.7",
+   "phrase": "Abia begat Asa",
+   "clause": "and Abia begat Asa",
+   "parentId": "abia",
+   "childId": "asa"
+  },
+  {
+   "parent": "Asa",
+   "child": "Josaphat",
+   "evidence": "Matt.1.8",
+   "phrase": "Asa begat Josaphat",
+   "clause": "Asa begat Josaphat",
+   "parentId": "asa",
+   "childId": "josaphat"
+  },
+  {
+   "parent": "Josaphat",
+   "child": "Joram",
+   "evidence": "Matt.1.8",
+   "phrase": "Josaphat begat Joram",
+   "clause": "and Josaphat begat Joram",
+   "parentId": "josaphat",
+   "childId": "joram"
+  },
+  {
+   "parent": "Joram",
+   "child": "Ozias",
+   "evidence": "Matt.1.8",
+   "phrase": "Joram begat Ozias",
+   "clause": "and Joram begat Ozias",
+   "parentId": "joram",
+   "childId": "ozias"
+  },
+  {
+   "parent": "Ozias",
+   "child": "Joatham",
+   "evidence": "Matt.1.9",
+   "phrase": "Ozias begat Joatham",
+   "clause": "Ozias begat Joatham",
+   "parentId": "ozias",
+   "childId": "joatham"
+  },
+  {
+   "parent": "Joatham",
+   "child": "Achaz",
+   "evidence": "Matt.1.9",
+   "phrase": "Joatham begat Achaz",
+   "clause": "and Joatham begat Achaz",
+   "parentId": "joatham",
+   "childId": "achaz"
+  },
+  {
+   "parent": "Achaz",
+   "child": "Ezekias",
+   "evidence": "Matt.1.9",
+   "phrase": "Achaz begat Ezekias",
+   "clause": "and Achaz begat Ezekias",
+   "parentId": "achaz",
+   "childId": "ezekias"
+  },
+  {
+   "parent": "Ezekias",
+   "child": "Manasses",
+   "evidence": "Matt.1.10",
+   "phrase": "Ezekias begat Manasses",
+   "clause": "Ezekias begat Manasses",
+   "parentId": "ezekias",
+   "childId": "manasses"
+  },
+  {
+   "parent": "Manasses",
+   "child": "Amon",
+   "evidence": "Matt.1.10",
+   "phrase": "Manasses begat Amon",
+   "clause": "and Manasses begat Amon",
+   "parentId": "manasses",
+   "childId": "amon"
+  },
+  {
+   "parent": "Amon",
+   "child": "Josias",
+   "evidence": "Matt.1.10",
+   "phrase": "Amon begat Josias",
+   "clause": "and Amon begat Josias",
+   "parentId": "amon",
+   "childId": "josias"
+  },
+  {
+   "parent": "Josias",
+   "child": "Jechonias",
+   "evidence": "Matt.1.11",
+   "phrase": "Josias begat Jechonias",
+   "clause": "Josias begat Jechonias and his brethren, about the time they were carried away to Babylon",
+   "parentId": "josias",
+   "childId": "jechonias"
+  },
+  {
+   "parent": "Jechonias",
+   "child": "Salathiel",
+   "evidence": "Matt.1.12",
+   "phrase": "Jechonias begat Salathiel",
+   "clause": "Jechonias begat Salathiel",
+   "parentId": "jechonias",
+   "childId": "salathiel"
+  },
+  {
+   "parent": "Salathiel",
+   "child": "Zorobabel",
+   "evidence": "Matt.1.12",
+   "phrase": "Salathiel begat Zorobabel",
+   "clause": "and Salathiel begat Zorobabel",
+   "parentId": "salathiel",
+   "childId": "zorobabel"
+  },
+  {
+   "parent": "Zorobabel",
+   "child": "Abiud",
+   "evidence": "Matt.1.13",
+   "phrase": "Zorobabel begat Abiud",
+   "clause": "Zorobabel begat Abiud",
+   "parentId": "zorobabel",
+   "childId": "abiud"
+  },
+  {
+   "parent": "Abiud",
+   "child": "Eliakim",
+   "evidence": "Matt.1.13",
+   "phrase": "Abiud begat Eliakim",
+   "clause": "and Abiud begat Eliakim",
+   "parentId": "abiud",
+   "childId": "eliakim"
+  },
+  {
+   "parent": "Eliakim",
+   "child": "Azor",
+   "evidence": "Matt.1.13",
+   "phrase": "Eliakim begat Azor",
+   "clause": "and Eliakim begat Azor",
+   "parentId": "eliakim",
+   "childId": "azor"
+  },
+  {
+   "parent": "Azor",
+   "child": "Sadoc",
+   "evidence": "Matt.1.14",
+   "phrase": "Azor begat Sadoc",
+   "clause": "Azor begat Sadoc",
+   "parentId": "azor",
+   "childId": "sadoc"
+  },
+  {
+   "parent": "Sadoc",
+   "child": "Achim",
+   "evidence": "Matt.1.14",
+   "phrase": "Sadoc begat Achim",
+   "clause": "and Sadoc begat Achim",
+   "parentId": "sadoc",
+   "childId": "achim"
+  },
+  {
+   "parent": "Achim",
+   "child": "Eliud",
+   "evidence": "Matt.1.14",
+   "phrase": "Achim begat Eliud",
+   "clause": "and Achim begat Eliud",
+   "parentId": "achim",
+   "childId": "eliud"
+  },
+  {
+   "parent": "Eliud",
+   "child": "Eleazar",
+   "evidence": "Matt.1.15",
+   "phrase": "Eliud begat Eleazar",
+   "clause": "Eliud begat Eleazar",
+   "parentId": "eliud",
+   "childId": "eleazar"
+  },
+  {
+   "parent": "Eleazar",
+   "child": "Matthan",
+   "evidence": "Matt.1.15",
+   "phrase": "Eleazar begat Matthan",
+   "clause": "and Eleazar begat Matthan",
+   "parentId": "eleazar",
+   "childId": "matthan"
+  },
+  {
+   "parent": "Matthan",
+   "child": "Jacob",
+   "evidence": "Matt.1.15",
+   "phrase": "Matthan begat Jacob",
+   "clause": "and Matthan begat Jacob",
+   "parentId": "matthan",
+   "childId": "jacob-matthan"
+  },
+  {
+   "parent": "Jacob",
+   "child": "Joseph",
+   "evidence": "Matt.1.16",
+   "phrase": "Jacob begat Joseph",
+   "clause": "Jacob begat Joseph the husband of Mary, of whom was born Jesus, who is called Christ.",
+   "parentId": "jacob-matthan",
+   "childId": "joseph-nazareth"
+  },
+  {
+   "parent": "Mary",
+   "child": "Jesus",
+   "parentId": "mary",
+   "childId": "jesus",
+   "evidence": "Matt.1.16",
+   "phrase": "Mary, of whom was born Jesus",
+   "relation": "of whom was born"
+  },
+  {
+   "parent": "Joseph",
+   "child": "Mary",
+   "parentId": "joseph-nazareth",
+   "childId": "mary",
+   "evidence": "Matt.1.16",
+   "phrase": "Joseph the husband of Mary",
+   "relation": "husband"
+  }
+ ],
+ "branches": [
+  {
+   "at": "jacob",
+   "label": "The sons of Jacob",
+   "evidence": "Gen.35.26",
+   "groups": [
+    {
+     "mother": "Leah",
+     "children": [
+      "Reuben",
+      "Simeon",
+      "Levi",
+      "Judah",
+      "Issachar",
+      "Zebulun"
+     ],
+     "evidence": "Gen.35.23"
+    },
+    {
+     "mother": "Rachel",
+     "children": [
+      "Joseph",
+      "Benjamin"
+     ],
+     "evidence": "Gen.35.24"
+    },
+    {
+     "mother": "Bilhah",
+     "children": [
+      "Dan",
+      "Naphtali"
+     ],
+     "evidence": "Gen.35.25"
+    },
+    {
+     "mother": "Zilpah",
+     "children": [
+      "Gad",
+      "Asher"
+     ],
+     "evidence": "Gen.35.26"
+    }
+   ]
+  }
+ ],
+ "nameForms": [
+  {
+   "forms": [
+    "Judas",
+    "Judah"
+   ],
+   "note": "Matthew 1:2 spells the name Judas; Genesis 35:23 spells it Judah."
+  },
+  {
+   "forms": [
+    "Booz",
+    "Boaz"
+   ],
+   "note": "Matthew 1:5 spells the name Booz."
+  }
+ ],
+ "editorial": {
+  "author": "Claude (AI draft)",
+  "status": "draft",
+  "reviewedBy": null,
+  "reviewedAt": null
+ },
+ "evidenceLevel": "A",
+ "source": "Matthew 1:1–17; Genesis 35:22–26"
+}

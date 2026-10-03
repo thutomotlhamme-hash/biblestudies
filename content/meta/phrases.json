@@ -1,0 +1,166 @@
+[
+ {
+  "id": "famine",
+  "phrase": "there was a famine in the land",
+  "extraRefs": [
+   "Gen.12.10",
+   "Ruth.1.1"
+  ],
+  "type": "REPEATED_PHRASE",
+  "evidenceLevel": "C",
+  "source": "Exact wording in the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "god-of-fathers",
+  "phrase": "the God of Isaac",
+  "extraRefs": [],
+  "type": "REPEATED_PHRASE",
+  "evidenceLevel": "C",
+  "source": "Exact wording in the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "down-into-egypt",
+  "phrase": "down into Egypt",
+  "extraRefs": [],
+  "type": "REPEATED_PHRASE",
+  "evidenceLevel": "C",
+  "source": "Exact wording in the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "to-thy-seed",
+  "phrase": "to thy seed",
+  "extraRefs": [],
+  "type": "REPEATED_PHRASE",
+  "evidenceLevel": "C",
+  "source": "Exact wording in the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "only-son",
+  "phrase": "thine only son",
+  "extraRefs": [],
+  "type": "REPEATED_PHRASE",
+  "evidenceLevel": "C",
+  "source": "Exact wording in the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "herod-days",
+  "phrase": "in the days of Herod",
+  "extraRefs": [
+   "Luke.1.5"
+  ],
+  "type": "TIME",
+  "evidenceLevel": "C",
+  "source": "Exact wording in the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "king-of-jews",
+  "phrase": "King of the Jews",
+  "extraRefs": [
+   "Matt.27.11",
+   "Matt.27.37",
+   "Mark.15.26",
+   "John.19.19"
+  ],
+  "type": "REPEATED_PHRASE",
+  "evidenceLevel": "C",
+  "source": "Exact wording in the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "milk-honey",
+  "phrase": "flowing with milk and honey",
+  "extraRefs": [],
+  "type": "REPEATED_PHRASE",
+  "evidenceLevel": "C",
+  "source": "Exact wording in the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "out-of-egypt",
+  "phrase": "out of Egypt",
+  "extraRefs": [],
+  "type": "REPEATED_PHRASE",
+  "evidenceLevel": "C",
+  "source": "Exact wording in the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "in-a-dream",
+  "phrase": "in a dream",
+  "extraRefs": [],
+  "type": "REPEATED_PHRASE",
+  "evidenceLevel": "C",
+  "source": "Exact wording in the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ },
+ {
+  "id": "name-of-place",
+  "phrase": "called the name of that place",
+  "extraRefs": [],
+  "type": "REPEATED_PHRASE",
+  "evidenceLevel": "C",
+  "source": "Exact wording in the KJV text",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  }
+ }
+]

@@ -1,0 +1,84 @@
+[
+ {
+  "id": "insert-rulers-lands",
+  "anchorVerse": "Matt.2.1",
+  "title": "Judaea, Galilee & Egypt",
+  "subtitle": "Rulers and lands named in Matthew 2",
+  "sections": [
+   {
+    "heading": "Rulers named in the chapter",
+    "items": [
+     {
+      "term": "Herod the king",
+      "refs": [
+       "Matt.2.1",
+       "Matt.2.19"
+      ],
+      "text": "Herod I (“the Great”), king of Judaea under Rome, reigned c. 37–4 BC. His death is most commonly dated to 4 BC."
+     },
+     {
+      "term": "Archelaus",
+      "refs": [
+       "Matt.2.22"
+      ],
+      "text": "A son of Herod. Ruled Judaea, Samaria and Idumaea as ethnarch c. 4 BC – AD 6, when Augustus removed him. This is his only appearance in Scripture."
+     }
+    ]
+   },
+   {
+    "heading": "Lands",
+    "items": [
+     {
+      "term": "Judaea",
+      "refs": [
+       "Matt.2.1",
+       "Matt.2.22"
+      ],
+      "text": "The southern hill country, containing Jerusalem and Bethlehem."
+     },
+     {
+      "term": "Galilee",
+      "refs": [
+       "Matt.2.22"
+      ],
+      "text": "The northern region, containing Nazareth. After Herod’s death it was governed separately from Judaea, by Herod Antipas."
+     },
+     {
+      "term": "Egypt",
+      "refs": [
+       "Matt.2.13"
+      ],
+      "text": "A Roman province from 30 BC. Matthew does not name a city there."
+     }
+    ]
+   }
+  ],
+  "distances": [
+   [
+    "jerusalem",
+    "bethlehem"
+   ],
+   [
+    "bethlehem",
+    "egypt"
+   ],
+   [
+    "jerusalem",
+    "nazareth"
+   ],
+   [
+    "jerusalem",
+    "ramah"
+   ]
+  ],
+  "sources": "Historical dates follow Josephus, Antiquities of the Jews, books 17–18, as summarised in standard reference works. Distances are straight-line, computed from the coordinates in this edition.",
+  "kind": "context",
+  "editorial": {
+   "author": "Claude (AI draft)",
+   "status": "draft",
+   "reviewedBy": null,
+   "reviewedAt": null
+  },
+  "evidenceLevel": "B"
+ }
+]
