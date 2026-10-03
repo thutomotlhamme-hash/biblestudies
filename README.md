@@ -26,7 +26,7 @@ npm run build:relative   # same, hostable under any sub-path
 | `npm run lint` | TypeScript check |
 | `npm test` | 54 unit tests over the published data: every chapter of every translation, every name span, every connection, place, person, journey, genealogy, measurement, thread and phrase checked against the text |
 | `npm run test:integrity` | The Scripture-integrity and evidence tests alone — these block deployment in CI |
-| `npm run test:e2e` | Playwright: 35 reader journeys × iPhone 13, Pixel 7, iPad, desktop = 140 (build first) |
+| `npm run test:e2e` | Playwright: 37 reader journeys × iPhone 13, Pixel 7, iPad, desktop = 148 (build first; the screenshot spec is skipped unless SCREENSHOTS=1) |
 | `SCREENSHOTS=1 npx playwright test screenshots` | Regenerates `docs/screenshots/` (22 screens × 4 devices) |
 | `npm run content:sources` | Downloads the open datasets (see [SOURCES](docs/SOURCES.md)) to `data-sources/` |
 | `npm run content:build` | Rebuilds `public/data/` from the sources: Scripture → study layers → original languages → atlas |
@@ -211,7 +211,7 @@ the whole connection graph is never loaded by the reader.
 | `supplementary.test.ts` | place certainty rules and UNKNOWN never drawn; every place and person span covers that name; no divine names or titles as people; “stated” family links name both; connections share their wording in both passages; level 1/2 only with “written/said…”/“fulfilled”; journeys name their destination and are explicit only between located places; timeline labels; genealogies quote every link and contain no loops; measurements quoted; original-language labelling |
 | `deep.test.ts` | Deep Made Simple: every quoted verse is the KJV’s exact words; every claim cites real verses with a level 1–4; places and people are named in the verses cited, words come from the original-language data; links keep their connection level; every story link is shown by the text; nothing past draft without a named reviewer |
 | `engine.test.ts` | search (phrases, filters, verbatim results, no invented results); reference parsing; state migration |
-| e2e (140) | the Phase 1 and Phase 2 journeys, plus library, search, translations, personal tools, found-by-wording vellum, word study, atlas & disputed places, Luke’s genealogy, the ark, Family Mode, offline, layout, a11y, keyboard, motion — every on-screen verse compared with the source text |
+| e2e (148) | the Phase 1 and Phase 2 journeys, plus library, search, translations, personal tools, found-by-wording vellum, word study, atlas & disputed places, Luke’s genealogy, the ark, Family Mode, offline, layout, a11y, keyboard, motion — every on-screen verse compared with the source text |
 
 ## Deployment
 
