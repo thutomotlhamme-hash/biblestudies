@@ -263,7 +263,19 @@ export function AppShell() {
   // While the pages are still being fitted to the screen, the reader's place is the verse they asked for.
   const settledRef = useRef(fitSettled);
   settledRef.current = fitSettled;
-  const onVerseInView = useCallback((verse: number) => settledRef.current && update((s) => (verse !== s.position.verse ? { position: { ...s.position, verse } } : {})), [update]);
+  // Only the page (or spread) being read may move the reader's place — never a leaf turning away.
+  const onVerseInView = useCallback(
+    (verse: number) =>
+      settledRef.current &&
+      update((s) => {
+        const c = ed.chapterByRef.get(s.position.chapter);
+        const at = spread ? Math.floor(s.position.page / 2) * 2 : s.position.page;
+        const lo = c?.pages[at]?.from ?? 0;
+        const hi = c?.pages[spread ? at + 1 : at]?.to ?? c?.pages[at]?.to ?? 0;
+        return verse !== s.position.verse && verse >= lo && verse <= hi ? { position: { ...s.position, verse } } : {};
+      }),
+    [update, ed, spread],
+  );
 
   const encounterVerse = useCallback(
     (ref: VerseRef) => {
