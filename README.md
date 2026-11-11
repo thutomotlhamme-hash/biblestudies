@@ -89,7 +89,7 @@ the verse behind it and says honestly whether that verse *states* the relationsh
 both*, or whether *no stating verse has been identified yet*. Divine names and titles are never
 marked as people. No invented biographies.
 
-**Journeys.** 31 journeys — the whole lives of the major figures (Moses from Egypt to Nebo; Jesus from Nazareth to the Ascension across the four Gospels; David; Abraham’s later years; Samuel; Elisha; Jonah; Jeremiah; Daniel; Nehemiah; Peter; Philip; Paul before his journeys; `scripts/pipeline/journeys_more.py`), and — Abraham, Jacob, Joseph, the Exodus, the wilderness years, into the land,
+**Journeys.** 31 journeys — the whole lives of the major figures (Moses from Egypt to Nebo; Jesus from Nazareth to the Ascension across the four Gospels; David; Abraham’s later years; Samuel; Elisha; Jonah; Jeremiah; Daniel; Nehemiah; Peter; Philip; Paul before his journeys; `scripts/pipeline/journeys_more.py`), alongside the earlier ones — Abraham, Jacob, Joseph, the Exodus, the wilderness years, into the land,
 Naomi and Ruth, David, Elijah, carried away to Babylon, the return, Jesus’ ministry (in Matthew’s
 order), the last days in Jerusalem, Paul’s three journeys and the voyage to Rome — with straight-line
 distances (and a note that routes were longer). A line is *explicit* only when Scripture states the
