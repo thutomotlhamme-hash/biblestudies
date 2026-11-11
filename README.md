@@ -89,7 +89,7 @@ the verse behind it and says honestly whether that verse *states* the relationsh
 both*, or whether *no stating verse has been identified yet*. Divine names and titles are never
 marked as people. No invented biographies.
 
-**Journeys.** 18 journeys — Abraham, Jacob, Joseph, the Exodus, the wilderness years, into the land,
+**Journeys.** 31 journeys — the whole lives of the major figures (Moses from Egypt to Nebo; Jesus from Nazareth to the Ascension across the four Gospels; David; Abraham’s later years; Samuel; Elisha; Jonah; Jeremiah; Daniel; Nehemiah; Peter; Philip; Paul before his journeys; `scripts/pipeline/journeys_more.py`), and — Abraham, Jacob, Joseph, the Exodus, the wilderness years, into the land,
 Naomi and Ruth, David, Elijah, carried away to Babylon, the return, Jesus’ ministry (in Matthew’s
 order), the last days in Jerusalem, Paul’s three journeys and the voyage to Rome — with straight-line
 distances (and a note that routes were longer). A line is *explicit* only when Scripture states the
@@ -168,6 +168,8 @@ tap a word for its dictionary form and grammar. A study aid beside the translati
 **Section headings.** Headings above passages, set apart from Scripture in small bronze capitals. They are
 the timeline's event titles (Theographic, CC BY-SA 4.0) placed where each event begins
 (`scripts/pipeline/headings.py` → `study/headings.json`); chapters without an event get none. Draft.
+
+**Follow a person.** A person’s page lists every journey that is theirs and opens it on the atlas, stage by stage.
 
 **Names you can tap.** People's names, like places, open their page in every translation: a name is
 marked where the translation spells it exactly as the KJV does, and nothing in the text changes. *Who is

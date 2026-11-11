@@ -238,6 +238,8 @@ export interface Journey {
   name: string;
   era: string;
   origin?: 'curated' | 'pipeline';
+  /** The people whose journey this is (person ids). */
+  people?: string[];
   segments: JourneySegment[];
   source: string;
   editorial: Editorial;

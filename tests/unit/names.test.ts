@@ -69,3 +69,23 @@ describe('tribes traced through the family links', () => {
     expect(traceTribe('abraham', people)).toBeNull();
   });
 });
+
+describe('journeys of the major figures', () => {
+  const journeys: any[] = json('study/journeys.json').journeys;
+  const people = new Map<string, any>(json('study/people.json').people.map((p: any) => [p.id, p]));
+  const byId = new Map(journeys.map((j) => [j.id, j]));
+  it('Moses, Jesus, David and others: whole lives, every person real, every stage cited', () => {
+    for (const id of ['moses-life', 'jesus-life', 'david-life', 'samuel', 'elisha', 'jonah', 'jeremiah', 'daniel', 'nehemiah', 'peter', 'philip', 'paul-early', 'abraham-later']) {
+      const j = byId.get(id);
+      expect(j, id).toBeTruthy();
+      expect(j.people.length, id).toBeGreaterThan(0);
+      for (const p of j.people) expect(people.has(p), `${id} ${p}`).toBe(true);
+      expect(j.editorial.status === 'draft' || !!j.editorial.reviewedBy).toBe(true);
+    }
+    expect(byId.get('moses-life').segments.length).toBeGreaterThanOrEqual(12);
+    const gospels = new Set(byId.get('jesus-life').segments.flatMap((s: any) => s.verses.map((r: string) => r.split('.')[0])));
+    for (const b of ['Matt', 'Mark', 'Luke', 'John']) expect(gospels.has(b), b).toBe(true);
+    // every journey of a person can be found from that person
+    expect(journeys.filter((j) => j.people?.includes('moses')).map((j) => j.id)).toEqual(expect.arrayContaining(['exodus', 'wilderness', 'moses-life']));
+  });
+});

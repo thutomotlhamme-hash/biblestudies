@@ -252,6 +252,7 @@ export function PersonSheet({ id }: { id: string }) {
   const tribe = full ? traceTribe(id, ed.personById) : null;
   const father = person.relationships.find((r) => r.type === 'father');
   const events = ed.timeline.filter((t) => t.people?.includes(id));
+  const journeys = ed.journeys.filter((j) => j.people?.includes(id));
   const read = (r: string) => {
     goTo(chapterOf(r), parseRef(r).from, { keepReturn: true });
     close();
@@ -353,6 +354,22 @@ export function PersonSheet({ id }: { id: string }) {
             ))}
           </ul>
           <p className="supp mt-2 text-[12px] italic text-[var(--ink-faint)]">Family links: Theographic Bible Metadata (CC BY-SA 4.0), each checked against the KJV wording. Draft — awaiting review.</p>
+        </Section>
+      )}
+
+      {journeys.length > 0 && (
+        <Section label={`Follow ${short} on the map`} testId="person-journeys">
+          <div className="flex flex-col gap-2">
+            {journeys.map((j) => (
+              <button key={j.id} type="button" className="btn-card justify-between text-left" onClick={() => open({ kind: 'atlas', layer: j.id, segment: j.segments[0]?.id })} data-testid={`person-journey-${j.id}`}>
+                <span className="font-display text-[15.5px]">{j.name}</span>
+                <span className="supp text-[12.5px] italic text-[var(--ink-faint)]">
+                  {j.segments.length} {j.segments.length === 1 ? 'stage' : 'stages'} · {formatRef(j.segments[0].anchor)}
+                </span>
+              </button>
+            ))}
+          </div>
+          <p className="supp mt-2 text-[12px] italic text-[var(--ink-faint)]">Each stage cites the verse that moves them and names the place reached; lines are explicit only where both places are reliably located.</p>
         </Section>
       )}
 
