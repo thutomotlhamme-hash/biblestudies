@@ -5,6 +5,7 @@ import { chapterOf, formatRef, parseRef } from '@/lib/content/refs';
 import type { VerseRef } from '@/lib/content/types';
 import { useRefsReady } from '@/lib/library/useLibrary';
 import type { HighlightColor } from '@/lib/state/reader-state';
+import { FEATURES } from '@/lib/features';
 import { GlyphConnection, IconHeart, IconListen } from './Icons';
 import { useReader } from './ReaderContext';
 import { Sheet } from './Sheet';
@@ -74,9 +75,11 @@ export function VerseSheet({ verseRef }: { verseRef: VerseRef }) {
         <button type="button" className="btn-card" onClick={() => open({ kind: 'words', ref: verseRef })} data-testid="open-words">
           {parseRef(verseRef).book && ed.chapterByRef.get(chapterOf(verseRef))?.book.testament === 'NT' ? 'Greek words' : 'Hebrew words'}
         </button>
-        <button type="button" className="btn-card" disabled={!audio.available} onClick={() => { audio.start(verseRef); close(); }} data-testid="listen-here">
-          <IconListen width={16} height={16} /> Listen from here
-        </button>
+        {FEATURES.voice && (
+          <button type="button" className="btn-card" disabled={!audio.available} onClick={() => { audio.start(verseRef); close(); }} data-testid="listen-here">
+            <IconListen width={16} height={16} /> Listen from here
+          </button>
+        )}
         <button
           type="button"
           className="btn-card"

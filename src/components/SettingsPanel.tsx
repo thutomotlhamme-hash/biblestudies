@@ -1,6 +1,7 @@
 'use client';
 import { useState, type ReactNode } from 'react';
 import { deviceVoice } from '@/lib/audio/audio';
+import { FEATURES } from '@/lib/features';
 import { TRANSLATIONS } from '@/lib/content/translation';
 import { downloadForOffline, type OfflineProgress } from '@/lib/offline';
 import { account, useAccount } from '@/lib/sync/sync';
@@ -255,8 +256,12 @@ export function SettingsPanel() {
         <Toggle on={s.discoveries} onChange={(v) => updateSettings({ discoveries: v })} label="Quiet marks where wording repeats elsewhere" />
       </Row>
 
-      <Heading>Listening</Heading>
-      <Listening />
+      {FEATURES.voice && (
+        <>
+          <Heading>Listening</Heading>
+          <Listening />
+        </>
+      )}
 
       <Heading>Family & your Bible</Heading>
       <Row label="Family reading">

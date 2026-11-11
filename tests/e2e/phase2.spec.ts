@@ -154,6 +154,15 @@ test.describe('Phase 2 — a connected biblical journey', () => {
       return reg.active?.state;
     });
     await page.waitForFunction(async () => (await caches.keys()).length > 0 && (await (await caches.open((await caches.keys())[0])).keys()).length > 20, null, { timeout: 20000 });
+    // read the journey once while online: every book opened is kept for offline reading
+    await openCover(page);
+    await goToChapter(page, 'Matt.2');
+    await goToChapter(page, 'Gen.12');
+    await page.waitForFunction(
+      async () => (await Promise.all(['data/text/kjv/Gen.json', 'data/text/kjv/Matt.json', 'data/study/books/Matt.json'].map((f) => caches.match(new URL(f, location.href).href)))).every(Boolean),
+      null,
+      { timeout: 20000 },
+    );
     await context.setOffline(true);
     await page.reload();
     await openCover(page);

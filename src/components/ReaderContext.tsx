@@ -21,6 +21,7 @@ export type Overlay =
   | { kind: 'words'; ref: VerseRef }
   | { kind: 'mine'; tab?: 'highlights' | 'notes' | 'favourites' | 'saved' }
   | { kind: 'family' }
+  | { kind: 'original'; chapter: ChapterRef; from: number; to: number }
   | { kind: 'deep'; chapter: ChapterRef; verse?: number; tab?: 'research' | 'stories' | 'links'; story?: string }
   | null;
 

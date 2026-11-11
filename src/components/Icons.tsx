@@ -120,6 +120,13 @@ export const IconContents = (p: SVGProps<SVGSVGElement>) => (
     <path d="M12 6.1v13" />
   </svg>
 );
+/** Original language: Hebrew aleph and Greek alpha. */
+export const IconOriginal = (p: SVGProps<SVGSVGElement>) => (
+  <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden {...p}>
+    <text x="1.5" y="17" fontSize="13" fontFamily="'Times New Roman',serif" fill="currentColor">א</text>
+    <text x="12" y="17" fontSize="14" fontFamily="'Times New Roman',serif" fontStyle="italic" fill="currentColor">α</text>
+  </svg>
+);
 export const IconTimeline = (p: SVGProps<SVGSVGElement>) => (
   <svg {...base(p)}>
     <path d="M3 12h18" />

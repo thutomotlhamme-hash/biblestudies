@@ -5,6 +5,7 @@ import { deviceVoice, recorded } from '@/lib/audio/audio';
 import { chapterOf, formatRef, parseRef } from '@/lib/content/refs';
 import { pageForVerse, type PageFit } from '@/lib/content/repository';
 import type { ChapterRef, VerseRef } from '@/lib/content/types';
+import { FEATURES } from '@/lib/features';
 import { useLibrary } from '@/lib/library/useLibrary';
 import { setAmbience, sounds } from '@/lib/sound';
 import { useReaderState } from '@/lib/state/reader-state';
@@ -15,6 +16,7 @@ import { AudioBar } from './AudioBar';
 import { BibleCover } from './BibleCover';
 import { CompareSheet } from './CompareSheet';
 import { DeepSheet } from './DeepSheet';
+import { OriginalSheet } from './OriginalSheet';
 import { Contents } from './Contents';
 import { ContextInsert } from './ContextInsert';
 import { PersonSheet, PhraseSheet, PlaceSheet } from './Evidence';
@@ -186,7 +188,18 @@ export function AppShell() {
   }, [state.settings.sound, state.settings.ambience, phase]);
 
   useEffect(() => {
-    if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_NO_SW) navigator.serviceWorker.register('./sw.js').catch(() => {});
+    if (!('serviceWorker' in navigator) || process.env.NODE_ENV !== 'production' || process.env.NEXT_PUBLIC_NO_SW) return;
+    // On a first visit the opening chapter arrives before the offline worker takes charge, so it is
+    // not kept. Once the worker is in charge, ask again for the Bible data already loaded: it keeps it.
+    const keep = () =>
+      performance
+        .getEntriesByType('resource')
+        .map((e) => e.name)
+        .filter((u) => u.includes('/data/') && u.endsWith('.json'))
+        .forEach((u) => void fetch(u).catch(() => {}));
+    const first = !navigator.serviceWorker.controller;
+    if (first) navigator.serviceWorker.addEventListener('controllerchange', keep, { once: true });
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
   }, []);
 
   const play = useCallback<ReaderCtx['play']>(
@@ -296,6 +309,27 @@ export function AppShell() {
     });
     play('tap');
   }, [update, ed, play]);
+
+  // First visit: say once, quietly, that the tools are a tap away (the bars hide while reading).
+  const [hint, setHint] = useState(false);
+  useEffect(() => {
+    if (phase !== 'reading') return;
+    let seen = true;
+    try {
+      seen = !!localStorage.getItem('holy-bible.hint-tools');
+      localStorage.setItem('holy-bible.hint-tools', '1');
+    } catch {}
+    if (seen) return;
+    const show = window.setTimeout(() => setHint(true), 1200);
+    const hide = window.setTimeout(() => setHint(false), 7000);
+    return () => {
+      window.clearTimeout(show);
+      window.clearTimeout(hide);
+    };
+  }, [phase]);
+  useEffect(() => {
+    if (chrome || overlay) setHint(false);
+  }, [chrome, overlay]);
 
   const open = useCallback((o: Overlay) => {
     setChrome(false);
@@ -438,9 +472,25 @@ export function AppShell() {
           </motion.button>
         )}
 
-        {phase === 'reading' && <MapIndicator lifted={chrome || audio.playing || !!audio.ref} />}
+        {phase === 'reading' && <MapIndicator lifted={chrome || (FEATURES.voice && (audio.playing || !!audio.ref))} />}
+        <AnimatePresence>
+          {hint && (
+            <motion.p
+              key="hint"
+              role="status"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="chrome pointer-events-none fixed left-1/2 top-[max(14px,env(safe-area-inset-top))] z-20 whitespace-nowrap rounded-full border px-4 py-2 font-display text-[13.5px] italic text-[var(--ink-muted)] shadow-sm"
+              style={{ x: '-50%' }}
+              data-testid="hint-tools"
+            >
+              Tap the page for the tools: atlas, timeline, original words…
+            </motion.p>
+          )}
+        </AnimatePresence>
         {phase === 'reading' && <ReadingControls visible={chrome && !overlay} onHide={() => setChrome(false)} />}
-        {phase === 'reading' && (audio.playing || audio.ref) && !overlay && <AudioBar lifted={chrome} />}
+        {FEATURES.voice && phase === 'reading' && (audio.playing || audio.ref) && !overlay && <AudioBar lifted={chrome} />}
 
         <AnimatePresence>
           {overlay?.kind === 'vellum' && <VellumOverlay key={'v' + overlay.id + (overlay.reverseTarget ?? '')} id={overlay.id} reverseTarget={overlay.reverseTarget} wide={wide} />}
@@ -461,6 +511,7 @@ export function AppShell() {
           {overlay?.kind === 'words' && <WordStudy key={'w' + overlay.ref} verseRef={overlay.ref} />}
           {overlay?.kind === 'mine' && <MyBible key="mine" tab={overlay.tab} />}
           {overlay?.kind === 'family' && <FamilyPanel key="family" />}
+          {overlay?.kind === 'original' && <OriginalSheet key={'orig' + overlay.chapter + overlay.from} chapterRef={overlay.chapter} from={overlay.from} to={overlay.to} />}
           {overlay?.kind === 'deep' && <DeepSheet key={'deep' + overlay.chapter + (overlay.verse ?? '')} chapterRef={overlay.chapter} verse={overlay.verse} tab={overlay.tab} story={overlay.story} />}
         </AnimatePresence>
 
