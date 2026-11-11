@@ -18,6 +18,7 @@ interface VerseProps {
   reading: boolean;
   block: boolean;
   onPlace: (id: string) => void;
+  onPerson?: (id: string) => void;
   onVerse: (ref: VerseRef) => void;
 }
 
@@ -25,12 +26,12 @@ interface VerseProps {
  * A single verse. The text is rendered exactly as supplied by the translation; place names may be
  * wrapped in a button and supplied words set in italics, but no character is added, removed or changed.
  */
-export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dropCap, state, highlight, hasNote, reading, block, onPlace, onVerse }: VerseProps) {
+export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dropCap, state, highlight, hasNote, reading, block, onPlace, onPerson, onVerse }: VerseProps) {
   const runs = useMemo(() => segmentVerse(verse.text, linkPlaces ? hits : [], italics), [verse.text, hits, linkPlaces, italics]);
 
   let lead: string | null = null;
   let rest: Run[] = runs;
-  if (dropCap && runs.length && !runs[0].placeId && !runs[0].italic) {
+  if (dropCap && runs.length && !runs[0].placeId && !runs[0].personId && !runs[0].italic) {
     const m = /^(\S+\s+\S+)/.exec(runs[0].text);
     if (m) {
       lead = m[1];
@@ -76,6 +77,19 @@ export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dro
             >
               {r.text}
             </button>
+          ) : r.personId ? (
+            <button
+              key={i}
+              type="button"
+              className={`person-word${r.italic ? ' supplied' : ''}`}
+              data-person={r.personId}
+              onClick={(e) => {
+                e.stopPropagation();
+                onPerson?.(r.personId!);
+              }}
+            >
+              {r.text}
+            </button>
           ) : r.italic ? (
             <em key={i} className="supplied">
               {r.text}
@@ -102,14 +116,24 @@ interface ScriptureProps {
   notes?: Record<VerseRef, Note>;
   reading?: VerseRef | null;
   onPlace: (id: string) => void;
+  onPerson?: (id: string) => void;
+  /** A section heading (supplementary) to set above a verse. */
+  headingFor?: (ref: string) => string | undefined;
   onVerse?: (ref: VerseRef) => void;
 }
 
-export function ScriptureText({ verses, hitsFor, italicsFor, linkPlaces, withDropCap, linked, layout = 'paragraph', highlights = {}, notes = {}, reading, onPlace, onVerse = () => {} }: ScriptureProps) {
+export function ScriptureText({ verses, hitsFor, italicsFor, linkPlaces, withDropCap, linked, layout = 'paragraph', highlights = {}, notes = {}, reading, onPlace, onPerson, headingFor, onVerse = () => {} }: ScriptureProps) {
   return (
     <p className={`scripture${layout === 'verse' ? ' scripture-verses' : ''}`}>
-      {verses.map((v, i) => (
-        <Verse
+      {verses.map((v, i) => {
+        const shown = headingFor?.(v.ref);
+        return [
+          shown ? (
+            <span key={v.ref + ':h'} className="section-heading" role="heading" aria-level={3} data-testid="section-heading" title="Section heading — supplementary, not Scripture">
+              {shown}
+            </span>
+          ) : null,
+          <Verse
           key={v.ref}
           verse={v}
           hits={hitsFor(v.ref)}
@@ -122,9 +146,11 @@ export function ScriptureText({ verses, hitsFor, italicsFor, linkPlaces, withDro
           reading={reading === v.ref}
           block={layout === 'verse'}
           onPlace={onPlace}
+          onPerson={onPerson}
           onVerse={onVerse}
-        />
-      ))}
+        />,
+        ];
+      })}
     </p>
   );
 }

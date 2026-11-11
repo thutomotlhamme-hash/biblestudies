@@ -3,7 +3,7 @@
  * (scripts/pipeline/study_entities.py) against the KJV text; they are applied by wrapping only.
  * Joining every run's text always reproduces the verse exactly (unit-tested for every verse).
  */
-export type Hit = { start: number; end: number; id: string };
+export type Hit = { start: number; end: number; id: string; kind?: 'place' | 'person' };
 export type Run = { text: string; placeId?: string };
 
 export function segmentByHits(text: string, hits: Hit[]): Run[] {

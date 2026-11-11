@@ -34,6 +34,10 @@ export interface Settings {
   discoveries: boolean;
   /** Family reading: larger type, quieter apparatus, shared reading plans. */
   family: boolean;
+  /** Section headings above passages (supplementary, from the timeline's event titles). */
+  headings: boolean;
+  /** People's names in the text can be tapped to learn who they are. */
+  names: boolean;
   audioRate: number;
   audioVoice: string | null;
 }
@@ -104,6 +108,8 @@ export const DEFAULT_SETTINGS: Settings = {
   machineLinks: true,
   discoveries: true,
   family: false,
+  headings: true,
+  names: true,
   audioRate: 1,
   audioVoice: null,
 };

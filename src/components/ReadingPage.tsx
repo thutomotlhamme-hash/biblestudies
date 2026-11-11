@@ -8,6 +8,8 @@ import { useMedia } from '@/lib/useMedia';
 import { buildMarginItems, MarginRail } from './MarginRail';
 import { useReader } from './ReaderContext';
 import { ScriptureText } from './ScriptureText';
+import { mapHits } from '@/lib/content/names';
+import type { Hit } from '@/lib/content/segment';
 
 interface Props {
   onToggleChrome: () => void;
@@ -248,9 +250,22 @@ function PageLeaf({ chapter, page, onToggleChrome, onVerseInView, scrollRequest,
   const eyebrow = tp?.pre ?? '';
   const titleMain = tp?.main ?? chapter.book.name.toUpperCase();
   const titlePost = tp?.post ?? '';
-  // Name spans are character ranges in the KJV text, so places are wrapped only when reading the KJV.
+  // Name spans are character ranges in the KJV text. In another translation a name is marked only
+  // where that translation spells it exactly as the KJV does (mapHits); nothing in the text changes.
   const kjv = ed.translation.translation.id === 'kjv';
-  const hitsFor = (ref: string) => (kjv ? ed.entities.get(ref)?.places ?? [] : []);
+  const hitsFor = (ref: string) => {
+    const e = ed.entities.get(ref);
+    if (!e) return [];
+    const hits: Hit[] = [...e.places.map((h) => ({ ...h, kind: 'place' as const })), ...(state.settings.names ? (e.names ?? []).map((h) => ({ ...h, kind: 'person' as const })) : [])];
+    if (kjv || !hits.length) return hits;
+    const k = ed.kjv.hasBook(chapter.book.osis) ? ed.kjv.verse(ref)?.text : undefined;
+    const t = ed.translation.verse(ref)?.text;
+    return k && t ? mapHits(k, hits, t) : [];
+  };
+  // a chapter's opening heading is set above the chapter numeral; the rest stand above their verses
+  const headingOf = (ref: string) => (state.settings.headings ? ed.headings.get(ref)?.label : undefined);
+  const firstHeading = isFirst ? headingOf(`${chapter.ref}.1`) : undefined;
+  const headingFor = (ref: string) => (isFirst && ref === `${chapter.ref}.1` ? undefined : headingOf(ref));
   const italicsFor = (ref: string) => (kjv && state.settings.italics ? ed.translation.italics(ref) : undefined);
 
   return (
@@ -307,6 +322,11 @@ function PageLeaf({ chapter, page, onToggleChrome, onVerseInView, scrollRequest,
           )}
 
           <div className={`relative ${isFirst ? 'pt-7' : 'pt-6'}`} style={{ paddingRight: railWide ? 136 : 0 }}>
+            {firstHeading && (
+              <p className="section-heading section-heading-first" role="heading" aria-level={3} data-testid="section-heading" title="Section heading — supplementary, not Scripture">
+                {firstHeading}
+              </p>
+            )}
             {isFirst && (
               <h2 className="chapter-numeral float-left mr-3 mt-[0.08em]" style={{ fontSize: `${fontSize * 3.6}px` }} aria-label={`Chapter ${chapter.number}`}>
                 {chapter.number}
@@ -325,6 +345,8 @@ function PageLeaf({ chapter, page, onToggleChrome, onVerseInView, scrollRequest,
                 notes={state.notes}
                 reading={audio.ref}
                 onPlace={(id) => open({ kind: 'place', id })}
+                onPerson={(id) => open({ kind: 'person', id })}
+                headingFor={headingFor}
                 onVerse={(ref) => open({ kind: 'verse', ref })}
               />
             </div>

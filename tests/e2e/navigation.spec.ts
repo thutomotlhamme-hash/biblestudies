@@ -22,3 +22,17 @@ test('labelled tools; Original shows the Hebrew/Aramaic/Greek beneath the exact 
   await sheet.locator('[data-verse-ref="Dan.2.4"]').getByTestId('original-word').first().click();
   await expect(sheet.getByTestId('word-detail')).toBeVisible();
 });
+
+test('headings above passages and tappable names, in another translation too', async ({ page }) => {
+  await openAt(page, 'Matt.2', 1, { settings: { translation: 'ylt' } });
+  await expect(page.getByTestId('section-heading').first()).toHaveText('Wise Men Visit Herod');
+  await assertScriptureVerbatim(page, '[data-testid="reading-page"]', 'ylt');
+  await page.locator('[data-person="herod"], [data-person^="herod"]').first().click();
+  const sheet = page.getByTestId('person-sheet');
+  await expect(sheet).toBeVisible();
+  await expect(sheet.getByTestId('person-who')).toContainText('Who is');
+
+  await openAt(page, '1Chr.16', 41);
+  await page.locator('[data-person^="jeduthun"]').first().click();
+  await expect(page.getByTestId('person-tribe')).toContainText('Levi');
+});

@@ -4,6 +4,7 @@ import { chapterOf, formatRef, parseRef, testamentOf } from '@/lib/content/refs'
 import type { Certainty, FamilyLink, VerseRef } from '@/lib/content/types';
 import { useRefsReady, useRegistry } from '@/lib/library/useLibrary';
 import { haversineKm } from '@/lib/geo';
+import { traceTribe } from '@/lib/content/tribe';
 import { GlyphMemory } from './Icons';
 import { useReader } from './ReaderContext';
 import { Sheet } from './Sheet';
@@ -237,6 +238,7 @@ export function PersonSheet({ id }: { id: string }) {
   const { ed, state, open, chapter, goTo, close } = useReader();
   const full = useRegistry('people');
   useRegistry('places');
+  useRegistry('timeline');
   const person = ed.personById.get(id);
   if (!person) return <Sheet label="Person" title="…" testId="person-sheet">{null}</Sheet>;
   const enc = state.people[id];
@@ -247,21 +249,55 @@ export function PersonSheet({ id }: { id: string }) {
   for (const r of passages) for (const h of ed.entities.get(r)?.places ?? []) places.set(h.id, (places.get(h.id) ?? 0) + 1);
   const trees = ed.genealogies.filter((g) => g.nodes.some((n) => n.person === id || (g.kind === 'line' && n.name === person.name)));
   const nameOf = (to: string) => ed.personById.get(to)?.name ?? ed.genealogy.nodes.find((n) => n.id === to)?.name ?? to;
+  const tribe = full ? traceTribe(id, ed.personById) : null;
+  const father = person.relationships.find((r) => r.type === 'father');
+  const events = ed.timeline.filter((t) => t.people?.includes(id));
+  const read = (r: string) => {
+    goTo(chapterOf(r), parseRef(r).from, { keepReturn: true });
+    close();
+  };
   const links = [...person.relationships].sort((a, b) => ['father', 'mother', 'partner', 'sibling', 'child'].indexOf(a.type) - ['father', 'mother', 'partner', 'sibling', 'child'].indexOf(b.type));
 
   return (
     <Sheet label={`Person: ${person.name}`} eyebrow={<>Person{person.kind ? ` · ${person.kind}` : ''}</>} title={before ? `You have met ${short} before.` : person.name} testId="person-sheet">
-      {person.summary && <p className="supp text-[15px] leading-snug">{person.summary}</p>}
-      {person.also.length > 0 && <p className="supp mt-1 text-[13.5px] italic">Also named {person.also.join(', ')}.</p>}
-      {passages.length > 0 && (
-        <p className="supp mt-1 text-[13.5px]">
-          Named in {passages.length} {passages.length === 1 ? 'verse' : 'verses'}, first at{' '}
-          <button type="button" className="italic underline decoration-dotted" onClick={() => { goTo(chapterOf(passages[0]), parseRef(passages[0]).from, { keepReturn: true }); close(); }}>
-            {formatRef(passages[0])}
-          </button>
-          .
+      <section className="rounded-[2px] border hairline px-4 py-3" data-testid="person-who">
+        <p className="label-caps text-[9.5px] text-[var(--ink-faint)]">Who is {short}? · supplementary</p>
+        <p className="supp mt-1 text-[15px] leading-snug">
+          {person.gender === 'Female' ? 'A woman' : person.gender === 'Male' ? 'A man' : 'A person'} named in {passages.length || 'several'} {passages.length === 1 ? 'verse' : 'verses'} of Scripture
+          {passages[0] ? (
+            <>
+              , first at{' '}
+              <button type="button" className="italic underline decoration-dotted" onClick={() => read(passages[0])}>
+                {formatRef(passages[0])}
+              </button>
+            </>
+          ) : null}
+          .{father ? ` ${person.gender === 'Female' ? 'Daughter' : 'Son'} of ${nameOf(father.to)}.` : ''}
+          {tribe ? ` Of the tribe of ${tribe.tribe}.` : ''}
         </p>
-      )}
+        {tribe && (
+          <p className="supp mt-1.5 text-[12.5px] leading-snug text-[var(--ink-muted)]" data-testid="person-tribe">
+            Tribe traced through the family links:{' '}
+            {tribe.steps.map((s, i) => (
+              <span key={s.id}>
+                {i > 0 && ' ← '}
+                <button type="button" className="underline decoration-dotted" onClick={() => open({ kind: 'person', id: s.id })}>
+                  {s.name}
+                </button>
+                {s.ref && (
+                  <button type="button" className="ml-0.5 text-[11px] italic text-[var(--ink-faint)]" onClick={() => read(s.ref!)}>
+                    ({formatRef(s.ref)})
+                  </button>
+                )}
+              </span>
+            ))}
+            . From Theographic Bible Metadata; draft, awaiting review.
+          </p>
+        )}
+        {full && !tribe && person.gender === 'Male' && <p className="supp mt-1.5 text-[12px] italic text-[var(--ink-faint)]">The family links do not trace {short} to one of the tribes of Israel.</p>}
+      </section>
+      {person.summary && <p className="supp mt-3 text-[15px] leading-snug">{person.summary}</p>}
+      {person.also.length > 0 && <p className="supp mt-1 text-[13.5px] italic">Also named {person.also.join(', ')}.</p>}
       {enc && (
         <p className="supp mt-3 text-[14px]">
           You first met {short} at <span className="italic">{formatRef(enc.first)}</span>.
@@ -317,6 +353,22 @@ export function PersonSheet({ id }: { id: string }) {
             ))}
           </ul>
           <p className="supp mt-2 text-[12px] italic text-[var(--ink-faint)]">Family links: Theographic Bible Metadata (CC BY-SA 4.0), each checked against the KJV wording. Draft — awaiting review.</p>
+        </Section>
+      )}
+
+      {events.length > 0 && (
+        <Section label={`${short} in the story`} testId="person-events">
+          <ul>
+            {events.map((t) => (
+              <li key={t.id} className="flex items-baseline justify-between gap-3 border-t hairline py-2 first:border-t-0">
+                <button type="button" className="text-left font-display text-[15.5px]" onClick={() => read(t.refs[0])}>
+                  {t.label}
+                </button>
+                <span className="supp shrink-0 text-[12px] italic text-[var(--ink-faint)]">{formatRef(t.refs[0])}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="supp mt-2 text-[12px] italic text-[var(--ink-faint)]">Events: Theographic Bible Metadata (CC BY-SA 4.0). Supplementary — not Scripture.</p>
         </Section>
       )}
 

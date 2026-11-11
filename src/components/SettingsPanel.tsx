@@ -255,6 +255,12 @@ export function SettingsPanel() {
       <Row label="Repeated wording marks">
         <Toggle on={s.discoveries} onChange={(v) => updateSettings({ discoveries: v })} label="Quiet marks where wording repeats elsewhere" />
       </Row>
+      <Row label="Section headings">
+        <Toggle on={s.headings} onChange={(v) => updateSettings({ headings: v })} label="Headings above passages (supplementary, from the timeline's event titles)" testId="toggle-headings" />
+      </Row>
+      <Row label="Tap names to learn who they are">
+        <Toggle on={s.names} onChange={(v) => updateSettings({ names: v })} label="People's names in the text can be tapped" testId="toggle-names" />
+      </Row>
 
       {FEATURES.voice && (
         <>

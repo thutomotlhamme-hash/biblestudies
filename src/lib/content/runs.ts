@@ -1,6 +1,6 @@
 import type { Hit } from './segment';
 
-export type Run = { text: string; placeId?: string; italic?: boolean };
+export type Run = { text: string; placeId?: string; personId?: string; italic?: boolean };
 
 /**
  * Split a verse into runs at place names and supplied (italic) words — WITHOUT changing a single
@@ -24,8 +24,10 @@ export function segmentVerse(text: string, hits: Hit[], italics: [number, number
     const hit = hits.find((h) => h.start <= a && h.end >= b);
     const it = italics.some(([x, y]) => x <= a && y >= b);
     const prev = runs[runs.length - 1];
-    if (prev && prev.placeId === hit?.id && !!prev.italic === it) prev.text += text.slice(a, b);
-    else runs.push({ text: text.slice(a, b), ...(hit ? { placeId: hit.id } : {}), ...(it ? { italic: true } : {}) });
+    const placeId = hit && hit.kind !== 'person' ? hit.id : undefined;
+    const personId = hit?.kind === 'person' ? hit.id : undefined;
+    if (prev && prev.placeId === placeId && prev.personId === personId && !!prev.italic === it) prev.text += text.slice(a, b);
+    else runs.push({ text: text.slice(a, b), ...(placeId ? { placeId } : {}), ...(personId ? { personId } : {}), ...(it ? { italic: true } : {}) });
   }
   return runs;
 }

@@ -169,6 +169,9 @@ export class Library {
   occurrences = { places: new Map<string, VerseRef[]>(), people: new Map<string, VerseRef[]>(), phrases: new Map<string, VerseRef[]>() };
   events = new Map<string, BookEvent[]>();
   segmentsByRef = new Map<VerseRef, { journey: string; segment: string }[]>();
+  /** Section headings (supplementary): event titles placed where each event begins. */
+  headings = new Map<VerseRef, { label: string; to: VerseRef; event: string }>();
+  headingsSource = '';
   /** Deep Made Simple — supplementary layer for the covered chapters (study/deep/). */
   deep = { index: null as DeepIndex | null, items: new Map<ChapterRef, DeepItem[]>(), stories: [] as DeepStory[], storiesByChapter: new Map<ChapterRef, string[]>() };
   /** Page capacity measured on this screen (characters); null keeps the default pagination. */
@@ -230,7 +233,7 @@ export class Library {
   init(): Promise<void> {
     if (this.initP) return this.initP;
     this.initP = (async () => {
-      const [journeys, threads, phrases, gens, scale, chron, deepIndex, deepStories] = await Promise.all([
+      const [journeys, threads, phrases, gens, scale, chron, deepIndex, deepStories, headings] = await Promise.all([
         fetchJson<{ certaintyLegend: Record<string, string>; distanceNote: string; journeys: Journey[] }>('study/journeys.json'),
         fetchJson<{ threads: WithV<Thread>[] }>('study/threads.json'),
         fetchJson<{ phrases: WithV<Phrase>[] }>('study/phrases.json'),
@@ -240,7 +243,12 @@ export class Library {
         // Deep Made Simple is optional: the Bible reads without it.
         fetchJson<DeepIndex>('study/deep/index.json').catch(() => null),
         fetchJson<{ stories: DeepStory[] }>('study/deep/stories.json').catch(() => ({ stories: [] })),
+        fetchJson<{ source: string; editorial: Editorial; headings: Record<VerseRef, { label: string; to: VerseRef; event: string }> }>('study/headings.json').catch(() => null),
       ]);
+      if (headings && visibleByStatus([headings]).length) {
+        this.headingsSource = headings.source;
+        for (const [ref, h] of Object.entries(headings.headings)) this.headings.set(ref, h);
+      }
       this.deep.index = deepIndex;
       this.deep.stories = visibleByStatus(deepStories.stories);
       this.journeys = visibleByStatus(journeys.journeys);
@@ -394,6 +402,7 @@ export class Library {
       this.entities.set(ref, {
         places: spans.filter((x) => x[2] === 'l').map(([start, end, , id]) => ({ start, end, id })),
         people: [...new Set(spans.filter((x) => x[2] === 'p').map((x) => x[3]))],
+        names: spans.filter((x) => x[2] === 'p').map(([start, end, , id]) => ({ start, end, id })),
         phrases: this.phraseByOrdinal.get(ordinalOf(ref)) ?? [],
       });
     }

@@ -18,7 +18,10 @@ test.describe('Matthew 2 — the Phase 1 reader journey still holds', () => {
     await expect(page.getByTestId('prophet-plate')).toContainText('Micah 1:1');
     await expect(page.getByTestId('vellum-scripture')).toContainText(KJV['Mic.5.2'].slice(0, 30));
     await assertScriptureVerbatim(page, '[data-testid="vellum-sheet"]');
-    await expect(page.locator('[data-testid="reading-page"] .verse.is-linked')).toHaveCount(2);
+    // the linked verses (2:5–6) are marked on the page; a page break may fall between them
+    const linked = page.locator('[data-testid="reading-page"] .verse.is-linked');
+    await expect(linked.first()).toBeVisible();
+    for (const v of await linked.evaluateAll((els) => els.map((e) => (e as HTMLElement).dataset.verse))) expect(['5', '6']).toContain(v);
     await expect(page.getByTestId('vellum-level')).toContainText('Level 1');
     await expect(page.getByTestId('vellum-evidence-level')).toContainText('Draft');
 
@@ -61,7 +64,7 @@ test.describe('Matthew 2 — the Phase 1 reader journey still holds', () => {
     await page.getByTestId('thread-follow').click();
     await assertScriptureVerbatim(page, '[data-testid="thread-drawer"]');
     await page.keyboard.press('Escape');
-    await page.keyboard.press('ArrowRight');
+    await turnUntilVisible(page, 'margin-thread-dream', 8);
     await expect(page.getByTestId('margin-thread-dream').first()).toBeVisible();
 
     // Focus Mode

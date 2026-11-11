@@ -187,6 +187,7 @@ test.describe('Phase 2 — a connected biblical journey', () => {
     await expect(page.getByTestId('place-sheet')).toContainText('You have been here before.');
     await expect(page.getByTestId('place-first-encounter')).toContainText('Genesis 12:10');
     await page.keyboard.press('Escape');
+    await turnUntilVisible(page, 'margin-connection-x-hosea11');
     await page.getByTestId('margin-connection-x-hosea11').click();
     await expect(page.getByTestId('prophet-name')).toHaveText('Hosea');
     await page.getByTestId('vellum-close').click();

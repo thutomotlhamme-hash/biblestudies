@@ -381,6 +381,8 @@ export interface MapBase {
 /** What a single verse mentions — computed from the text through scoped aliases. */
 export interface VerseEntities {
   places: { id: string; start: number; end: number }[];
+  /** Where each person is named in the KJV text (character ranges). */
+  names?: { id: string; start: number; end: number }[];
   people: string[];
   phrases: string[];
 }
