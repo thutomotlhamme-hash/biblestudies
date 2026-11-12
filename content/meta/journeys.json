@@ -16,44 +16,11 @@
      "verses": [
       "Gen.11.31"
      ],
-     "certainty": "reconstructed",
+     "certainty": "approximate",
      "label": "From Ur of the Chaldees to Haran",
-     "path": [
-      [
-       46.1,
-       30.96
-      ],
-      [
-       45.0,
-       31.6
-      ],
-      [
-       44.4,
-       32.5
-      ],
-      [
-       43.3,
-       33.4
-      ],
-      [
-       42.2,
-       34.2
-      ],
-      [
-       41.0,
-       34.8
-      ],
-      [
-       40.0,
-       35.6
-      ],
-      [
-       39.03,
-       36.87
-      ]
-     ],
+     "path": null,
      "travellers": "Terah, Abram, Sarai and Lot",
-     "note": "Scripture names both places. The line follows the Euphrates as a plausible reconstruction.",
+     "note": "Scripture names both places but not the route. The line shows direction only.",
      "from": "ur",
      "evidenceLevel": "B",
      "anchor": "Gen.11.31"
@@ -357,36 +324,11 @@
       "Exod.19.1",
       "Exod.19.2"
      ],
-     "certainty": "reconstructed",
+     "certainty": "approximate",
      "label": "By Etham and Rephidim to the wilderness of Sinai",
-     "path": [
-      [
-       32.1,
-       30.55
-      ],
-      [
-       32.55,
-       29.95
-      ],
-      [
-       32.75,
-       29.3
-      ],
-      [
-       33.15,
-       28.85
-      ],
-      [
-       33.6,
-       28.7
-      ],
-      [
-       33.975,
-       28.54
-      ]
-     ],
+     "path": null,
      "travellers": "The children of Israel",
-     "note": "Etham and Rephidim cannot be located, and the site of Sinai is debated. This line follows the traditional southern route and is a reconstruction.",
+     "note": "Etham and Rephidim cannot be located, and the site of Sinai is debated. Scripture names the places but not the route; the line shows direction only.",
      "from": "succoth",
      "evidenceLevel": "B",
      "anchor": "Exod.13.20"
@@ -579,44 +521,11 @@
       "Matt.2.13",
       "Matt.2.14"
      ],
-     "certainty": "reconstructed",
+     "certainty": "approximate",
      "label": "By night into Egypt",
-     "path": [
-      [
-       35.2024,
-       31.7054
-      ],
-      [
-       34.8,
-       31.6
-      ],
-      [
-       34.46,
-       31.5
-      ],
-      [
-       34.25,
-       31.28
-      ],
-      [
-       33.8,
-       31.13
-      ],
-      [
-       32.55,
-       31.04
-      ],
-      [
-       31.8,
-       30.9
-      ],
-      [
-       31.1,
-       30.75
-      ]
-     ],
+     "path": null,
      "travellers": "Joseph, the young child and his mother",
-     "note": "Matthew records only the destination. The line follows the coast road as a reconstruction.",
+     "note": "Matthew records only the destination, not the route. The line shows direction only.",
      "from": "bethlehem",
      "evidenceLevel": "B",
      "anchor": "Matt.2.13"

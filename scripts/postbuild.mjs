@@ -4,11 +4,11 @@ import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 const OUT = 'out';
 import { createHash } from 'node:crypto';
-/** Data cache version: changes only when a data file changes, so kept books survive app updates. */
-function dataVersion() {
-  const h = createHash('sha256');
-  for (const f of walk(join(OUT, 'data')).sort()) h.update(f + statSync(f).size + readFileSync(f).subarray(0, 4096).toString('base64'));
-  return h.digest('hex').slice(0, 12);
+/** A fingerprint for each data file: after an update the offline store drops only the files that changed. */
+function dataVersions() {
+  const v = {};
+  for (const f of walk(join(OUT, 'data')).sort()) v[relative(join(OUT, 'data'), f).split('\\').join('/')] = createHash('sha1').update(readFileSync(f)).digest('hex').slice(0, 10);
+  return v;
 }
 const walk = (d) => readdirSync(d).flatMap((f) => (statSync(join(d, f)).isDirectory() ? walk(join(d, f)) : [join(d, f)]));
 const files = walk(OUT)
@@ -20,7 +20,7 @@ const files = walk(OUT)
 const sw = readFileSync(join(OUT, 'sw.js'), 'utf8')
   .replace(/\/\*__PRECACHE__\*\/ \[[^\]]*\]/, JSON.stringify(['./', ...files.filter((f) => f !== './')]))
   .replace('__BUILD__', String(Date.now()))
-  .replace('__DATA__', dataVersion());
+  .replace('/*__DATA_VERSIONS__*/ {}', JSON.stringify(dataVersions()));
 writeFileSync(join(OUT, 'sw.js'), sw);
 if (process.env.RELATIVE_ASSETS) {
   const css = join(OUT, '_next/static/css');

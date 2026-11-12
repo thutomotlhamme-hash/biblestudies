@@ -39,7 +39,7 @@ test.describe('Phase 2 — a connected biblical journey', () => {
     await expect(page.getByTestId('journey-map')).toBeVisible();
     await page.getByTestId('layer-abraham').click();
     await page.waitForTimeout(1200);
-    await expect(page.getByTestId('route-ab1')).toHaveAttribute('data-certainty', 'reconstructed');
+    await expect(page.getByTestId('route-ab1')).toHaveAttribute('data-certainty', 'approximate');
     await page.getByTestId('atlas-list-toggle').click();
     await expect(page.getByTestId('atlas-list')).toContainText('From Ur of the Chaldees to Haran');
     await page.getByTestId('atlas-list-toggle').click();
@@ -159,7 +159,7 @@ test.describe('Phase 2 — a connected biblical journey', () => {
     await goToChapter(page, 'Matt.2');
     await goToChapter(page, 'Gen.12');
     await page.waitForFunction(
-      async () => (await Promise.all(['data/text/kjv/Gen.json', 'data/text/kjv/Matt.json', 'data/study/books/Matt.json'].map((f) => caches.match(new URL(f, location.href).href)))).every(Boolean),
+      async () => (await Promise.all(['data/text/kjv/Gen.json', 'data/text/kjv/Matt.json', 'data/study/books/Matt.json'].map((f) => caches.match(new URL(f, location.href).href, { ignoreSearch: true })))).every(Boolean),
       null,
       { timeout: 20000 },
     );

@@ -89,3 +89,32 @@ describe('journeys of the major figures', () => {
     expect(journeys.filter((j) => j.people?.includes('moses')).map((j) => j.id)).toEqual(expect.arrayContaining(['exodus', 'wilderness', 'moses-life']));
   });
 });
+
+describe('journeys, factual to Scripture', () => {
+  const journeys: any[] = json('study/journeys.json').journeys;
+  const places = new Map<string, any>(json('study/places.json').places.map((p: any) => [p.id, p]));
+  const words = (t: string) => ' ' + t.toLowerCase().replace(/[’']/g, '').replace(/-/g, '').replace(/[^a-z ]+/g, ' ').split(/\s+/).filter(Boolean).join(' ') + ' ';
+  it('no route is drawn that Scripture does not give', () => {
+    for (const j of journeys) for (const s of j.segments) {
+      expect(s.certainty, s.id).not.toBe('reconstructed');
+      if (s.path) expect(s.path.length, s.id).toBeLessThanOrEqual(2);
+    }
+  });
+  it('published, with a named reviewer', () => {
+    for (const j of journeys) {
+      expect(j.editorial.status, j.id).toBe('published');
+      expect(j.editorial.reviewedBy, j.id).toBeTruthy();
+    }
+  });
+  it('each stage of a figure’s journey starts where its verses say, or where the last stage ended, or says it does not know', () => {
+    for (const j of journeys.filter((x) => x.added === 'figure'))
+      j.segments.forEach((s: any, i: number) => {
+        const p = places.get(s.from);
+        const joined = words(s.verses.map((r: string) => kjv.get(r)).join(' '));
+        const named = [p.name, ...(p.names ?? [])].some((n: string) => joined.includes(words(n)) || joined.includes(words(n.replace(/^Mount /, ''))));
+        const carried = i > 0 && j.segments[i - 1].to === s.from;
+        expect(named || carried || /do not say where this stage began/.test(s.note ?? ''), s.id).toBe(true);
+      });
+  });
+});
+
