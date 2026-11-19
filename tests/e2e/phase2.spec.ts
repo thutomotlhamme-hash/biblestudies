@@ -4,8 +4,14 @@ import { assertScriptureVerbatim, goToChapter, openAt, openCover, readAndTurn, r
 test.describe('Phase 2 — a connected biblical journey', () => {
   test('A · Genesis: meet a place, revisit it later → “You have been here before”', async ({ page }) => {
     await openAt(page, 'Gen.12');
-    await readUntil(page, 'Gen.13'); // Genesis 12 (Beth-el at 12:8) into Genesis 13
+    // read on from Genesis 12 (Beth-el at 12:8) into Genesis 13 (Beth-el again at 13:3), which may
+    // open partway down a page now that chapters flow on
     const note = page.getByTestId('margin-memory-place-bethel');
+    for (let i = 0; i < 12 && !(await note.isVisible()); i++) {
+      await readPage(page);
+      await page.keyboard.press('ArrowRight');
+      await page.waitForTimeout(700);
+    }
     await expect(note).toBeVisible();
     await note.click();
     const sheet = page.getByTestId('place-sheet');

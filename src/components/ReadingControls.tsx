@@ -1,6 +1,7 @@
 'use client';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useMemo, type ReactNode } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
+import { TRANSLATIONS } from '@/lib/content/translation';
 import { formatChapter } from '@/lib/content/refs';
 import { pageForVerse } from '@/lib/content/repository';
 import { GlyphCompass, GlyphDeep, IconBookmark, IconChevron, IconContents, IconFocus, IconHeart, IconMap, IconOriginal, IconSearch, IconThread, IconTimeline, IconType } from './Icons';
@@ -43,7 +44,7 @@ export function ReadingControls({ visible, onHide }: { visible: boolean; onHide:
                 <IconContents width={18} height={18} />
                 {formatChapter(chapter.ref)} <IconChevron dir="down" width={14} height={14} />
               </button>
-              <span className="running-head hidden md:block">The Holy Bible</span>
+              <TranslationSwitch />
               <div className="flex items-center">
                 <NavButton label="Yours" aria="Your highlights, notes and favourites" onClick={() => open({ kind: 'mine' })} testId="open-mine" icon={<IconHeart />} />
                 <NavButton label="Search" aria="Search" onClick={() => open({ kind: 'search' })} testId="open-search" icon={<IconSearch />} />
@@ -78,6 +79,63 @@ export function ReadingControls({ visible, onHide }: { visible: boolean; onHide:
         </>
       )}
     </AnimatePresence>
+  );
+}
+
+/** The translation being read, switchable from the top bar. Each is shown exactly as published. */
+function TranslationSwitch() {
+  const { state, updateSettings, play } = useReader();
+  const [open, setOpen] = useState(false);
+  const current = TRANSLATIONS.find((t) => t.id === state.settings.translation) ?? TRANSLATIONS[0];
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        className="flex min-h-[42px] items-center gap-1.5 rounded-full border hairline px-3 font-display text-[14px] tracking-[0.08em] text-[var(--ink)]"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label={`Translation: ${current.name}. Change translation`}
+        onClick={() => setOpen((o) => !o)}
+        data-testid="translation-switch"
+      >
+        {current.abbreviation} <IconChevron dir="down" width={12} height={12} />
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            role="menu"
+            initial={{ opacity: 0, y: -6, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.97 }}
+            transition={{ duration: 0.18 }}
+            className="sheet absolute left-1/2 top-[46px] z-40 w-[250px] rounded-[4px] border hairline p-1.5 shadow-lg"
+            style={{ x: '-50%' }}
+          >
+            {TRANSLATIONS.map((t) => (
+              <li key={t.id} role="none">
+                <button
+                  type="button"
+                  role="menuitemradio"
+                  aria-checked={t.id === current.id}
+                  className="flex w-full items-baseline justify-between gap-3 rounded-[3px] px-3 py-2.5 text-left hover:bg-[color-mix(in_srgb,var(--bronze)_10%,transparent)]"
+                  onClick={() => {
+                    setOpen(false);
+                    if (t.id !== current.id) {
+                      updateSettings({ translation: t.id });
+                      play('page');
+                    }
+                  }}
+                  data-testid={`switch-translation-${t.id}`}
+                >
+                  <span className="font-display text-[15px]">{t.name}</span>
+                  <span className="font-display text-[12px] tracking-[0.1em] text-[var(--ink-faint)]">{t.abbreviation}</span>
+                </button>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 

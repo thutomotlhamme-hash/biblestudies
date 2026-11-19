@@ -12,7 +12,7 @@ test.describe('Layout, accessibility and motion', () => {
     const last = (await page.locator('[data-testid="page-scroller"] .verse').last().boundingBox())!;
     const chip = (await page.getByTestId('map-indicator').boundingBox())!;
     expect(last.y + last.height).toBeLessThan(chip.y);
-    const text = (await page.locator('[data-testid="page-scroller"] .scripture').boundingBox())!;
+    const text = (await page.locator('[data-testid="page-scroller"] .scripture').first().boundingBox())!;
     for (const m of await page.locator('[data-testid="page-scroller"] [data-testid^="margin-connection"]').all()) {
       const b = (await m.boundingBox())!;
       expect(b.x + 6).toBeGreaterThanOrEqual(text.x + text.width - 1);
@@ -33,7 +33,7 @@ test.describe('Layout, accessibility and motion', () => {
 
   test('settings: text size, theme, high contrast, editorial note', async ({ page }) => {
     await openBible(page);
-    const size = () => page.locator('[data-testid="page-scroller"] .scripture').evaluate((e) => parseFloat(getComputedStyle(e).fontSize));
+    const size = () => page.locator('[data-testid="page-scroller"] .scripture').first().evaluate((e) => parseFloat(getComputedStyle(e).fontSize));
     const s0 = await size();
     await showChrome(page);
     await page.getByTestId('open-settings').click();
@@ -54,10 +54,11 @@ test.describe('Layout, accessibility and motion', () => {
       await page.keyboard.press('ArrowRight');
       await page.waitForTimeout(600);
     }
-    await expect(page.getByTestId('reading-page')).toHaveAttribute('data-chapter', 'Hos.12');
+    // the next leaf may begin in Hosea 12, or (Hosea 12 being short) in Hosea 13
+    await expect(page.getByTestId('reading-page')).toHaveAttribute('data-chapter', /^Hos\.1[23]$/);
     await page.keyboard.press('ArrowLeft');
     await page.waitForTimeout(600);
-    await expect(page.getByTestId('reading-page')).toHaveAttribute('data-chapter', 'Hos.11');
+    await expect(page.getByTestId('reading-page')).toHaveAttribute('data-chapter', /^Hos\.1[12]$/);
     // from the last chapter of a book into the next book
     await page.keyboard.press('n');
     await page.waitForTimeout(400);

@@ -20,13 +20,14 @@ interface VerseProps {
   onPlace: (id: string) => void;
   onPerson?: (id: string) => void;
   onVerse: (ref: VerseRef) => void;
+  numberIds?: string;
 }
 
 /**
  * A single verse. The text is rendered exactly as supplied by the translation; place names may be
  * wrapped in a button and supplied words set in italics, but no character is added, removed or changed.
  */
-export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dropCap, state, highlight, hasNote, reading, block, onPlace, onPerson, onVerse }: VerseProps) {
+export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dropCap, state, highlight, hasNote, reading, block, onPlace, onPerson, onVerse, numberIds }: VerseProps) {
   const runs = useMemo(() => segmentVerse(verse.text, linkPlaces ? hits : [], italics), [verse.text, hits, linkPlaces, italics]);
 
   let lead: string | null = null;
@@ -52,7 +53,7 @@ export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dro
           className="verse-num"
           data-interactive
           aria-label={`Verse ${verse.verse}. Verse options`}
-          data-testid={`verse-num-${verse.verse}`}
+          data-testid={`verse-num-${numberIds ?? ''}${verse.verse}`}
           onClick={(e) => {
             e.stopPropagation();
             onVerse(verse.ref);
@@ -120,9 +121,11 @@ interface ScriptureProps {
   /** A section heading (supplementary) to set above a verse. */
   headingFor?: (ref: string) => string | undefined;
   onVerse?: (ref: VerseRef) => void;
+  /** Prefix for verse-number test ids: chapters other than the one being read are told apart. */
+  numberIds?: string;
 }
 
-export function ScriptureText({ verses, hitsFor, italicsFor, linkPlaces, withDropCap, linked, layout = 'paragraph', highlights = {}, notes = {}, reading, onPlace, onPerson, headingFor, onVerse = () => {} }: ScriptureProps) {
+export function ScriptureText({ verses, hitsFor, italicsFor, linkPlaces, withDropCap, linked, layout = 'paragraph', highlights = {}, notes = {}, reading, onPlace, onPerson, headingFor, onVerse = () => {}, numberIds }: ScriptureProps) {
   return (
     <p className={`scripture${layout === 'verse' ? ' scripture-verses' : ''}`}>
       {verses.map((v, i) => {
@@ -148,6 +151,7 @@ export function ScriptureText({ verses, hitsFor, italicsFor, linkPlaces, withDro
           onPlace={onPlace}
           onPerson={onPerson}
           onVerse={onVerse}
+          numberIds={numberIds}
         />,
         ];
       })}

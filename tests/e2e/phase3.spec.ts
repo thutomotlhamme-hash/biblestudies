@@ -76,7 +76,7 @@ test.describe('Phase 3 — the complete Bible', () => {
   });
 
   test('4 · personal tools: highlight, private note, favourite — kept after reopening', async ({ page }) => {
-    await openAt(page, 'Ps.23');
+    await openAt(page, 'Ps.23', 4);
     await page.getByTestId('verse-num-4').click();
     await page.getByTestId('highlight-gold').click();
     await page.getByTestId('note-input').fill('Read at my grandmother’s service');

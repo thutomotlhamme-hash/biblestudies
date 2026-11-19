@@ -28,6 +28,7 @@ import type {
   EvidenceLevel,
   Genealogy,
   Journey,
+  Leaf,
   MapBase,
   Measurements,
   Page,
@@ -42,10 +43,54 @@ import type {
   VerseRef,
 } from './types';
 
-/** A page's capacity in characters, measured on this screen: the first page of a chapter carries its heading. */
+/**
+ * A leaf's capacity in characters, measured on this screen: `normal` for plain text, less the room a
+ * chapter opening takes (`opening`: numeral, heading, ornament) and a book's title page (`title`).
+ */
 export interface PageFit {
   normal: number;
-  first: number;
+  opening: number;
+  title: number;
+}
+
+/**
+ * Lay a whole book out on leaves, the way a printed Bible runs: when a chapter ends partway down a
+ * leaf, the next chapter opens there. A book always begins on a fresh leaf. A verse is never split.
+ * Layout only — no character of Scripture is touched.
+ */
+export function layoutBook(book: string, chapters: Chapter[], fit: PageFit | null): Leaf[] {
+  const cap = fit?.normal ?? 1150;
+  const opening = fit?.opening ?? 260;
+  const title = fit?.title ?? 260;
+  const leaves: Leaf[] = [];
+  let cur: Leaf = { index: 0, book, segments: [] };
+  let used = 0;
+  const close = () => {
+    leaves.push(cur);
+    cur = { index: leaves.length, book, segments: [] };
+    used = 0;
+  };
+  for (const c of chapters) {
+    const verses = c.verses;
+    if (!verses.length) continue;
+    const cost = opening + (c.number === 1 ? title : 0);
+    // a chapter opens here only if its opening and at least its first verse fit; else on the next leaf
+    if (cur.segments.length && used + cost + verses[0].text.length > cap) close();
+    used += cost;
+    let seg = { chapter: c.ref, from: verses[0].verse, to: verses[0].verse - 1, opens: true };
+    cur.segments.push(seg);
+    for (const v of verses) {
+      if (seg.to >= seg.from && used + v.text.length > cap) {
+        close();
+        seg = { chapter: c.ref, from: v.verse, to: v.verse - 1, opens: false };
+        cur.segments.push(seg);
+      }
+      used += v.text.length + 1;
+      seg.to = v.verse;
+    }
+  }
+  if (cur.segments.length) leaves.push(cur);
+  return leaves;
 }
 
 /**
@@ -53,24 +98,8 @@ export interface PageFit {
  * With `fit` (measured on this screen) pages are filled up to what the page can show, so the text is
  * read on the page instead of scrolled within it; a verse is never split.
  */
-export function paginate(verses: Verse[], breaks?: number[], fit?: PageFit): Page[] {
+export function paginate(verses: Verse[], breaks?: number[]): Page[] {
   if (!verses.length) return [{ index: 0, from: 1, to: 1 }];
-  if (fit) {
-    const pages: Page[] = [];
-    let acc = 0;
-    let from = 1;
-    verses.forEach((v, i) => {
-      const cap = pages.length ? fit.normal : fit.first;
-      if (acc > 0 && acc + v.text.length > cap) {
-        pages.push({ index: pages.length, from, to: v.verse - 1 });
-        from = v.verse;
-        acc = 0;
-      }
-      acc += v.text.length + 1;
-      if (i === verses.length - 1) pages.push({ index: pages.length, from, to: v.verse });
-    });
-    return pages;
-  }
   if (breaks) return breaks.map((from, i) => ({ index: i, from, to: (breaks[i + 1] ?? verses.length + 1) - 1 }));
   const TARGET = 1150; // characters per page, tuned for a phone-sized page at the default size
   const total = verses.reduce((n, v) => n + v.text.length, 0);
@@ -313,20 +342,41 @@ export class Library {
       c.loaded = false;
       c.verses = [];
     }
+    this.leaves.clear();
     this.bookLoads.clear();
     this.bump();
   }
 
-  /** Re-paginate every loaded chapter for a measured page capacity (layout only). */
-  /** Returns true when the pages changed. */
+  /** Re-lay out every loaded book for a measured page capacity (layout only). Returns true when the pages changed. */
   setPageFit(fit: PageFit | null): boolean {
-    const next = fit && { normal: Math.max(250, Math.round(fit.normal)), first: Math.max(150, Math.round(fit.first)) };
-    const same = (a: number, b: number) => Math.abs(a - b) / b < 0.03;
-    if (next === this.pageFit || (next && this.pageFit && same(next.normal, this.pageFit.normal) && same(next.first, this.pageFit.first))) return false;
+    const next = fit && { normal: Math.max(250, Math.round(fit.normal)), opening: Math.max(0, Math.round(fit.opening)), title: Math.max(0, Math.round(fit.title)) };
+    const same = (a: number, b: number) => Math.abs(a - b) <= Math.max(8, b * 0.03);
+    if (next === this.pageFit || (next && this.pageFit && same(next.normal, this.pageFit.normal) && same(next.opening, this.pageFit.opening) && same(next.title, this.pageFit.title))) return false;
     this.pageFit = next;
-    for (const c of this.chapters) if (c.loaded) c.pages = paginate(c.verses, c.pageBreaks, next ?? undefined);
+    for (const book of this.leaves.keys()) this.layout(book);
     this.bump();
     return true;
+  }
+
+  /** The leaves of each loaded book, in order. */
+  leaves = new Map<string, Leaf[]>();
+
+  private layout(book: string) {
+    const chapters = this.chapters.filter((c) => c.book.osis === book && c.loaded);
+    const leaves = layoutBook(book, chapters, this.pageFit);
+    this.leaves.set(book, leaves);
+    for (const c of chapters) c.pages = [];
+    for (const l of leaves)
+      for (const s of l.segments) {
+        const c = this.chapterByRef.get(s.chapter)!;
+        c.pages.push({ index: c.pages.length, from: s.from, to: s.to, leaf: l.index });
+      }
+  }
+
+  /** The leaf a chapter page is printed on. */
+  leafOf(chapter: Chapter, page: number): Leaf | undefined {
+    const p = chapter.pages[page] ?? chapter.pages[0];
+    return p?.leaf === undefined ? undefined : this.leaves.get(chapter.book.osis)?.[p.leaf];
   }
 
   isBookLoaded(book: string) {
@@ -376,9 +426,10 @@ export class Library {
     for (let i = 1; i <= b.chapterCount!; i++) {
       const c = this.chapterByRef.get(`${book}.${i}`)!;
       c.verses = this.translation.chapterVerses(book, i);
-      c.pages = paginate(c.verses, c.pageBreaks, this.pageFit ?? undefined);
+      c.pages = paginate(c.verses, c.pageBreaks);
       c.loaded = true;
     }
+    this.layout(book);
     for (const [id, [name, kind, certainty, lon, lat]] of Object.entries(s.places)) {
       if (!this.placeById.has(id)) this.setPlace({ id, name, kind, certainty: certainty as Place['certainty'], lon, lat, names: [], modern: null, alternatives: [], partial: true, evidenceLevel: 'B', source: '', editorial: s.machineProvenance.editorial });
     }

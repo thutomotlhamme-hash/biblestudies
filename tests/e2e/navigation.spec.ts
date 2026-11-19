@@ -25,7 +25,8 @@ test('labelled tools; Original shows the Hebrew/Aramaic/Greek beneath the exact 
 
 test('headings above passages and tappable names, in another translation too', async ({ page }) => {
   await openAt(page, 'Matt.2', 1, { settings: { translation: 'ylt' } });
-  await expect(page.getByTestId('section-heading').first()).toHaveText('Wise Men Visit Herod');
+  // the spread may also show the end of Matthew 1 with its own heading
+  await expect(page.getByTestId('section-heading').filter({ hasText: 'Wise Men Visit Herod' })).toBeVisible();
   await assertScriptureVerbatim(page, '[data-testid="reading-page"]', 'ylt');
   await page.locator('[data-person="herod"], [data-person^="herod"]').first().click();
   const sheet = page.getByTestId('person-sheet');

@@ -74,6 +74,15 @@ export interface Page {
   index: number;
   from: number;
   to: number;
+  /** The leaf of the book this page is printed on (pages flow from chapter to chapter). */
+  leaf?: number;
+}
+
+/** One printed leaf of a book: it may end one chapter and open the next, as a printed Bible does. */
+export interface Leaf {
+  index: number;
+  book: string;
+  segments: { chapter: ChapterRef; from: number; to: number; opens: boolean }[];
 }
 
 export interface ChapterMeta {

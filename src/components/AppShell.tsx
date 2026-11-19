@@ -2,7 +2,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { deviceVoice, recorded } from '@/lib/audio/audio';
-import { chapterOf, formatRef, parseRef } from '@/lib/content/refs';
+import { canonicalIndex, chapterOf, formatRef, parseRef } from '@/lib/content/refs';
 import { pageForVerse, type PageFit } from '@/lib/content/repository';
 import type { ChapterRef, VerseRef } from '@/lib/content/types';
 import { FEATURES } from '@/lib/features';
@@ -43,6 +43,8 @@ export function AppShell() {
   const [overlay, setOverlay] = useState<Overlay>(null);
   const [chrome, setChrome] = useState(false);
   const [dir, setDir] = useState(1);
+  // counts the reader's own moves (turns and jumps): only these animate a page turn
+  const [moves, setMoves] = useState(0);
   const [scrollRequest, setScrollRequest] = useState<{ chapter: string; verse: number; nonce: number } | null>(null);
   const systemReduced = useMedia('(prefers-reduced-motion: reduce)');
   const wide = useMedia('(min-width: 900px)');
@@ -92,7 +94,8 @@ export function AppShell() {
     window.addEventListener('resize', on);
     return () => window.removeEventListener('resize', on);
   }, []);
-  const measured = useRef({ normal: false, first: false });
+  const measured = useRef(false);
+  const measuredParts = useRef({ opening: false, title: false });
   const [fitSettled, setFitSettled] = useState(false);
   const FIT_STORE = 'holy-bible.page-fit';
   useEffect(() => {
@@ -102,56 +105,70 @@ export function AppShell() {
     try {
       stored = JSON.parse(localStorage.getItem(FIT_STORE) ?? 'null');
     } catch {}
-    const known = stored?.key === `${fitKey}-${vh}` ? stored.fit : null;
-    measured.current = { normal: !!known, first: !!known };
-    setFitSettled(false);
-    ed.setPageFit(known ?? { normal: 2400, first: 2400 });
+    const known = stored?.key === `${fitKey}-${vh}` && typeof stored.fit?.opening === 'number' ? stored.fit : null;
+    measured.current = !!known;
+    measuredParts.current = { opening: !!known, title: !!known };
+    // a screen measured before keeps exactly the leaves it had: the reader returns to the same page
+    setFitSettled(!!known);
+    ed.setPageFit(known ?? { normal: 2400, opening: 140, title: 200 });
   }, [ed, hydrated, fitKey, vh]);
   useEffect(() => {
-    if (phase !== 'reading' || !chapter.loaded || !ed.pageFit) return;
+    // once the leaves fit this screen they stay put: no re-layout under the reader while reading
+    if (phase !== 'reading' || !chapter.loaded || !ed.pageFit || fitSettled) return;
     let raf = 0;
     let live = true;
     const t = window.setTimeout(() => {
       raf = requestAnimationFrame(async () => {
         await document.fonts?.ready.catch(() => {});
         const fit = ed.pageFit;
-        if (!live) return;
-        if (!fit) return;
-        let { normal, first } = fit;
+        if (!live || !fit) return;
+        let { normal, opening, title } = fit;
+        let firstPass = true;
         for (const el of document.querySelectorAll<HTMLElement>('[data-testid="page-scroller"], [data-testid="page-scroller-right"]')) {
-          const text = el.querySelector<HTMLElement>('.scripture');
+          // a leaf: its text column, the chapter openings set in it, and its verses
+          const column = el.querySelector<HTMLElement>('[data-leaf-text]');
           const verses = [...el.querySelectorAll<HTMLElement>('.verse[data-verse]')];
-          const head = el.querySelector<HTMLElement>('header.running-head');
-          if (!text || !head || verses.length < 2) continue; // one verse cannot be split; nothing to learn
+          if (!column || verses.length < 2 || el.closest('[data-ghost]')) continue;
+          const textH = [...el.querySelectorAll<HTMLElement>('.scripture')].reduce((n, x) => n + x.getBoundingClientRect().height, 0);
+          if (textH < 60) continue;
           const sc = el.getBoundingClientRect();
-          const tr = text.getBoundingClientRect();
-          if (tr.height < 60) continue;
-          // the page ends above the bottom fade and above any control floating over it
+          const col = column.getBoundingClientRect();
+          // the leaf ends above the bottom fade and above any control floating over it
           let limit = sc.height - 56;
           const chip = document.querySelector('[data-testid="map-indicator"]')?.getBoundingClientRect();
-          if (chip && chip.top > sc.top && chip.top < sc.bottom && chip.left < tr.right && chip.right > tr.left) limit = Math.min(limit, chip.top - sc.top - 14);
-          const top = tr.top - sc.top;
-          const density = verses.reduce((n, v) => n + (v.textContent?.length ?? 0), 0) / tr.height;
-          const cap = density * (limit - top) * 0.95;
-          const overflows = tr.bottom - sc.top > limit + 2;
-          // where a page without a chapter heading would start its text
-          const plain = head.getBoundingClientRect().bottom - sc.top + 26;
-          if (verses[0].dataset.verse === '1') {
-            if (!measured.current.first || overflows) first = Math.min(measured.current.first ? first : Infinity, cap);
-            if (!measured.current.normal) normal = density * (limit - plain) * 0.95;
-            measured.current.first = true;
-          } else {
-            if (!measured.current.normal || overflows) normal = Math.min(measured.current.normal ? normal : Infinity, cap);
-            measured.current.normal = true;
+          if (chip && chip.top > sc.top && chip.top < sc.bottom && chip.left < col.right && chip.right > col.left) limit = Math.min(limit, chip.top - sc.top - 14);
+          // positions from the top of the leaf's content, whatever it is scrolled to
+          const top = col.top - sc.top + el.scrollTop;
+          const bottom = col.bottom - sc.top + el.scrollTop;
+          const density = verses.reduce((n, v) => n + (v.textContent?.length ?? 0), 0) / textH;
+          const opens = [...el.querySelectorAll<HTMLElement>('.chapter-opening')];
+          const titles = [...el.querySelectorAll<HTMLElement>('.book-title')];
+          const titleH = titles.reduce((n, x) => n + x.getBoundingClientRect().height, 0);
+          const openH = opens.reduce((n, x) => n + x.getBoundingClientRect().height, 0) - titleH;
+          const overflows = bottom > limit + 2;
+          // what a plain leaf of this screen holds: text density times the room for text
+          const cap = density * (limit - top) * 0.93;
+          if (!measured.current) normal = Math.min(firstPass ? Infinity : normal, cap);
+          else if (overflows) normal = Math.min(normal, cap * 0.97);
+          // a chapter opening and a book's title page are measured once, the first time one is seen
+          if (opens.length > titles.length && !measuredParts.current.opening) {
+            opening = (density * openH) / opens.length;
+            measuredParts.current.opening = true;
           }
+          if (titles.length && !measuredParts.current.title) {
+            title = (density * titleH) / titles.length;
+            measuredParts.current.title = true;
+          }
+          firstPass = false;
         }
-        const changed = ed.setPageFit({ normal, first: Math.min(first, normal) });
+        if (!firstPass) measured.current = true;
+        const changed = ed.setPageFit({ normal, opening, title });
         if (!changed) {
           setFitSettled(true);
           try {
             localStorage.setItem(FIT_STORE, JSON.stringify({ key: `${fitKey}-${vh}`, fit: ed.pageFit }));
           } catch {}
-        } else if (changed) setFitSettled(false);
+        } else setFitSettled(false);
       });
     }, 60);
     return () => {
@@ -159,13 +176,14 @@ export function AppShell() {
       window.clearTimeout(t);
       cancelAnimationFrame(raf);
     };
-  }, [ed, phase, version, chapter.ref, chapter.loaded, state.position.page, fitKey, vh]);
+  }, [ed, phase, version, chapter.ref, chapter.loaded, state.position.page, fitKey, vh, fitSettled]);
 
   // When a chapter's text arrives, place the reader on the page holding their verse.
   useEffect(() => {
     if (!chapter.loaded) return;
     const page = pageForVerse(chapter.pages, state.position.verse);
-    if (page !== state.position.page && !(spread && Math.floor(page / 2) === Math.floor(state.position.page / 2))) update({ position: { ...state.position, page } });
+    const leafOf = (p: number) => chapter.pages[p]?.leaf ?? p;
+    if (page !== state.position.page && !(spread && Math.floor(leafOf(page) / 2) === Math.floor(leafOf(state.position.page) / 2))) update({ position: { ...state.position, page } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chapter.loaded, chapter.ref, version]);
 
@@ -226,6 +244,7 @@ export function AppShell() {
       const move = () => {
         const page = pageForVerse(c.pages, verse);
         setDir(c.index > chapter.index || (c.index === chapter.index && page >= cur.page) ? 1 : -1);
+        setMoves((m) => m + 1);
         update((s) => ({
           position: { chapter: chapterRef, page, verse },
           returnTo: opts?.keepReturn
@@ -246,25 +265,40 @@ export function AppShell() {
     [ed, state.position, chapter.index, update, recordHistory, play],
   );
 
-  /** Turn one page (or one spread). Runs on from one chapter into the next, and from book to book. */
+  /**
+   * Turn one leaf (or one spread). Leaves run through a book from chapter to chapter, and the book
+   * runs on into the next book.
+   */
   const turn = useCallback<ReaderCtx['turn']>(
     (delta) => {
       const step = spread ? 2 : 1;
-      const cur = spread ? Math.floor(state.position.page / 2) * 2 : state.position.page;
-      const nextPage = cur + delta * step;
+      const leaves = ed.leaves.get(chapter.book.osis) ?? [];
+      const here = chapter.pages[state.position.page]?.leaf ?? 0;
+      const cur = spread ? Math.floor(here / 2) * 2 : here;
+      const target = cur + delta * step;
       setDir(delta);
-      if (nextPage >= 0 && nextPage < chapter.pages.length) {
-        update({ position: { chapter: chapter.ref, page: nextPage, verse: chapter.pages[nextPage].from } });
+      setMoves((m) => m + 1);
+      const land = (leaf: { segments: { chapter: string; from: number }[]; index: number }) => {
+        const seg = leaf.segments[0];
+        const c = ed.chapterByRef.get(seg.chapter)!;
+        const page = Math.max(0, c.pages.findIndex((p) => p.leaf === leaf.index));
+        update({ position: { chapter: c.ref, page, verse: seg.from } });
+        if (c.ref !== chapter.ref) recordHistory(c.ref, seg.from);
         play('page');
+      };
+      if (target >= 0 && target < leaves.length) {
+        land(leaves[target]);
         return true;
       }
-      const other = ed.chapters[chapter.index + delta];
+      // into the next book (its first leaf) or back into the previous one (its last leaf or spread)
+      const bookChapters = ed.chapters.filter((c) => c.book.osis === chapter.book.osis);
+      const other = delta > 0 ? ed.chapters[bookChapters[bookChapters.length - 1].index + 1] : ed.chapters[bookChapters[0].index - 1];
       if (!other) return false;
       const move = () => {
-        const page = delta > 0 ? 0 : spread ? Math.floor((other.pages.length - 1) / 2) * 2 : other.pages.length - 1;
-        update({ position: { chapter: other.ref, page, verse: other.pages[page].from } });
-        recordHistory(other.ref, other.pages[page].from);
-        play('page');
+        const ls = ed.leaves.get(other.book.osis) ?? [];
+        if (!ls.length) return;
+        const i = delta > 0 ? 0 : spread ? Math.floor((ls.length - 1) / 2) * 2 : ls.length - 1;
+        land(ls[i]);
       };
       if (other.loaded) move();
       else void ed.ensureChapter(other.ref).then(move);
@@ -276,25 +310,40 @@ export function AppShell() {
   // While the pages are still being fitted to the screen, the reader's place is the verse they asked for.
   const settledRef = useRef(fitSettled);
   settledRef.current = fitSettled;
-  // Only the page (or spread) being read may move the reader's place — never a leaf turning away.
+  // Only the leaf (or spread) being read may move the reader's place — never a leaf turning away —
+  // and only within the chapter being read.
   const onVerseInView = useCallback(
-    (verse: number) =>
+    (ref: string) =>
       settledRef.current &&
       update((s) => {
+        if (chapterOf(ref) !== s.position.chapter) return {};
         const c = ed.chapterByRef.get(s.position.chapter);
-        const at = spread ? Math.floor(s.position.page / 2) * 2 : s.position.page;
-        const lo = c?.pages[at]?.from ?? 0;
-        const hi = c?.pages[spread ? at + 1 : at]?.to ?? c?.pages[at]?.to ?? 0;
-        return verse !== s.position.verse && verse >= lo && verse <= hi ? { position: { ...s.position, verse } } : {};
+        const here = c?.pages[s.position.page]?.leaf ?? -1;
+        const v = parseRef(ref).from;
+        const page = c ? pageForVerse(c.pages, v) : -1;
+        const leaf = c?.pages[page]?.leaf ?? -2;
+        const sameLeaf = spread ? Math.floor(leaf / 2) === Math.floor(here / 2) : leaf === here;
+        return v !== s.position.verse && sameLeaf ? { position: { ...s.position, verse: v } } : {};
       }),
     [update, ed, spread],
   );
 
+  // Verses that come into view together (two pages of a spread) are recorded in the order they are
+  // read, so "you first read of …" always names the earlier verse.
+  const seen = useRef<Set<VerseRef>>(new Set());
   const encounterVerse = useCallback(
     (ref: VerseRef) => {
-      const e = ed.entities.get(ref);
-      if (!e) return;
-      encounter(ref, { places: e.places.map((h) => h.id), people: e.people, phrases: e.phrases });
+      const first = seen.current.size === 0;
+      seen.current.add(ref);
+      if (!first) return;
+      requestAnimationFrame(() => {
+        const refs = [...seen.current].sort((a, b) => canonicalIndex(a) - canonicalIndex(b));
+        seen.current.clear();
+        for (const r of refs) {
+          const e = ed.entities.get(r);
+          if (e) encounter(r, { places: e.places.map((h) => h.id), people: e.people, phrases: e.phrases });
+        }
+      });
     },
     [ed, encounter],
   );
@@ -450,7 +499,7 @@ export function AppShell() {
             animate={{ opacity: 1, scale: 1, x: aside }}
             transition={{ duration: reduced ? 0.15 : 0.38, ease: [0.2, 0, 0, 1] }}
           >
-            <ReadingPage onToggleChrome={() => setChrome((c) => !c)} onVerseInView={onVerseInView} scrollRequest={scrollRequest} dir={dir} />
+            <ReadingPage onToggleChrome={() => setChrome((c) => !c)} onVerseInView={onVerseInView} scrollRequest={scrollRequest} dir={dir} moves={moves} />
           </motion.div>
         )}
 
