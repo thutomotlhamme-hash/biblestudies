@@ -17,6 +17,7 @@ import { BibleCover } from './BibleCover';
 import { CompareSheet } from './CompareSheet';
 import { DeepSheet } from './DeepSheet';
 import { OriginalSheet } from './OriginalSheet';
+import { AramaicSheet } from './AramaicSheet';
 import { Contents } from './Contents';
 import { ContextInsert } from './ContextInsert';
 import { PersonSheet, PhraseSheet, PlaceSheet } from './Evidence';
@@ -560,6 +561,7 @@ export function AppShell() {
           {overlay?.kind === 'words' && <WordStudy key={'w' + overlay.ref} verseRef={overlay.ref} />}
           {overlay?.kind === 'mine' && <MyBible key="mine" tab={overlay.tab} />}
           {overlay?.kind === 'family' && <FamilyPanel key="family" />}
+          {overlay?.kind === 'aramaic' && <AramaicSheet key="aramaic" focus={overlay.focus} />}
           {overlay?.kind === 'original' && <OriginalSheet key={'orig' + overlay.chapter + overlay.from} chapterRef={overlay.chapter} from={overlay.from} to={overlay.to} />}
           {overlay?.kind === 'deep' && <DeepSheet key={'deep' + overlay.chapter + (overlay.verse ?? '')} chapterRef={overlay.chapter} verse={overlay.verse} tab={overlay.tab} story={overlay.story} />}
         </AnimatePresence>

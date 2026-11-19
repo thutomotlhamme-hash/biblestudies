@@ -48,11 +48,11 @@ export function WordRow({ words, book, selected, onSelect, testId }: { words: Wo
               aria-pressed={selected === i}
               aria-label={`${lang} word ${x[1]}, meaning ${x[2]}`}
               className="flex min-h-[64px] flex-col items-center rounded-[3px] border hairline px-2.5 py-1.5 text-center"
-              style={{ borderColor: selected === i ? 'var(--bronze)' : undefined, opacity: x[5] === 'not-tr' ? 0.55 : 1 }}
+              style={{ borderColor: selected === i ? 'var(--bronze)' : lang === 'Aramaic' ? 'color-mix(in srgb, var(--aramaic) 45%, transparent)' : undefined, background: lang === 'Aramaic' ? 'var(--aramaic-wash)' : undefined, opacity: x[5] === 'not-tr' ? 0.55 : 1 }}
               title={x[5] === 'not-tr' ? 'Not in the Textus Receptus (the Greek text behind the KJV)' : x[5] === 'tr-only' ? 'Found in the Textus Receptus only' : lang}
               data-testid="original-word"
             >
-              <span lang={lang === 'Greek' ? 'grc' : lang === 'Aramaic' ? 'arc' : 'he'} className="text-[22px] leading-tight" style={{ fontFamily: fontFor(lang) }}>
+              <span lang={lang === 'Greek' ? 'grc' : lang === 'Aramaic' ? 'arc' : 'he'} className="text-[22px] leading-tight" style={{ fontFamily: fontFor(lang), color: lang === 'Aramaic' ? 'var(--aramaic)' : undefined }}>
                 {x[0]}
               </span>
               <span className="supp text-[11.5px] italic text-[var(--ink-faint)]">{x[1]}</span>

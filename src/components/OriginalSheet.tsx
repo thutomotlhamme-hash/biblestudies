@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { ChapterRef } from '@/lib/content/types';
 import { WordDetail, WordRow, languageOf, useOriginalBook } from './OriginalWords';
 import { useReader } from './ReaderContext';
@@ -11,8 +11,12 @@ import { Sheet } from './Sheet';
  * original-language words are a study aid beside it (STEPBible), never a new translation.
  */
 export function OriginalSheet({ chapterRef, from, to }: { chapterRef: ChapterRef; from: number; to: number }) {
-  const { ed } = useReader();
+  const { ed, version, open } = useReader();
   const chapter = ed.chapterByRef.get(chapterRef)!;
+  useEffect(() => {
+    void ed.ensureChapter(chapterRef);
+  }, [ed, chapterRef]);
+  void version;
   const { data: book, failed } = useOriginalBook(chapter.book.osis);
   const [sel, setSel] = useState<{ v: number; i: number } | null>(null);
   const verses = chapter.verses.filter((v) => v.verse >= from && v.verse <= to);
@@ -23,7 +27,7 @@ export function OriginalSheet({ chapterRef, from, to }: { chapterRef: ChapterRef
       <p className="supp text-[14px] leading-snug text-[var(--ink-muted)]">
         {chapter.book.testament === 'NT'
           ? 'The New Testament was written in Greek.'
-          : 'The Old Testament was written in Hebrew, with a few passages in Aramaic (parts of Daniel and Ezra, Jeremiah 10:11, two words in Genesis 31:47).'}{' '}
+          : 'The Old Testament was written in Hebrew, with some passages in Aramaic (Daniel 2:4–7:28, parts of Ezra, Jeremiah 10:11).'}{' '}
         Under each verse are the words it was written in, with how each is said and what it means. Tap a word for its dictionary form and grammar.
       </p>
       {failed && <p className="supp mt-3 italic">The original-language text for this book could not be opened.</p>}
@@ -38,7 +42,16 @@ export function OriginalSheet({ chapterRef, from, to }: { chapterRef: ChapterRef
                 <sup className="verse-num">{v.verse}</sup> <span data-scripture-text>{v.text}</span>
               </p>
               <p className="label-caps mt-2 text-[9.5px] text-[var(--ink-faint)]">
-                {[...new Set(words.map((x) => languageOf(x, book)))].join(' · ')} · {words.length} words
+                {[...new Set(words.map((x) => languageOf(x, book)))].map((l) =>
+                  l === 'Aramaic' ? (
+                    <button key={l} type="button" className="label-caps underline decoration-dotted" style={{ color: 'var(--aramaic)' }} onClick={() => open({ kind: 'aramaic' })} data-testid="original-aramaic-link">
+                      Aramaic
+                    </button>
+                  ) : (
+                    <span key={l}>{l}</span>
+                  ),
+                ).reduce<React.ReactNode[]>((a, x, i) => (i ? [...a, ' · ', x] : [x]), [])}{' '}
+                · {words.length} words
               </p>
               <div className="mt-2">
                 <WordRow words={words} book={book} selected={sel?.v === v.verse ? sel.i : null} onSelect={(i) => setSel(i === null ? null : { v: v.verse, i })} />

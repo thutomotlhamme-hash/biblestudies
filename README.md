@@ -165,6 +165,16 @@ are a tap away. Listening with the device voice is switched off for now (`src/li
 and beneath it the Hebrew, Aramaic or Greek words with how each is said and what it means (STEPBible);
 tap a word for its dictionary form and grammar. A study aid beside the translation, never a translation.
 
+**Aramaic.** Where the Bible was written in Aramaic — Daniel 2:4–7:28, Ezra 4:8–6:18 and 7:12–26,
+Jeremiah 10:11, found from STEPBible's grammar codes — the page marks the passage (אֲרָמִית, *Written in
+Aramaic*) and washes its verses in teal. Aramaic words the Gospels keep (*Talitha*, *Ephphatha*,
+*sabachthani*, *Maranatha*, *Golgotha* …) are tappable wherever STEPBible's lexicon calls them Aramaic
+and the KJV verse contains them. *Aramaic in Scripture* gathers it all, quoting each verse's own
+meaning exactly and saying where a verse itself calls the word Hebrew (`scripts/pipeline/aramaic.py`).
+
+**Chapters flow; pages turn.** A book is laid out as one run of leaves: a chapter that ends partway
+down a leaf is followed there by the next, as in a printed Bible. A turn lifts the leaf from the spine.
+
 **Section headings.** Headings above passages, set apart from Scripture in small bronze capitals. They are
 the timeline's event titles (Theographic, CC BY-SA 4.0) placed where each event begins
 (`scripts/pipeline/headings.py` → `study/headings.json`); chapters without an event get none. Draft.

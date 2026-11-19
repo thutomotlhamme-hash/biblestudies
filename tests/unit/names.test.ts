@@ -118,3 +118,31 @@ describe('journeys, factual to Scripture', () => {
   });
 });
 
+describe('Aramaic in Scripture', () => {
+  const a = json('study/aramaic.json');
+  const orig = (b: string) => json(`original/${b}.json`);
+  it('every Aramaic passage is mostly Aramaic in the STEPBible word data', () => {
+    expect(a.passages.map((p: any) => p.from)).toEqual(expect.arrayContaining(['Dan.2.4', 'Ezra.4.8', 'Jer.10.11']));
+    for (const p of a.passages) {
+      const o = orig(p.from.split('.')[0]);
+      for (const r of p.refs) {
+        const ws = o.words[r.split('.').slice(1).join('.')];
+        const ar = ws.filter((w: any[]) => w[4].split('/').some((c: string) => c.startsWith('A'))).length;
+        expect(ar * 2, r).toBeGreaterThanOrEqual(ws.length);
+      }
+    }
+  });
+  it('every New Testament word: the lexicon calls it Aramaic, the KJV verse contains it, every quotation is exact', () => {
+    expect(a.words.length).toBeGreaterThanOrEqual(8);
+    for (const w of a.words) {
+      expect(orig(w.places[0].ref.split('.')[0]).lexicon[w.strong]?.[3] ?? '', w.id).toMatch(/Aram/);
+      for (const p of w.places) {
+        const t = kjv.get(p.ref)!;
+        expect(t.slice(p.start, p.end).toLowerCase(), `${w.id} ${p.ref}`).toBe(w.kjv.toLowerCase());
+        if (p.meaning) expect(t.includes(p.meaning.text), `${w.id} ${p.ref}`).toBe(true);
+        if (p.saysHebrew) expect(t).toMatch(/Hebrew/);
+      }
+    }
+    expect(kjv.get(a.name.kjv.ref)!.includes(a.name.kjv.text)).toBe(true);
+  });
+});

@@ -429,6 +429,27 @@ export interface ReadingHistoryEntry {
   at: number;
 }
 
+// ---- Aramaic (supplementary — not Scripture) -----------------------------------------------
+
+export interface AramaicData {
+  /** The word for Aramaic where Scripture names the language (Daniel 2:4), with the KJV's words. */
+  name: { word: string; translit: string; gloss: string; ref: VerseRef; kjv: { ref: VerseRef; text: string } } | null;
+  source: string;
+  note: string;
+  editorial: Editorial;
+  passages: { from: VerseRef; to: VerseRef; verses: number; bookVerses: number; refs: VerseRef[] }[];
+  words: {
+    id: string;
+    strong: string;
+    kjv: string;
+    greek: string;
+    translit: string;
+    gloss: string;
+    lexicon: string;
+    places: { ref: VerseRef; start: number; end: number; meaning?: { ref: VerseRef; text: string }; saysHebrew?: boolean }[];
+  }[];
+}
+
 // ---- Deep Made Simple (supplementary — not Scripture) ---------------------------------------
 
 /** Deep scale for research: 1 stated in the verse · 2 original-language text · 3 dataset identification · 4 possible. */

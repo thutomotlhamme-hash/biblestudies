@@ -21,6 +21,7 @@ import type {
   ChapterMeta,
   ChapterRef,
   ContextArtifact,
+  AramaicData,
   CrossReference,
   DeepItem,
   DeepStory,
@@ -198,6 +199,11 @@ export class Library {
   occurrences = { places: new Map<string, VerseRef[]>(), people: new Map<string, VerseRef[]>(), phrases: new Map<string, VerseRef[]>() };
   events = new Map<string, BookEvent[]>();
   segmentsByRef = new Map<VerseRef, { journey: string; segment: string }[]>();
+  /** Aramaic in Scripture (supplementary): the Old Testament passages and the New Testament words. */
+  aramaic: AramaicData | null = null;
+  aramaicVerses = new Set<VerseRef>();
+  aramaicPassageAt = new Map<VerseRef, AramaicData['passages'][number]>();
+  aramaicWordsAt = new Map<VerseRef, { id: string; start: number; end: number }[]>();
   /** Section headings (supplementary): event titles placed where each event begins. */
   headings = new Map<VerseRef, { label: string; to: VerseRef; event: string }>();
   headingsSource = '';
@@ -262,7 +268,7 @@ export class Library {
   init(): Promise<void> {
     if (this.initP) return this.initP;
     this.initP = (async () => {
-      const [journeys, threads, phrases, gens, scale, chron, deepIndex, deepStories, headings] = await Promise.all([
+      const [journeys, threads, phrases, gens, scale, chron, deepIndex, deepStories, headings, aramaic] = await Promise.all([
         fetchJson<{ certaintyLegend: Record<string, string>; distanceNote: string; journeys: Journey[] }>('study/journeys.json'),
         fetchJson<{ threads: WithV<Thread>[] }>('study/threads.json'),
         fetchJson<{ phrases: WithV<Phrase>[] }>('study/phrases.json'),
@@ -273,7 +279,16 @@ export class Library {
         fetchJson<DeepIndex>('study/deep/index.json').catch(() => null),
         fetchJson<{ stories: DeepStory[] }>('study/deep/stories.json').catch(() => ({ stories: [] })),
         fetchJson<{ source: string; editorial: Editorial; headings: Record<VerseRef, { label: string; to: VerseRef; event: string }> }>('study/headings.json').catch(() => null),
+        fetchJson<AramaicData>('study/aramaic.json').catch(() => null),
       ]);
+      if (aramaic && visibleByStatus([aramaic]).length) {
+        this.aramaic = aramaic;
+        for (const p of aramaic.passages) for (const r of p.refs) {
+          this.aramaicVerses.add(r);
+          this.aramaicPassageAt.set(r, p);
+        }
+        for (const w of aramaic.words) for (const pl of w.places) this.aramaicWordsAt.set(pl.ref, [...(this.aramaicWordsAt.get(pl.ref) ?? []), { id: w.id, start: pl.start, end: pl.end }]);
+      }
       if (headings && visibleByStatus([headings]).length) {
         this.headingsSource = headings.source;
         for (const [ref, h] of Object.entries(headings.headings)) this.headings.set(ref, h);

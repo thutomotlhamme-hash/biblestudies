@@ -22,6 +22,7 @@ export type Overlay =
   | { kind: 'mine'; tab?: 'highlights' | 'notes' | 'favourites' | 'saved' }
   | { kind: 'family' }
   | { kind: 'original'; chapter: ChapterRef; from: number; to: number }
+  | { kind: 'aramaic'; focus?: string }
   | { kind: 'deep'; chapter: ChapterRef; verse?: number; tab?: 'research' | 'stories' | 'links'; story?: string }
   | null;
 

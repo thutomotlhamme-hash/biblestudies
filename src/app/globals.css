@@ -579,3 +579,69 @@ button.verse-num:hover {
   margin: 0 0 0.9em;
   font-size: 13.5px;
 }
+
+/* Aramaic — the other language of the Old Testament, and words kept in the Gospels.
+   Supplementary marks only: the translation's words are never changed. */
+:root {
+  --aramaic: #2f6f6a;
+  --aramaic-wash: rgba(47, 111, 106, 0.07);
+}
+[data-theme='night'] {
+  --aramaic: #7fc4bb;
+  --aramaic-wash: rgba(127, 196, 187, 0.09);
+}
+.verse[data-aramaic] {
+  background: var(--aramaic-wash);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  border-radius: 2px;
+}
+.aramaic-word {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: inline;
+  letter-spacing: inherit;
+  word-spacing: inherit;
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: color-mix(in srgb, var(--aramaic) 70%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.26em;
+}
+.aramaic-word:hover {
+  text-decoration-color: var(--aramaic);
+}
+.aramaic-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: 0.9em 0 0.5em;
+  font-family: var(--font-display);
+  font-size: 0.66em;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--aramaic);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-indent: 0;
+}
+.aramaic-mark::before,
+.aramaic-mark::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: color-mix(in srgb, var(--aramaic) 40%, transparent);
+}
+.aramaic-mark .script {
+  font-family: 'SBL Hebrew', 'Ezra SIL', 'Times New Roman', serif;
+  font-size: 1.5em;
+  letter-spacing: 0;
+  text-transform: none;
+}

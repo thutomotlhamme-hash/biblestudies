@@ -2,7 +2,7 @@
 import { motion, type PanInfo } from 'framer-motion';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { mapHits } from '@/lib/content/names';
-import { chapterOf, formatChapter, parseRef } from '@/lib/content/refs';
+import { chapterOf, formatChapter, formatRef as fmtRef, parseRef } from '@/lib/content/refs';
 import type { Chapter, Leaf } from '@/lib/content/types';
 import type { Hit } from '@/lib/content/segment';
 import { FONT_SIZES, LINE_HEIGHTS } from '@/lib/state/reader-state';
@@ -448,8 +448,11 @@ function Segment({ seg, top, fontSize, linked, showApparatus, railWide, ghost, r
   const kjv = ed.translation.translation.id === 'kjv';
   const hitsFor = (ref: string) => {
     const e = ed.entities.get(ref);
-    if (!e) return [];
-    const hits: Hit[] = [...e.places.map((h) => ({ ...h, kind: 'place' as const })), ...(state.settings.names ? (e.names ?? []).map((h) => ({ ...h, kind: 'person' as const })) : [])];
+    const hits: Hit[] = [
+      ...(e?.places ?? []).map((h) => ({ ...h, kind: 'place' as const })),
+      ...(state.settings.names ? (e?.names ?? []).map((h) => ({ ...h, kind: 'person' as const })) : []),
+      ...(ed.aramaicWordsAt.get(ref) ?? []).map((h) => ({ ...h, kind: 'aramaic' as const })),
+    ];
     if (kjv || !hits.length) return hits;
     const k = ed.kjv.hasBook(chapter.book.osis) ? ed.kjv.verse(ref)?.text : undefined;
     const t = ed.translation.verse(ref)?.text;
@@ -460,6 +463,18 @@ function Segment({ seg, top, fontSize, linked, showApparatus, railWide, ghost, r
   const openingHeading = seg.opens ? headingOf(`${chapter.ref}.1`) : undefined;
   const headingFor = (ref: string) => (seg.opens && ref === `${chapter.ref}.1` ? undefined : headingOf(ref));
   const italicsFor = (ref: string) => (kjv && state.settings.italics ? ed.translation.italics(ref) : undefined);
+  // Aramaic passages: a mark where one begins (or carries on at the top of a leaf), and a faint wash
+  const aramaicFor = (ref: string) => ed.aramaicVerses.has(ref);
+  const markFor = (ref: string) => {
+    const p = ed.aramaicPassageAt.get(ref);
+    if (!p || (p.from !== ref && !(top && ref === `${chapter.ref}.${seg.from}`))) return null;
+    const range = p.from === p.to ? fmtRef(p.from) : `${fmtRef(p.from)} – ${fmtRef(p.to).replace(/^.* (?=\d+:)/, '')}`;
+    return (
+      <button type="button" className="aramaic-mark" onClick={(e) => { e.stopPropagation(); open({ kind: 'aramaic' }); }} data-testid={ghost ? undefined : 'aramaic-mark'} title="Supplementary — not Scripture. Tap to learn about Aramaic.">
+        <span className="script" lang="arc">אֲרָמִית</span> {p.from === ref ? 'Written in Aramaic' : 'Aramaic continues'} · {range}
+      </button>
+    );
+  };
   const chapterLinked = useMemo(() => new Set([...linked].filter((r) => chapterOf(r) === chapter.ref).map((r) => parseRef(r).from)), [linked, chapter.ref]);
 
   return (
@@ -517,6 +532,9 @@ function Segment({ seg, top, fontSize, linked, showApparatus, railWide, ghost, r
             reading={audio.ref}
             onPlace={(id) => open({ kind: 'place', id })}
             onPerson={(id) => open({ kind: 'person', id })}
+            onAramaic={(id) => open({ kind: 'aramaic', focus: id })}
+            aramaicFor={aramaicFor}
+            markFor={markFor}
             headingFor={headingFor}
             onVerse={(ref) => open({ kind: 'verse', ref })}
             numberIds={reading && !ghost ? '' : `${chapter.ref}-`}

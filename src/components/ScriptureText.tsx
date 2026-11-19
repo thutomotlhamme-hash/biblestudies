@@ -1,5 +1,5 @@
 'use client';
-import { memo, useMemo } from 'react';
+import { memo, useMemo, type ReactNode } from 'react';
 import type { Hit } from '@/lib/content/segment';
 import { segmentVerse, type Run } from '@/lib/content/runs';
 export { segmentVerse };
@@ -19,20 +19,22 @@ interface VerseProps {
   block: boolean;
   onPlace: (id: string) => void;
   onPerson?: (id: string) => void;
+  onAramaic?: (id: string) => void;
   onVerse: (ref: VerseRef) => void;
   numberIds?: string;
+  aramaic?: boolean;
 }
 
 /**
  * A single verse. The text is rendered exactly as supplied by the translation; place names may be
  * wrapped in a button and supplied words set in italics, but no character is added, removed or changed.
  */
-export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dropCap, state, highlight, hasNote, reading, block, onPlace, onPerson, onVerse, numberIds }: VerseProps) {
+export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dropCap, state, highlight, hasNote, reading, block, onPlace, onPerson, onAramaic, onVerse, numberIds, aramaic }: VerseProps) {
   const runs = useMemo(() => segmentVerse(verse.text, linkPlaces ? hits : [], italics), [verse.text, hits, linkPlaces, italics]);
 
   let lead: string | null = null;
   let rest: Run[] = runs;
-  if (dropCap && runs.length && !runs[0].placeId && !runs[0].personId && !runs[0].italic) {
+  if (dropCap && runs.length && !runs[0].placeId && !runs[0].personId && !runs[0].aramaicId && !runs[0].italic) {
     const m = /^(\S+\s+\S+)/.exec(runs[0].text);
     if (m) {
       lead = m[1];
@@ -42,7 +44,7 @@ export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dro
   const cls = ['verse', state === 'linked' ? 'is-linked' : '', state === 'target' ? 'is-target' : '', highlight ? `hl-${highlight}` : '', reading ? 'is-reading' : '', block ? 'verse-block' : ''].filter(Boolean).join(' ');
 
   return (
-    <span className={cls} data-verse={verse.verse} data-ref={verse.ref} id={`v${verse.verse}`} data-highlight={highlight}>
+    <span className={cls} data-verse={verse.verse} data-ref={verse.ref} id={`v${verse.verse}`} data-highlight={highlight} data-aramaic={aramaic ? '' : undefined}>
       {dropCap ? (
         <button type="button" className="sr-only focus:not-sr-only" data-interactive onClick={(e) => { e.stopPropagation(); onVerse(verse.ref); }} aria-label={`Verse ${verse.verse}. Verse options`}>
           Verse {verse.verse}.{' '}
@@ -74,6 +76,20 @@ export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dro
               onClick={(e) => {
                 e.stopPropagation();
                 onPlace(r.placeId!);
+              }}
+            >
+              {r.text}
+            </button>
+          ) : r.aramaicId ? (
+            <button
+              key={i}
+              type="button"
+              className="aramaic-word"
+              data-aramaic-word={r.aramaicId}
+              title="Aramaic — tap to learn more"
+              onClick={(e) => {
+                e.stopPropagation();
+                onAramaic?.(r.aramaicId!);
               }}
             >
               {r.text}
@@ -120,17 +136,23 @@ interface ScriptureProps {
   onPerson?: (id: string) => void;
   /** A section heading (supplementary) to set above a verse. */
   headingFor?: (ref: string) => string | undefined;
+  /** A quiet mark set above a verse (e.g. where an Aramaic passage begins). */
+  markFor?: (ref: string) => ReactNode;
+  aramaicFor?: (ref: string) => boolean;
+  onAramaic?: (id: string) => void;
   onVerse?: (ref: VerseRef) => void;
   /** Prefix for verse-number test ids: chapters other than the one being read are told apart. */
   numberIds?: string;
 }
 
-export function ScriptureText({ verses, hitsFor, italicsFor, linkPlaces, withDropCap, linked, layout = 'paragraph', highlights = {}, notes = {}, reading, onPlace, onPerson, headingFor, onVerse = () => {}, numberIds }: ScriptureProps) {
+export function ScriptureText({ verses, hitsFor, italicsFor, linkPlaces, withDropCap, linked, layout = 'paragraph', highlights = {}, notes = {}, reading, onPlace, onPerson, headingFor, markFor, aramaicFor, onAramaic, onVerse = () => {}, numberIds }: ScriptureProps) {
   return (
     <p className={`scripture${layout === 'verse' ? ' scripture-verses' : ''}`}>
       {verses.map((v, i) => {
         const shown = headingFor?.(v.ref);
+        const mark = markFor?.(v.ref);
         return [
+          mark ? <span key={v.ref + ':m'} className="block">{mark}</span> : null,
           shown ? (
             <span key={v.ref + ':h'} className="section-heading" role="heading" aria-level={3} data-testid="section-heading" title="Section heading — supplementary, not Scripture">
               {shown}
@@ -150,8 +172,10 @@ export function ScriptureText({ verses, hitsFor, italicsFor, linkPlaces, withDro
           block={layout === 'verse'}
           onPlace={onPlace}
           onPerson={onPerson}
+          onAramaic={onAramaic}
           onVerse={onVerse}
           numberIds={numberIds}
+          aramaic={aramaicFor?.(v.ref)}
         />,
         ];
       })}

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { assertScriptureVerbatim, openAt, showChrome } from './helpers';
+import { assertScriptureVerbatim, KJV, openAt, showChrome } from './helpers';
 
 /** Every tool says what it is, and the Original view shows the words Scripture was written in. */
 test('labelled tools; Original shows the Hebrew/Aramaic/Greek beneath the exact translation', async ({ page }) => {
@@ -36,4 +36,19 @@ test('headings above passages and tappable names, in another translation too', a
   await openAt(page, '1Chr.16', 41);
   await page.locator('[data-person^="jeduthun"]').first().click();
   await expect(page.getByTestId('person-tribe')).toContainText('Levi');
+});
+
+test('Aramaic: a passage written in Aramaic is marked, and an Aramaic word in the Gospels opens its story', async ({ page }) => {
+  await openAt(page, 'Dan.2', 4);
+  await expect(page.getByTestId('aramaic-mark').first()).toBeVisible();
+  await expect(page.locator('[data-ref="Dan.2.4"].verse')).toHaveAttribute('data-aramaic', '');
+  await page.getByTestId('aramaic-mark').first().click();
+  const sheet = page.getByTestId('aramaic-sheet');
+  await expect(sheet.getByTestId('aramaic-passage').first()).toBeVisible();
+  for (const q of await sheet.locator('[data-ref-quote]').evaluateAll((els) => els.map((e) => ({ ref: (e as HTMLElement).dataset.refQuote!, text: e.querySelector('[data-quote-text]')!.textContent! })))) expect(KJV[q.ref], q.ref).toContain(q.text);
+  await page.keyboard.press('Escape');
+
+  await openAt(page, 'Mark.5', 41);
+  await page.locator('[data-aramaic-word="g5008"]').first().click();
+  await expect(page.getByTestId('aramaic-word-g5008')).toContainText('which is, being interpreted, Damsel, I say unto thee, arise');
 });
