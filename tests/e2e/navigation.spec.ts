@@ -52,3 +52,14 @@ test('Aramaic: a passage written in Aramaic is marked, and an Aramaic word in th
   await page.locator('[data-aramaic-word="g5008"]').first().click();
   await expect(page.getByTestId('aramaic-word-g5008')).toContainText('which is, being interpreted, Damsel, I say unto thee, arise');
 });
+
+test('a way back on every page but the first: turn back returns to the page before', async ({ page }) => {
+  await openAt(page, 'Matt.7', 6);
+  const head = () => page.locator('[data-page-side] header.running-head').first().textContent();
+  const before = await head();
+  await page.getByTestId('turn-back').first().click();
+  await expect.poll(head).not.toBe(before);
+  await page.waitForTimeout(700);
+  await page.keyboard.press('ArrowRight');
+  await expect.poll(head).toBe(before);
+});

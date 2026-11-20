@@ -322,6 +322,8 @@ function PageLeaf({ leaf, onToggleChrome, onVerseInView, scrollRequest, side, gh
   const within = (ref: string) => refsOnLeaf.includes(ref);
   const inserts = ghost ? [] : ed.inserts.filter((i) => within(`${chapterOf(i.anchorVerse)}.${parseRef(i.anchorVerse).from}`));
   const ribbons = state.bookmarks.filter((b) => within(`${b.chapter}.${b.verse}`));
+  const compact = side === 'single' && !tablet;
+  const atBibleStart = leaf.index === 0 && book.osis === ed.chapters[0].book.osis;
   const first = segs[0];
   const last = segs[segs.length - 1];
   const range = first.chapter.ref === last.chapter.ref ? `${first.chapter.number}:${first.from}–${last.to}` : `${first.chapter.number}:${first.from} – ${last.chapter.number}:${last.to}`;
@@ -360,8 +362,8 @@ function PageLeaf({ leaf, onToggleChrome, onVerseInView, scrollRequest, side, gh
             ))}
           </div>
 
-          <footer className="mt-10 flex flex-col items-center gap-4" style={{ paddingRight: railWide ? 60 : 0 }}>
-            {isLastLeaf ? (
+          {isLastLeaf && (
+            <footer className="mt-10 flex flex-col items-center gap-4" style={{ paddingRight: railWide ? 60 : 0 }}>
               <div className="text-center">
                 <div className="mx-auto mb-5 flex items-center justify-center gap-2 text-[var(--bronze)] opacity-70" aria-hidden>
                   <span className="h-px w-10 bg-current" />
@@ -376,18 +378,8 @@ function PageLeaf({ leaf, onToggleChrome, onVerseInView, scrollRequest, side, gh
                   <p className="supp text-[14px] italic">The end of the Holy Bible</p>
                 )}
               </div>
-            ) : (
-              side !== 'left' && (
-                <button type="button" className="btn-quiet px-4 text-[13px] italic" onClick={() => turn(1)} aria-label="Turn to the next page">
-                  <span className="tracking-wide">turn the page</span>
-                  <span aria-hidden>→</span>
-                </button>
-              )
-            )}
-            <p className="font-display text-[12px] tracking-[0.3em] text-[var(--ink-faint)]" aria-label={`Page ${leaf.index + 1} of ${leaves.length} in ${book.name}`}>
-              · {leaf.index + 1} ·
-            </p>
-          </footer>
+            </footer>
+          )}
         </div>
       </div>
 
@@ -424,6 +416,27 @@ function PageLeaf({ leaf, onToggleChrome, onVerseInView, scrollRequest, side, gh
         </div>
       )}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-16" style={{ background: 'linear-gradient(to top, var(--paper-deep), transparent)' }} />
+
+      {/* page controls, the same place on every page: back on the left page, on on the right (both on a single page) */}
+      {!state.focus && (
+        <nav aria-label="Pages" className={`absolute bottom-[max(8px,env(safe-area-inset-bottom))] z-[2] flex items-center ${compact ? 'right-3 gap-1' : 'inset-x-0 justify-center gap-5'}`} style={compact || !railWide ? undefined : { paddingRight: 60 }}>
+          {side !== 'right' && !atBibleStart && (
+            <button type="button" className={`btn-quiet italic ${compact ? '!min-w-[40px] px-2 text-[18px]' : 'px-3 text-[13px]'}`} onClick={() => turn(-1)} aria-label="Turn back a page" data-testid={ghost ? undefined : 'turn-back'}>
+              <span aria-hidden>{compact ? '‹' : '←'}</span>
+              {!compact && <span className="tracking-wide">turn back</span>}
+            </button>
+          )}
+          <span className="font-display text-[12px] tracking-[0.3em] text-[var(--ink-faint)]" aria-label={`Page ${leaf.index + 1} of ${leaves.length} in ${book.name}`}>
+            {compact ? leaf.index + 1 : `· ${leaf.index + 1} ·`}
+          </span>
+          {side !== 'left' && !isLastLeaf && (
+            <button type="button" className={`btn-quiet italic ${compact ? '!min-w-[40px] px-2 text-[18px]' : 'px-3 text-[13px]'}`} onClick={() => turn(1)} aria-label="Turn to the next page">
+              {!compact && <span className="tracking-wide">turn the page</span>}
+              <span aria-hidden>{compact ? '›' : '→'}</span>
+            </button>
+          )}
+        </nav>
+      )}
       <style>{`.scripture{--read-size:${fontSize}px;--read-leading:${LINE_HEIGHTS[state.settings.lineStep]}}`}</style>
     </article>
   );
