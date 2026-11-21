@@ -746,3 +746,9 @@ button.verse-num:hover {
     display: none;
   }
 }
+
+/* sideways swipes turn the page; they never navigate the browser back or forward */
+html,
+body {
+  overscroll-behavior-x: none;
+}

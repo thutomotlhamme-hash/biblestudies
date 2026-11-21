@@ -112,6 +112,27 @@ test.describe('Matthew 2 — the Phase 1 reader journey still holds', () => {
     await expect(runningHead(page)).toHaveText(first!);
   });
 
+  test('a two-finger sideways swipe on a trackpad turns one page; scrolling down does not', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'trackpads are on laptops');
+    await openBible(page);
+    const first = await runningHead(page).textContent();
+    const box = (await page.getByTestId('page-scroller').boundingBox())!;
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    // up and down only scrolls
+    for (let i = 0; i < 6; i++) await page.mouse.wheel(0, 40);
+    await page.waitForTimeout(400);
+    await expect(runningHead(page)).toHaveText(first!);
+    // one sideways swipe (many small wheel events) turns exactly one page
+    for (let i = 0; i < 12; i++) await page.mouse.wheel(30, 2);
+    await expect(runningHead(page)).not.toHaveText(first!);
+    const second = await runningHead(page).textContent();
+    await page.waitForTimeout(900);
+    await expect(runningHead(page)).toHaveText(second!);
+    // and back
+    for (let i = 0; i < 12; i++) await page.mouse.wheel(-30, 2);
+    await expect(runningHead(page)).toHaveText(first!);
+  });
+
   test('each "by the prophet" names the prophet from Scripture', async ({ page }) => {
     await openAt(page, 'Matt.2', 15);
     await page.waitForTimeout(700);

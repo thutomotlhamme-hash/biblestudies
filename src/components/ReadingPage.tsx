@@ -64,9 +64,43 @@ export function ReadingPage({ onToggleChrome, onVerseInView, scrollRequest, dir,
   const onPanEnd = (_: unknown, info: PanInfo) => {
     const { offset, velocity } = info;
     if (Math.abs(offset.y) > Math.abs(offset.x)) return;
-    if (offset.x < -70 || velocity.x < -500) turn(1);
-    else if (offset.x > 70 || velocity.x > 500) turn(-1);
+    if (offset.x < -50 || velocity.x < -400) turn(1);
+    else if (offset.x > 50 || velocity.x > 400) turn(-1);
   };
+
+  // a laptop trackpad: two fingers swiped sideways turn the page, as two fingers up and down scroll it.
+  // One swipe turns one page: the gesture must rest before the next turn.
+  const stageRef = useRef<HTMLDivElement>(null);
+  const turnRef = useRef(turn);
+  turnRef.current = turn;
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    let sum = 0;
+    let spent = false;
+    let rest = 0;
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY) || e.ctrlKey) return;
+      e.preventDefault(); // keep the browser from going back a page
+      window.clearTimeout(rest);
+      rest = window.setTimeout(() => {
+        sum = 0;
+        spent = false;
+      }, 220);
+      if (spent) return;
+      sum += e.deltaX;
+      if (Math.abs(sum) > 60) {
+        spent = true;
+        turnRef.current(sum > 0 ? 1 : -1);
+        sum = 0;
+      }
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', onWheel);
+      window.clearTimeout(rest);
+    };
+  }, []);
 
   // stacked page edges reflect position in the whole Bible
   const frac = (chapter.index + left / Math.max(1, leaves.length) / Math.max(1, ed.chapters.filter((c) => c.book.osis === book).length)) / ed.chapters.length;
@@ -156,10 +190,11 @@ export function ReadingPage({ onToggleChrome, onVerseInView, scrollRequest, dir,
       <div aria-hidden className="page-edges-left absolute top-[10px] bottom-[10px] z-0 rounded-l-sm" style={{ width: readW, left: `max(0px, calc(50% - ${width / 2 + readW}px))` }} />
       <div aria-hidden className="page-edges-right absolute top-[10px] bottom-[10px] z-0 rounded-r-sm" style={{ width: leftW, right: `max(0px, calc(50% - ${width / 2 + leftW}px))` }} />
       <motion.div
+        ref={stageRef}
         drag={flip ? false : 'x'}
         dragDirectionLock
         dragConstraints={{ left: 0, right: 0 }}
-        dragElastic={0.18}
+        dragElastic={0.55}
         dragMomentum={false}
         onDragEnd={onPanEnd}
         className={`absolute inset-y-0 left-[6px] right-[8px] ${spread ? 'flex gap-0' : 'flex'}`}
