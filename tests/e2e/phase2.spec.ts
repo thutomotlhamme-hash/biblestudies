@@ -35,7 +35,7 @@ test.describe('Phase 2 — a connected biblical journey', () => {
     await back.click();
     await expect(page.getByTestId('reading-page')).toHaveAttribute('data-chapter', 'Matt.2');
     // back on the page that holds Matthew 2:5 (pages fit the screen, so where it starts varies)
-    await expect(page.locator('[data-testid="page-scroller"] [data-ref="Matt.2.5"]')).toBeVisible();
+    await expect(page.locator('[data-testid^="page-scroller"] [data-ref="Matt.2.5"]').first()).toBeVisible();
   });
 
   test('C · read → open the atlas → select a location → return to Scripture', async ({ page }) => {

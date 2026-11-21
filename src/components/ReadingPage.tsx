@@ -488,6 +488,12 @@ function Segment({ seg, top, fontSize, linked, showApparatus, railWide, ghost, r
       </button>
     );
   };
+  // the KJV as printed: Psalm titles and Psalm 119's letters (Scripture), the 1611 summary and red letters (supplementary)
+  const psalmTitle = seg.opens ? ed.titleOf(chapter.ref) : undefined;
+  const summary = seg.opens && state.settings.summaries ? ed.summaryOf(chapter.ref) : undefined;
+  const redFor = (ref: string) => (kjv && state.settings.redLetter ? ed.redAt(ref) : undefined);
+  const letterFor = (ref: string) => ed.letterAt(ref);
+  const poetry = chapter.book.poetry && state.settings.layout !== 'verse';
   const chapterLinked = useMemo(() => new Set([...linked].filter((r) => chapterOf(r) === chapter.ref).map((r) => parseRef(r).from)), [linked, chapter.ref]);
 
   return (
@@ -509,6 +515,9 @@ function Segment({ seg, top, fontSize, linked, showApparatus, railWide, ghost, r
                   {tp.post}
                 </p>
               )}
+              <button type="button" tabIndex={ghost ? -1 : undefined} style={ghost ? { visibility: 'hidden' } : undefined} className="mt-1 font-display text-[12.5px] italic text-[var(--bronze-deep)] underline decoration-dotted underline-offset-2" onClick={() => open({ kind: 'book', osis: chapter.book.osis })} data-testid={ghost ? undefined : 'book-intro-link'}>
+                About this book
+              </button>
             </div>
           ) : (
             top && <h1 className="font-display text-[15px] font-medium tracking-[0.34em] text-[var(--ink-muted)]">{chapter.book.name.toUpperCase()}</h1>
@@ -518,6 +527,11 @@ function Segment({ seg, top, fontSize, linked, showApparatus, railWide, ghost, r
             <span className="text-[9px]">◆</span>
             <span className="h-px w-8 bg-current" />
           </div>
+          {summary && (
+            <p className="chapter-summary mx-auto mt-4" data-testid={ghost ? undefined : 'chapter-summary'} title="The chapter summary of the 1611 King James Bible, in its own spelling — supplementary, not Scripture">
+              {summary}
+            </p>
+          )}
           {openingHeading && (
             <p className="section-heading section-heading-first mt-5" role="heading" aria-level={3} data-testid={ghost ? undefined : 'section-heading'} title="Section heading — supplementary, not Scripture">
               {openingHeading}
@@ -526,6 +540,11 @@ function Segment({ seg, top, fontSize, linked, showApparatus, railWide, ghost, r
         </div>
       )}
       <div className={`relative ${seg.opens ? 'pt-5' : top ? 'pt-6' : 'pt-2'}`} style={{ paddingRight: railWide ? 136 : 0 }}>
+        {psalmTitle && (
+          <p className="psalm-title" style={{ fontSize: fontSize * 0.74 }} data-testid={ghost ? undefined : 'psalm-title'} title="The Psalm’s title — part of the King James text">
+            {psalmTitle}
+          </p>
+        )}
         {seg.opens && (
           <h2 className="chapter-numeral float-left mr-3 mt-[0.08em]" style={{ fontSize: `${fontSize * 3.6}px` }} aria-label={`Chapter ${chapter.number}`}>
             {chapter.number}
@@ -537,9 +556,12 @@ function Segment({ seg, top, fontSize, linked, showApparatus, railWide, ghost, r
             hitsFor={hitsFor}
             italicsFor={italicsFor}
             linkPlaces={showApparatus}
-            withDropCap={seg.opens && state.settings.layout === 'paragraph'}
+            withDropCap={seg.opens && state.settings.layout === 'paragraph' && !poetry}
             linked={chapterLinked}
-            layout={state.settings.layout === 'verse' || (chapter.book.poetry && state.settings.layout !== 'paragraph') ? 'verse' : 'paragraph'}
+            layout={state.settings.layout === 'verse' || poetry ? 'verse' : 'paragraph'}
+            poetry={poetry}
+            redFor={redFor}
+            letterFor={letterFor}
             highlights={state.highlights}
             notes={state.notes}
             reading={audio.ref}

@@ -503,3 +503,24 @@ export interface DeepStory {
   source: string;
   editorial: Editorial;
 }
+
+/** The KJV as printed, for one book (study/print/<Book>.json). */
+export interface PrintBook {
+  /** Psalm titles — part of the KJV text as printed (checksum-tested): chapter number → title. */
+  titles: Record<string, string>;
+  /** The Hebrew letters over Psalm 119, by the verse they stand above ("119.9"). */
+  letters: Record<string, string>;
+  /** The 1611 chapter summaries ("The creation of Heauen and Earth…"), in the 1611 spelling. Supplementary. */
+  summaries: Record<string, string>;
+  /** Words of Jesus as character ranges in the KJV text ("3.15" → [[35, 111]]). Supplementary. */
+  red: Record<string, [number, number][]>;
+}
+
+/** Centre-column cross-references for one book: "1.1" → [[ref, votes]…]. */
+export interface XrefBook {
+  source: string;
+  note: string;
+  evidenceLevel: 4;
+  editorial: Editorial;
+  refs: Record<string, [string, number][]>;
+}

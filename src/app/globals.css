@@ -645,3 +645,104 @@ button.verse-num:hover {
   letter-spacing: 0;
   text-transform: none;
 }
+
+/* The KJV as printed. Psalm titles and Psalm 119's letters are part of the King James text; the
+   1611 chapter summaries and the red letters are supplementary (red letters only colour the words). */
+:root {
+  --wj: #a3262a;
+}
+[data-theme='night'] {
+  --wj: #e58a7f;
+}
+[data-theme='contrast'] {
+  --wj: #8a0f14;
+}
+.wj {
+  color: var(--wj);
+}
+.chapter-summary {
+  max-width: 30em;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-size: 13.5px;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--ink-muted);
+  text-wrap: balance;
+}
+.psalm-title {
+  margin: 0 0 0.7em;
+  font-style: italic;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--ink-muted);
+}
+.psalm-letter {
+  display: block;
+  margin: 1em 0 0.4em;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-size: 0.8em;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-indent: 0;
+  color: var(--bronze-deep);
+}
+.scripture-poetry .verse-block {
+  padding-left: 2.6em;
+  text-indent: -2.6em;
+}
+.scripture-poetry .verse-block .verse-num {
+  width: 1.8em;
+  margin-left: 0.8em;
+}
+.poetry-break {
+  display: block;
+  height: 0;
+}
+.scripture-poetry .poetry-break + * {
+  margin-left: 0.9em;
+}
+
+/* The thumb index: tabs cut into the fore-edge, one for each part of the Bible (wide screens). */
+.thumb-index {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.thumb-tab {
+  width: 26px;
+  min-height: 52px;
+  padding: 6px 0;
+  border-radius: 4px 0 0 4px;
+  background: color-mix(in srgb, var(--paper) 88%, var(--bronze));
+  border: 1px solid var(--rule);
+  border-right: 0;
+  color: var(--ink-muted);
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.18);
+  transition: width 0.2s ease, background 0.2s ease;
+}
+.thumb-tab span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  display: inline-block;
+}
+.thumb-tab:hover,
+.thumb-tab:focus-visible {
+  width: 32px;
+}
+.thumb-tab[aria-current='true'] {
+  background: var(--ink);
+  color: var(--paper);
+}
+@media print {
+  .thumb-index {
+    display: none;
+  }
+}

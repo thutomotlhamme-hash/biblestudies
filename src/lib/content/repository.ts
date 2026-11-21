@@ -32,6 +32,8 @@ import type {
   Leaf,
   MapBase,
   Measurements,
+  PrintBook,
+  XrefBook,
   Page,
   Person,
   Phrase,
@@ -59,7 +61,7 @@ export interface PageFit {
  * leaf, the next chapter opens there. A book always begins on a fresh leaf. A verse is never split.
  * Layout only — no character of Scripture is touched.
  */
-export function layoutBook(book: string, chapters: Chapter[], fit: PageFit | null): Leaf[] {
+export function layoutBook(book: string, chapters: Chapter[], fit: PageFit | null, extra: (c: Chapter) => number = () => 0): Leaf[] {
   const cap = fit?.normal ?? 1150;
   const opening = fit?.opening ?? 260;
   const title = fit?.title ?? 260;
@@ -74,24 +76,33 @@ export function layoutBook(book: string, chapters: Chapter[], fit: PageFit | nul
   for (const c of chapters) {
     const verses = c.verses;
     if (!verses.length) continue;
-    const cost = opening + (c.number === 1 ? title : 0);
+    const cost = opening + (c.number === 1 ? title : 0) + extra(c);
     // a chapter opens here only if its opening and at least its first verse fit; else on the next leaf
     if (cur.segments.length && used + cost + verses[0].text.length > cap) close();
     used += cost;
     let seg = { chapter: c.ref, from: verses[0].verse, to: verses[0].verse - 1, opens: true };
     cur.segments.push(seg);
+    // poetry is set a verse to a line, its second half indented on a line of its own: room for the line ends
+    const line = Math.min(90, Math.max(30, cap / 24));
+    const poem = (v: Verse) => (c.book.poetry ? line * 0.55 + (poetryTurn(v.text) > 0 ? line * 0.55 : 0) : 0);
     for (const v of verses) {
-      if (seg.to >= seg.from && used + v.text.length > cap) {
+      if (seg.to >= seg.from && used + v.text.length + poem(v) > cap) {
         close();
         seg = { chapter: c.ref, from: v.verse, to: v.verse - 1, opens: false };
         cur.segments.push(seg);
       }
-      used += v.text.length + 1;
+      used += v.text.length + 1 + poem(v);
       seg.to = v.verse;
     }
   }
   if (cur.segments.length) leaves.push(cur);
   return leaves;
+}
+
+/** Where a verse of poetry turns: just after its first colon, when both halves are lines in their own right. */
+export function poetryTurn(text: string): number {
+  const i = text.indexOf(': ');
+  return i >= 14 && text.length - i > 16 ? i + 2 : -1;
 }
 
 /**
@@ -376,9 +387,84 @@ export class Library {
   /** The leaves of each loaded book, in order. */
   leaves = new Map<string, Leaf[]>();
 
+  /** The KJV as printed, per book: Psalm titles, the 1611 chapter summaries, the words of Jesus. */
+  print = new Map<string, PrintBook>();
+  /** Whether the 1611 chapter summaries are set at chapter openings (they take room on the page). */
+  showSummaries = true;
+  /** Centre-column cross-references, per book (loaded when a verse asks for them). */
+  xrefs = new Map<string, XrefBook>();
+  private xrefLoads = new Map<string, Promise<XrefBook | null>>();
+
+  /** Room (in characters of text) a chapter's opening takes beyond the numeral: its title and summary. */
+  private openingExtra(c: Chapter): number {
+    const p = this.print.get(c.book.osis);
+    if (!p) return 0;
+    const kjv = this.translation.translation.id === 'kjv';
+    const n = String(c.number);
+    const title = kjv && p.titles[n] ? p.titles[n].length + 60 : 0;
+    const letters = kjv ? Object.keys(p.letters).filter((k) => k.startsWith(n + '.')).length * 70 : 0;
+    const summary = this.showSummaries && p.summaries[n] ? Math.round(p.summaries[n].length * 0.85) + 80 : 0;
+    return title + letters + summary;
+  }
+
+  /** The Psalm title over a chapter (KJV only: other translations print it inside verse 1). */
+  titleOf(chapter: ChapterRef): string | undefined {
+    if (this.translation.translation.id !== 'kjv') return undefined;
+    const [b, n] = chapter.split('.');
+    return this.print.get(b)?.titles[n];
+  }
+
+  summaryOf(chapter: ChapterRef): string | undefined {
+    const [b, n] = chapter.split('.');
+    return this.print.get(b)?.summaries[n];
+  }
+
+  /** A Hebrew letter set over a verse of Psalm 119 (KJV). */
+  letterAt(ref: VerseRef): string | undefined {
+    if (this.translation.translation.id !== 'kjv') return undefined;
+    const p = parseRef(ref);
+    return this.print.get(p.book)?.letters[`${p.chapter}.${p.from}`];
+  }
+
+  /** Words of Jesus in a verse, as KJV character ranges. */
+  redAt(ref: VerseRef): [number, number][] | undefined {
+    const p = parseRef(ref);
+    return this.print.get(p.book)?.red[`${p.chapter}.${p.from}`];
+  }
+
+  setShowSummaries(on: boolean) {
+    if (on === this.showSummaries) return;
+    this.showSummaries = on;
+    for (const book of this.leaves.keys()) this.layout(book);
+    this.bump();
+  }
+
+  /** Cross-references for a verse (loads the book's centre column once). */
+  async ensureXrefs(book: string): Promise<XrefBook | null> {
+    if (this.xrefs.has(book)) return this.xrefs.get(book)!;
+    let p = this.xrefLoads.get(book);
+    if (!p) {
+      p = fetchJson<XrefBook>(`study/xrefs/${book}.json`).then(
+        (x) => {
+          this.xrefs.set(book, x);
+          this.bump();
+          return x;
+        },
+        () => null,
+      );
+      this.xrefLoads.set(book, p);
+    }
+    return p;
+  }
+
+  xrefsFor(ref: VerseRef): [string, number][] {
+    const p = parseRef(ref);
+    return this.xrefs.get(p.book)?.refs[`${p.chapter}.${p.from}`] ?? [];
+  }
+
   private layout(book: string) {
     const chapters = this.chapters.filter((c) => c.book.osis === book && c.loaded);
-    const leaves = layoutBook(book, chapters, this.pageFit);
+    const leaves = layoutBook(book, chapters, this.pageFit, (c) => this.openingExtra(c));
     this.leaves.set(book, leaves);
     for (const c of chapters) c.pages = [];
     for (const l of leaves)
@@ -404,12 +490,14 @@ export class Library {
     let p = this.bookLoads.get(book);
     if (!p) {
       p = (async () => {
-        const [, , study] = await Promise.all([
+        const [, , study, print] = await Promise.all([
           this.translation.loadBook(book),
           this.kjv.loadBook(book),
           this.study.has(book) ? Promise.resolve(this.study.get(book)!) : fetchJson<StudyBook>(`study/books/${book}.json`),
+          this.print.has(book) ? Promise.resolve(this.print.get(book)!) : fetchJson<PrintBook>(`study/print/${book}.json`).catch(() => null),
         ]);
         this.study.set(book, study);
+        if (print) this.print.set(book, print);
         this.applyBook(book, study);
         void this.ensureDeep(book);
         this.bump();

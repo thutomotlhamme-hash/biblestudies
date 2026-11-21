@@ -2,6 +2,7 @@
 import { memo, useMemo, type ReactNode } from 'react';
 import type { Hit } from '@/lib/content/segment';
 import { segmentVerse, type Run } from '@/lib/content/runs';
+import { poetryTurn } from '@/lib/content/repository';
 export { segmentVerse };
 import type { Verse as VerseT, VerseRef } from '@/lib/content/types';
 import type { HighlightColor, Note } from '@/lib/state/reader-state';
@@ -23,18 +24,35 @@ interface VerseProps {
   onVerse: (ref: VerseRef) => void;
   numberIds?: string;
   aramaic?: boolean;
+  /** Words of Jesus (KJV character ranges), printed in red — a printing tradition, not the text. */
+  red?: [number, number][];
+  poetry?: boolean;
 }
 
 /**
  * A single verse. The text is rendered exactly as supplied by the translation; place names may be
  * wrapped in a button and supplied words set in italics, but no character is added, removed or changed.
  */
-export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dropCap, state, highlight, hasNote, reading, block, onPlace, onPerson, onAramaic, onVerse, numberIds, aramaic }: VerseProps) {
-  const runs = useMemo(() => segmentVerse(verse.text, linkPlaces ? hits : [], italics), [verse.text, hits, linkPlaces, italics]);
+export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dropCap, state, highlight, hasNote, reading, block, onPlace, onPerson, onAramaic, onVerse, numberIds, aramaic, red, poetry }: VerseProps) {
+  const runs = useMemo(() => {
+    const rs = segmentVerse(verse.text, linkPlaces ? hits : [], italics, red);
+    // poetry: the verse's second half — after its first colon — on its own indented line (layout only)
+    const at = poetry ? poetryTurn(verse.text) : -1;
+    if (at < 0) return rs;
+    const out: (Run & { brk?: boolean })[] = [];
+    let n = 0;
+    for (const r of rs) {
+      if (at > n && at < n + r.text.length) {
+        out.push({ ...r, text: r.text.slice(0, at - n) }, { ...r, text: r.text.slice(at - n), brk: true });
+      } else out.push(at === n && n > 0 ? { ...r, brk: true } : r);
+      n += r.text.length;
+    }
+    return out;
+  }, [verse.text, hits, linkPlaces, italics, red, poetry]);
 
   let lead: string | null = null;
   let rest: Run[] = runs;
-  if (dropCap && runs.length && !runs[0].placeId && !runs[0].personId && !runs[0].aramaicId && !runs[0].italic) {
+  if (dropCap && runs.length && !runs[0].placeId && !runs[0].personId && !runs[0].aramaicId && !runs[0].italic && !runs[0].red) {
     const m = /^(\S+\s+\S+)/.exec(runs[0].text);
     if (m) {
       lead = m[1];
@@ -66,12 +84,13 @@ export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dro
       )}
       <span data-scripture-text>
         {lead && <span style={{ fontVariant: 'small-caps', letterSpacing: '0.04em' }}>{lead}</span>}
-        {rest.map((r, i) =>
+        {rest.map((r, i) => [
+          (r as { brk?: boolean }).brk ? <span key={i + 'b'} className="poetry-break" aria-hidden /> : null,
           r.placeId ? (
             <button
               key={i}
               type="button"
-              className={`place-word${r.italic ? ' supplied' : ''}`}
+              className={`place-word${r.italic ? ' supplied' : ''}${r.red ? ' wj' : ''}`}
               data-place={r.placeId}
               onClick={(e) => {
                 e.stopPropagation();
@@ -84,7 +103,7 @@ export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dro
             <button
               key={i}
               type="button"
-              className="aramaic-word"
+              className={`aramaic-word${r.red ? ' wj' : ''}`}
               data-aramaic-word={r.aramaicId}
               title="Aramaic — tap to learn more"
               onClick={(e) => {
@@ -98,7 +117,7 @@ export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dro
             <button
               key={i}
               type="button"
-              className={`person-word${r.italic ? ' supplied' : ''}`}
+              className={`person-word${r.italic ? ' supplied' : ''}${r.red ? ' wj' : ''}`}
               data-person={r.personId}
               onClick={(e) => {
                 e.stopPropagation();
@@ -108,13 +127,15 @@ export const Verse = memo(function Verse({ verse, hits, italics, linkPlaces, dro
               {r.text}
             </button>
           ) : r.italic ? (
-            <em key={i} className="supplied">
+            <em key={i} className={`supplied${r.red ? ' wj' : ''}`}>
               {r.text}
             </em>
           ) : (
-            <span key={i}>{r.text}</span>
+            <span key={i} className={r.red ? 'wj' : undefined}>
+              {r.text}
+            </span>
           ),
-        )}
+        ])}
       </span>
       {hasNote && <span className="note-mark" aria-label="You have a note on this verse" />}{' '}
     </span>
@@ -143,15 +164,26 @@ interface ScriptureProps {
   onVerse?: (ref: VerseRef) => void;
   /** Prefix for verse-number test ids: chapters other than the one being read are told apart. */
   numberIds?: string;
+  redFor?: (ref: string) => [number, number][] | undefined;
+  /** A line of the printed text set above a verse (the Hebrew letters over Psalm 119). */
+  letterFor?: (ref: string) => string | undefined;
+  /** Poetry: a verse's second half (after its first colon) set on its own indented line. */
+  poetry?: boolean;
 }
 
-export function ScriptureText({ verses, hitsFor, italicsFor, linkPlaces, withDropCap, linked, layout = 'paragraph', highlights = {}, notes = {}, reading, onPlace, onPerson, headingFor, markFor, aramaicFor, onAramaic, onVerse = () => {}, numberIds }: ScriptureProps) {
+export function ScriptureText({ verses, hitsFor, italicsFor, linkPlaces, withDropCap, linked, layout = 'paragraph', highlights = {}, notes = {}, reading, onPlace, onPerson, headingFor, markFor, aramaicFor, onAramaic, onVerse = () => {}, numberIds, redFor, letterFor, poetry }: ScriptureProps) {
   return (
-    <p className={`scripture${layout === 'verse' ? ' scripture-verses' : ''}`}>
+    <p className={`scripture${layout === 'verse' ? ' scripture-verses' : ''}${poetry ? ' scripture-poetry' : ''}`}>
       {verses.map((v, i) => {
         const shown = headingFor?.(v.ref);
         const mark = markFor?.(v.ref);
+        const letter = letterFor?.(v.ref);
         return [
+          letter ? (
+            <span key={v.ref + ':l'} className="psalm-letter" role="heading" aria-level={3} data-testid="psalm-letter">
+              {letter}
+            </span>
+          ) : null,
           mark ? <span key={v.ref + ':m'} className="block">{mark}</span> : null,
           shown ? (
             <span key={v.ref + ':h'} className="section-heading" role="heading" aria-level={3} data-testid="section-heading" title="Section heading — supplementary, not Scripture">
@@ -176,6 +208,8 @@ export function ScriptureText({ verses, hitsFor, italicsFor, linkPlaces, withDro
           onVerse={onVerse}
           numberIds={numberIds}
           aramaic={aramaicFor?.(v.ref)}
+          red={redFor?.(v.ref)}
+          poetry={poetry}
         />,
         ];
       })}

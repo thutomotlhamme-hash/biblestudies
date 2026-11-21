@@ -258,6 +258,12 @@ export function SettingsPanel() {
       <Row label="Section headings">
         <Toggle on={s.headings} onChange={(v) => updateSettings({ headings: v })} label="Headings above passages (supplementary, from the timeline's event titles)" testId="toggle-headings" />
       </Row>
+      <Row label="Words of Jesus in red">
+        <Toggle on={s.redLetter} onChange={(v) => updateSettings({ redLetter: v })} label="The words of Jesus in red (KJV) — a printing tradition, not part of the text" testId="toggle-red-letter" />
+      </Row>
+      <Row label="1611 chapter summaries">
+        <Toggle on={s.summaries} onChange={(v) => updateSettings({ summaries: v })} label="The 1611 King James chapter summaries at each chapter's opening (supplementary)" testId="toggle-summaries" />
+      </Row>
       <Row label="Tap names to learn who they are">
         <Toggle on={s.names} onChange={(v) => updateSettings({ names: v })} label="People's names in the text can be tapped" testId="toggle-names" />
       </Row>

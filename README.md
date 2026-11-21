@@ -186,6 +186,33 @@ marked where the translation spells it exactly as the KJV does, and nothing in t
 …?* gives who they are, their father, and their tribe — traced father to father to a son of Jacob, each
 step with its verse — then their events, family, places and every verse that names them.
 
+**The KJV as it is printed.** The Psalm titles (*A Psalm of David, when he fled from Absalom his son.*)
+stand above their Psalms and the Hebrew letters (*א ALEPH.*) over Psalm 119 — part of the King James
+text, taken word for word from eBible.org's public-domain KJV and checksum-tested like the chapters.
+Other translations print the titles inside verse 1, so they are shown only for the KJV.
+The words of Jesus are printed in red (KJV; a printing tradition from 1899, *Settings → Words of Jesus in
+red*): eBible's marking, checked letter for letter against our text before a span is taken. Each
+chapter opens with the 1611 translators' summary in its own spelling (*The creation of Heauen and
+Earth…*), labelled supplementary. The poetic books are set as poetry: a verse to a line, its second
+half — after its first colon — on an indented line. Layout only. (`scripts/pipeline/kjv_print.py`)
+
+**Cross-references.** Tap a verse number for passages to compare — the Treasury of Scripture Knowledge
+via OpenBible.info, the best-supported six per verse (`xrefs.py`). Level 4, *compare*, never a claim.
+
+**At the back.** As a printed Bible keeps after Revelation: a **concordance** of every KJV word with its
+count (`concordance.py`), **Nave's Topical Bible** — 5,319 subjects with their verses (`naves.py`) —
+the **maps** as numbered plates, and the verses you are learning **by heart** (fade the words, then
+first letters; no streaks, no scores). Open from *Contents → At the back*.
+
+**Book introductions.** *About this book* on each title page: its place in the canon, chapters, verses
+and words, the people and places it names most, its most cross-referenced verses, and its contents —
+every chapter with its 1611 summary. Counted from the text and data; no claims about date or author.
+
+**Thumb index.** On wide screens, tabs on the fore-edge for each part of the Bible open the contents there.
+
+**Verse card and print.** From a verse: *Verse card* draws the verse's exact words on a card to share or
+save; *Print chapter* sets the chapter for paper or PDF (headings and summary marked supplementary).
+
 **Accessibility.** Six sizes, three spacings, Paper/Night/High-contrast, reduced motion, a
 legibility typeface (Atkinson Hyperlegible), verse-by-verse layout, 44px targets, labelled
 controls, text list views for the atlas and timeline, full keyboard use.

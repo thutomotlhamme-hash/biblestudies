@@ -69,6 +69,8 @@ test.describe('Phase 3 — the complete Bible', () => {
     await expect(page.getByTestId('loading-leaf')).toHaveCount(0, { timeout: 15000 });
     await expect(page.locator('[data-ref="John.1.1"] [data-scripture-text]').first()).toHaveText(TEXT.asv['John.1.1'], { timeout: 10000 });
     await assertScriptureVerbatim(page, '[data-testid="reading-page"]', 'asv');
+    // a book's first page also carries its title and the 1611 summary: verse 3 may be a leaf on
+    await turnUntilVisible(page, 'verse-num-3', 3);
     await page.getByTestId('verse-num-3').click();
     await page.getByTestId('open-compare').click();
     const cmp = page.getByTestId('compare-verse');

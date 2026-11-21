@@ -27,6 +27,11 @@ An authorised licensed translation is added by writing a `TranslationAdapter` an
 | Curated connections, places, people, journeys, genealogy (Matthew 1), timeline anchors, measurements, inserts | Written for this edition from the KJV text (Phases 1–2) | Project | Every claim quotes its verse and is tested |
 | Machine-found connections, threads | Content pipeline over the KJV text | Project | Level rules in the README; draft until reviewed |
 | Deep Made Simple (research, stories, links) | Built by `scripts/pipeline/deep.py` only from the layers above (OpenBible.info, Theographic, STEPBible, the connections) and the KJV text; stories written for this edition (`content/meta/deep-stories.json`) | As the layers it draws on (people-derived notes inherit **CC BY-SA 4.0**; place notes CC BY 4.0; word notes CC BY 4.0 with STEPBible’s attribution) | Stored in `study/deep/`, labelled *Supplementary — not Scripture*; each item names its source; quotations are exact KJV slices; draft until reviewed |
+| Psalm titles, Psalm 119 letters, words of Jesus (red letters), KJV paragraph marks | eBible.org King James Version USFM (`eng-kjv2006`) | Public domain | Every verse checked character for character against our KJV before anything is taken; titles checksum-tested (`study/print/index.json`); red letters are colour only |
+| 1611 chapter summaries | Open Bible Data KJB-1611 — freely-given.org/OBD/KJB-1611 (Freely-Given.org) | Public domain text (1611) | Taken as printed, in the 1611 spelling; labelled supplementary |
+| Cross-references | OpenBible.info cross-references (from the Treasury of Scripture Knowledge) — openbible.info/labs/cross-references | CC BY 4.0 | Pairs with ≥5 votes, six per verse; level 4 (compare). **Attribution:** “Cross-references: OpenBible.info, CC BY 4.0.” |
+| Topical index | Nave’s Topical Bible (1896, public domain), structured by BibleData — Brady Stephenson, doi:10.5281/zenodo.19539956 | CC BY 4.0 | References converted to ours; any not in the canon dropped (662), never guessed |
+| Concordance | Counted from our KJV text | Project | |
 | Fonts | EB Garamond, Cormorant Garamond, Atkinson Hyperlegible | SIL Open Font License | |
 
 ## Editorial status

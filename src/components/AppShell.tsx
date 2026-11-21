@@ -17,6 +17,9 @@ import { BibleCover } from './BibleCover';
 import { CompareSheet } from './CompareSheet';
 import { DeepSheet } from './DeepSheet';
 import { OriginalSheet } from './OriginalSheet';
+import { BackMatter } from './BackMatter';
+import { ThumbIndex } from './ThumbIndex';
+import { BookSheet } from './BookSheet';
 import { AramaicSheet } from './AramaicSheet';
 import { Contents } from './Contents';
 import { ContextInsert } from './ContextInsert';
@@ -62,6 +65,9 @@ export function AppShell() {
     void ed.init();
   }, [ed, hydrated, state.settings.translation]);
   useEffect(() => {
+    if (hydrated) ed.setShowSummaries(state.settings.summaries !== false);
+  }, [ed, hydrated, state.settings.summaries]);
+  useEffect(() => {
     if (!hydrated) return;
     void ed.ensureChapter(chapter.ref);
     const prev = ed.chapters[chapter.index - 1];
@@ -98,7 +104,7 @@ export function AppShell() {
   const measured = useRef(false);
   const measuredParts = useRef({ opening: false, title: false });
   const [fitSettled, setFitSettled] = useState(false);
-  const FIT_STORE = 'holy-bible.page-fit';
+  const FIT_STORE = 'holy-bible.page-fit.v2';
   useEffect(() => {
     if (!hydrated || !vh) return;
     // a screen measured before opens already fitted
@@ -141,11 +147,17 @@ export function AppShell() {
           // positions from the top of the leaf's content, whatever it is scrolled to
           const top = col.top - sc.top + el.scrollTop;
           const bottom = col.bottom - sc.top + el.scrollTop;
-          const density = verses.reduce((n, v) => n + (v.textContent?.length ?? 0), 0) / textH;
+          // poetry is reckoned with the room its line ends take (as the layout reckons it), so a page
+          // of Psalms and a page of prose give the same measure
+          const line = Math.min(90, Math.max(30, fit.normal / 24));
+          const poemRoom = (v: HTMLElement) => (v.closest('.scripture-poetry') ? line * 0.55 * (v.querySelector('.poetry-break') ? 2 : 1) : 0);
+          const density = verses.reduce((n, v) => n + (v.textContent?.length ?? 0) + poemRoom(v), 0) / textH;
           const opens = [...el.querySelectorAll<HTMLElement>('.chapter-opening')];
           const titles = [...el.querySelectorAll<HTMLElement>('.book-title')];
           const titleH = titles.reduce((n, x) => n + x.getBoundingClientRect().height, 0);
-          const openH = opens.reduce((n, x) => n + x.getBoundingClientRect().height, 0) - titleH;
+          // the 1611 summaries are reckoned chapter by chapter (by their length), not as part of an opening
+          const summaryH = [...el.querySelectorAll<HTMLElement>('.chapter-summary')].reduce((n, x) => n + x.getBoundingClientRect().height + 16, 0);
+          const openH = opens.reduce((n, x) => n + x.getBoundingClientRect().height, 0) - titleH - summaryH;
           const overflows = bottom > limit + 2;
           // what a plain leaf of this screen holds: text density times the room for text
           const cap = density * (limit - top) * 0.93;
@@ -539,6 +551,7 @@ export function AppShell() {
             </motion.p>
           )}
         </AnimatePresence>
+        {phase === 'reading' && wide && !state.focus && <ThumbIndex />}
         {phase === 'reading' && <ReadingControls visible={chrome && !overlay} onHide={() => setChrome(false)} />}
         {FEATURES.voice && phase === 'reading' && (audio.playing || audio.ref) && !overlay && <AudioBar lifted={chrome} />}
 
@@ -554,7 +567,7 @@ export function AppShell() {
           {insert?.kind === 'genealogy' && <GenealogyGatefold key={'gen' + insert.id} focus={focusOf} />}
           {(insert?.kind === 'timeline' || overlay?.kind === 'timeline') && <TimelineStrip key="timeline" />}
           {overlay?.kind === 'settings' && <SettingsPanel key="settings" />}
-          {overlay?.kind === 'contents' && <Contents key="contents" tab={overlay.tab} />}
+          {overlay?.kind === 'contents' && <Contents key="contents" tab={overlay.tab} book={overlay.book} />}
           {overlay?.kind === 'search' && <SearchSheet key="search" q={overlay.q} />}
           {overlay?.kind === 'verse' && <VerseSheet key={'vs' + overlay.ref} verseRef={overlay.ref} />}
           {overlay?.kind === 'compare' && <CompareSheet key={'cmp' + overlay.ref} verseRef={overlay.ref} />}
@@ -562,6 +575,8 @@ export function AppShell() {
           {overlay?.kind === 'mine' && <MyBible key="mine" tab={overlay.tab} />}
           {overlay?.kind === 'family' && <FamilyPanel key="family" />}
           {overlay?.kind === 'aramaic' && <AramaicSheet key="aramaic" focus={overlay.focus} />}
+          {overlay?.kind === 'back' && <BackMatter key="back" tab={overlay.tab} />}
+          {overlay?.kind === 'book' && <BookSheet key={'book' + overlay.osis} osis={overlay.osis} />}
           {overlay?.kind === 'original' && <OriginalSheet key={'orig' + overlay.chapter + overlay.from} chapterRef={overlay.chapter} from={overlay.from} to={overlay.to} />}
           {overlay?.kind === 'deep' && <DeepSheet key={'deep' + overlay.chapter + (overlay.verse ?? '')} chapterRef={overlay.chapter} verse={overlay.verse} tab={overlay.tab} story={overlay.story} />}
         </AnimatePresence>

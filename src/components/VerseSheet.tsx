@@ -1,5 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { printChapter } from '@/lib/print/printChapter';
+import { shareVerseCard } from '@/lib/print/verseCard';
 import { LEVEL_LABEL } from '@/lib/content/editorial';
 import { chapterOf, formatRef, parseRef } from '@/lib/content/refs';
 import type { VerseRef } from '@/lib/content/types';
@@ -19,7 +21,30 @@ const COLORS: { c: HighlightColor; label: string }[] = [
 
 /** Everything the reader can do with one verse: highlight, a private note, favourite, compare, study, listen. */
 export function VerseSheet({ verseRef }: { verseRef: VerseRef }) {
-  const { ed, state, update, open, audio, close } = useReader();
+  const { ed, state, update, open, audio, close, goTo } = useReader();
+  const [card, setCard] = useState<'' | 'making' | 'shared' | 'saved'>('');
+  useEffect(() => {
+    void ed.ensureXrefs(parseRef(verseRef).book);
+  }, [ed, verseRef]);
+  const xrefs = ed.xrefsFor(verseRef);
+  const learning = state.memory.some((m) => m.ref === verseRef);
+  const print = () => {
+    const c = ed.chapterByRef.get(chapterOf(verseRef));
+    if (!c) return;
+    const kjv = ed.translation.translation.id === 'kjv';
+    const headings: Record<number, string> = {};
+    if (state.settings.headings) for (const v of c.verses) { const h = ed.headings.get(v.ref)?.label; if (h) headings[v.verse] = h; }
+    printChapter({
+      book: c.book.name,
+      chapter: c.number,
+      translation: ed.translation.translation.abbreviation,
+      verses: c.verses.map((v) => ({ verse: v.verse, text: v.text, red: kjv && state.settings.redLetter ? ed.redAt(v.ref) : undefined })),
+      title: ed.titleOf(c.ref),
+      summary: state.settings.summaries ? ed.summaryOf(c.ref) : undefined,
+      headings,
+      poetry: c.book.poetry,
+    });
+  };
   const ready = useRefsReady([verseRef]);
   const note = state.notes[verseRef];
   const [draft, setDraft] = useState(note?.text ?? '');
@@ -90,12 +115,59 @@ export function VerseSheet({ verseRef }: { verseRef: VerseRef }) {
         >
           {copied ? 'Copied' : 'Copy verse'}
         </button>
+        <button
+          type="button"
+          className="btn-card"
+          disabled={!verse || card === 'making'}
+          onClick={() => {
+            if (!verse) return;
+            setCard('making');
+            const night = document.documentElement.dataset.theme === 'night';
+            shareVerseCard({ text: verse.text, reference: formatRef(verseRef), translation: ed.translation.translation.abbreviation, night }, `${formatRef(verseRef).replace(/[^A-Za-z0-9]+/g, '-')}.png`).then(setCard, () => setCard(''));
+          }}
+          data-testid="verse-card"
+        >
+          {card === 'making' ? 'Making…' : card === 'shared' ? 'Shared' : card === 'saved' ? 'Card saved' : 'Verse card'}
+        </button>
+        <button
+          type="button"
+          className="btn-card"
+          aria-pressed={learning}
+          onClick={() => update((s) => ({ memory: learning ? s.memory.filter((m) => m.ref !== verseRef) : [...s.memory, { ref: verseRef, addedAt: Date.now() }] }))}
+          data-testid="toggle-memory"
+        >
+          {learning ? 'Learning by heart ✓' : 'Learn by heart'}
+        </button>
+        <button type="button" className="btn-card" onClick={print} data-testid="print-chapter">
+          Print chapter
+        </button>
       </div>
 
       {ed.deepFor(chapterOf(verseRef)).items.length + ed.deepFor(chapterOf(verseRef)).stories.length > 0 && (
         <button type="button" className="btn-card mt-2 w-full" onClick={() => open({ kind: 'deep', chapter: chapterOf(verseRef), verse: parseRef(verseRef).from })} data-testid="open-deep">
           Deep Made Simple <span className="supp ml-1 text-[12px] italic text-[var(--ink-faint)]">· supplementary</span>
         </button>
+      )}
+
+      {xrefs.length > 0 && (
+        <section className="mt-6" data-testid="cross-references">
+          <p className="label-caps text-[10px] text-[var(--ink-faint)]">Cross-references · compare</p>
+          <ul className="mt-1.5 flex flex-wrap gap-x-1 gap-y-1">
+            {xrefs.map(([r]) => {
+              const [a, b] = r.split('-');
+              const pa = parseRef(a);
+              const label = b ? `${formatRef(a)}${parseRef(b).chapter === pa.chapter ? `–${parseRef(b).from}` : `–${parseRef(b).chapter}:${parseRef(b).from}`}` : formatRef(a);
+              return (
+                <li key={r}>
+                  <button type="button" className="min-h-[40px] rounded-[3px] border hairline px-2.5 font-display text-[14.5px]" onClick={() => { goTo(chapterOf(a), pa.from, { keepReturn: true }); close(); }} data-testid="cross-reference">
+                    {label}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+          <p className="supp mt-1.5 text-[11.5px] italic leading-snug text-[var(--ink-faint)]">Supplementary — not Scripture. Passages to compare, from the Treasury of Scripture Knowledge (via OpenBible.info, CC BY): a textual parallel, level 4 — not a claim of fulfilment.</p>
+        </section>
       )}
 
       {links.length > 0 && (

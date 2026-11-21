@@ -14,7 +14,7 @@ export type Overlay =
   | { kind: 'insert'; id: string; focus?: string }
   | { kind: 'timeline'; focus?: string }
   | { kind: 'settings' }
-  | { kind: 'contents'; tab?: 'books' | 'bookmarks' | 'recent' | 'journey' }
+  | { kind: 'contents'; tab?: 'books' | 'bookmarks' | 'recent' | 'journey'; book?: string }
   | { kind: 'search'; q?: string }
   | { kind: 'verse'; ref: VerseRef }
   | { kind: 'compare'; ref: VerseRef }
@@ -23,6 +23,8 @@ export type Overlay =
   | { kind: 'family' }
   | { kind: 'original'; chapter: ChapterRef; from: number; to: number }
   | { kind: 'aramaic'; focus?: string }
+  | { kind: 'back'; tab?: 'concordance' | 'topics' | 'maps' | 'memory' }
+  | { kind: 'book'; osis: string }
   | { kind: 'deep'; chapter: ChapterRef; verse?: number; tab?: 'research' | 'stories' | 'links'; story?: string }
   | null;
 

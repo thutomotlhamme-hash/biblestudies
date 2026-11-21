@@ -8,11 +8,11 @@ import { Sheet } from './Sheet';
 type Tab = 'books' | 'bookmarks' | 'recent' | 'journey';
 
 /** Contents — the whole Bible by testament, book, chapter and verse, with the reader's own ribbons and pencil marks. */
-export function Contents({ tab: initial }: { tab?: Tab }) {
-  const { ed, state, goTo, close, update, chapter } = useReader();
+export function Contents({ tab: initial, book: startBook }: { tab?: Tab; book?: string }) {
+  const { ed, state, goTo, close, update, chapter, open } = useReader();
   const [tab, setTab] = useState<Tab>(initial ?? 'books');
   const [pick, setPick] = useState<string | null>(null);
-  const [book, setBook] = useState<string | null>(chapter.book.osis);
+  const [book, setBook] = useState<string | null>(startBook ?? chapter.book.osis);
   const [jump, setJump] = useState('');
   const books = allBooks();
   const prevC = ed.chapters[chapter.index - 1];
@@ -25,7 +25,12 @@ export function Contents({ tab: initial }: { tab?: Tab }) {
     const b = getBook(osis);
     return (
       <div className="mt-2 rounded-[2px] border hairline p-3">
-        <p className="font-display text-[17px]">{b.name}</p>
+        <div className="flex items-baseline justify-between gap-2">
+          <p className="font-display text-[17px]">{b.name}</p>
+          <button type="button" className="btn-quiet -mr-2 min-h-[32px] px-2 text-[13px] italic" onClick={() => open({ kind: 'book', osis })} data-testid="open-book-intro">
+            About this book →
+          </button>
+        </div>
         {b.title && b.title.toUpperCase() !== b.name.toUpperCase() && <p className="supp text-[12px] italic text-[var(--ink-faint)]">{b.title}</p>}
         <div className="mt-2 flex flex-wrap gap-1.5">
           {b.verses!.map((_, i) => {
@@ -119,6 +124,23 @@ export function Contents({ tab: initial }: { tab?: Tab }) {
               ))}
             </section>
           ))}
+          <section className="mb-2" data-testid="contents-back">
+            <h3 className="label-caps text-[10px] text-[var(--bronze-deep)]">At the back</h3>
+            <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+              {(
+                [
+                  ['concordance', 'Concordance'],
+                  ['topics', 'Topical index'],
+                  ['maps', 'Maps'],
+                  ['memory', 'By heart'],
+                ] as const
+              ).map(([k, label]) => (
+                <button key={k} type="button" className="btn-card" onClick={() => open({ kind: 'back', tab: k })} data-testid={`open-back-${k}`}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          </section>
         </div>
       )}
 

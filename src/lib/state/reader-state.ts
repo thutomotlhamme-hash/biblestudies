@@ -38,6 +38,10 @@ export interface Settings {
   headings: boolean;
   /** People's names in the text can be tapped to learn who they are. */
   names: boolean;
+  /** The words of Jesus in red (KJV) — a printing tradition, not part of the text. */
+  redLetter: boolean;
+  /** The 1611 chapter summaries at each chapter's opening (supplementary). */
+  summaries: boolean;
   audioRate: number;
   audioVoice: string | null;
 }
@@ -79,6 +83,8 @@ export interface ReaderState {
   highlights: Record<VerseRef, HighlightColor>;
   notes: Record<VerseRef, Note>;
   favourites: VerseRef[];
+  /** Verses the reader is learning by heart (no streaks, no scores). */
+  memory: { ref: VerseRef; addedAt: number }[];
   saved: { places: string[]; journeys: string[]; threads: string[]; discoveries: string[] };
   plans: ReadingPlan[];
   /** Where listening stopped, to resume. */
@@ -110,6 +116,8 @@ export const DEFAULT_SETTINGS: Settings = {
   family: false,
   headings: true,
   names: true,
+  redLetter: true,
+  summaries: true,
   audioRate: 1,
   audioVoice: null,
 };
@@ -131,6 +139,7 @@ export const DEFAULT_STATE: ReaderState = {
   highlights: {},
   notes: {},
   favourites: [],
+  memory: [],
   saved: { places: [], journeys: [], threads: [], discoveries: [] },
   plans: [],
   audio: { ref: null },
